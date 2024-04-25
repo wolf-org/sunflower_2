@@ -1,0 +1,16 @@
+{
+  "name": "com.virtuesky._package_name_",
+  "displayName": "__Package_Name__",
+  "description": "__Package_Description__",
+  "version": "x.x.x",
+  "unity": "2021.3",
+  "category": "virtuesky",
+  "author": {
+    "name": "virtuesky",
+    "email": "virtuesky.0520@gmail.com",
+    "url": "https://github.com/VirtueSky"
+  },
+  "keywords": [
+  ],
+  "dependencies": {}
+}
