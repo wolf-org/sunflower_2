@@ -1,3 +1,4 @@
+Use singleton
 ## How To Install
 
 ### Add the line below to `Packages/manifest.json`
