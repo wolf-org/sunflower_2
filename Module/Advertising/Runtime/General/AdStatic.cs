@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
-using Wolf.DataStorage;
+using VirtueSky.DataStorage;
 
-namespace Wolf.Ads
+namespace VirtueSky.Ads
 {
     public static class AdStatic
     {

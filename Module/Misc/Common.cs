@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
-using Wolf.Core;
+using VirtueSky.Core;
 
-namespace Wolf.Misc
+namespace VirtueSky.Misc
 {
     public static partial class Common
     {

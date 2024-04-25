@@ -1,4 +1,4 @@
-﻿namespace Wolf.Core
+﻿namespace VirtueSky.Core
 {
     public interface IEntity
     {

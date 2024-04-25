@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Internal;
 
-namespace Wolf.Core
+namespace VirtueSky.Core
 {
     public struct App
     {

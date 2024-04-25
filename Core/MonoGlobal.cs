@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Internal;
-using Wolf.DataStorage;
+using VirtueSky.DataStorage;
 
-namespace Wolf.Core
+namespace VirtueSky.Core
 {
     public class MonoGlobal : MonoBehaviour
     {

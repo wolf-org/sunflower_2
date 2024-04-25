@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Wolf.Core
+namespace VirtueSky.Core
 {
     public class BaseMono : MonoBehaviour, IEntity
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-namespace Wolf.Utils
+namespace VirtueSky.Utils
 {
     public abstract class ScriptableSettings<T> : ScriptableObject where T : ScriptableObject
     {

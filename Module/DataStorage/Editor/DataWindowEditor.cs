@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace Wolf.DataStorage
+namespace VirtueSky.DataStorage
 {
 #if UNITY_EDITOR
     public class DataWindowEditor : EditorWindow

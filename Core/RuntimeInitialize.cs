@@ -1,7 +1,7 @@
 using UnityEngine;
-using Wolf.DataStorage;
+using VirtueSky.DataStorage;
 
-namespace Wolf.Core
+namespace VirtueSky.Core
 {
     public class RuntimeInitialize
     {

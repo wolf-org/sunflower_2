@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Wolf.Ads
+namespace VirtueSky.Ads
 {
     [Serializable]
     public abstract class AdUnit

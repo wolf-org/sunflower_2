@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Wolf.Misc
+namespace VirtueSky.Misc
 {
     public partial class Common
     {

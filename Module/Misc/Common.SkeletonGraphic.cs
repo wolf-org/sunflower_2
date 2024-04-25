@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-#if WOLF_SKELETON
+#if VIRTUESKY_SKELETON
 using Spine;
 using Spine.Unity;
 using UnityEngine;
 using Wolf.Core;
 
-namespace Wolf.Misc
+namespace VirtueSky.Misc
 {
     public static partial class Common
     {

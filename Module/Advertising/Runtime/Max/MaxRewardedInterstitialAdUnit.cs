@@ -1,7 +1,7 @@
 using System;
-using Wolf.Misc;
+using VirtueSky.Misc;
 
-namespace Wolf.Ads
+namespace VirtueSky.Ads
 {
     [Serializable]
     public class MaxRewardedInterstitialAdUnit : AdUnit
@@ -22,7 +22,7 @@ namespace Wolf.Ads
 
         public override void Load()
         {
-#if WOLF_ADS && WOLF_MAX
+#if VIRTUESKY_ADS && VIRTUESKY_MAX
             if (string.IsNullOrEmpty(Id)) return;
             if (!_registerCallback)
             {
@@ -42,7 +42,7 @@ namespace Wolf.Ads
 
         public override bool IsReady()
         {
-#if WOLF_ADS && WOLF_MAX
+#if VIRTUESKY_ADS && VIRTUESKY_MAX
             return !string.IsNullOrEmpty(Id) && MaxSdk.IsRewardedInterstitialAdReady(Id);
 #else
             return false;
@@ -51,7 +51,7 @@ namespace Wolf.Ads
 
         protected override void ShowImpl()
         {
-#if WOLF_ADS && WOLF_MAX
+#if VIRTUESKY_ADS && VIRTUESKY_MAX
             MaxSdk.ShowRewardedInterstitialAd(Id);
 #endif
         }
@@ -77,7 +77,7 @@ namespace Wolf.Ads
 
         #region Func Callback
 
-#if WOLF_ADS && WOLF_MAX
+#if VIRTUESKY_ADS && VIRTUESKY_MAX
         private void OnAdRevenuePaid(string unit, MaxSdkBase.AdInfo info)
         {
             paidedCallback?.Invoke(info.Revenue,

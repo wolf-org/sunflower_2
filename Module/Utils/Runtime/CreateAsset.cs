@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Wolf.Utils
+namespace VirtueSky.Utils
 {
     public static class CreateAsset
     {

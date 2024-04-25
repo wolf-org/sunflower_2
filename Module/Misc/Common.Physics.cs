@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-namespace Wolf.Misc
+namespace VirtueSky.Misc
 {
     public static partial class Common
     {

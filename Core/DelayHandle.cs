@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Wolf.Core
+namespace VirtueSky.Core
 {
     public class DelayHandle
     {

@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace Wolf.DataStorage
+namespace VirtueSky.DataStorage
 {
     public static class GameData
     {

@@ -1,8 +1,9 @@
-namespace Wolf.Ads
+namespace VirtueSky.Ads
 {
     public abstract class AdClient
     {
         private AdSettings adSetting;
+
         protected bool statusAppOpenFirstIgnore;
 
         public abstract void Initialize();

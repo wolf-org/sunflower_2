@@ -5,7 +5,7 @@ using Unity.Collections.LowLevel.Unsafe;
 using Unity.Collections.LowLevel.Unsafe.NotBurstCompatible;
 using Unity.Serialization.Binary;
 
-namespace Wolf.DataStorage
+namespace VirtueSky.DataStorage
 {
     public static class SerializeAdapter
     {

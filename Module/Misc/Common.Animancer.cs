@@ -1,9 +1,9 @@
 using System;
 
-#if WOLF_ANIMANCER
+#if VIRTUESKY_ANIMANCER
 using Animancer;
 
-namespace Wolf.Misc
+namespace VirtueSky.Misc
 {
     public static partial class Common
     {
