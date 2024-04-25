@@ -1,4 +1,5 @@
-Use singleton
+## What
+  Core build game use singleton pattern
 ## How To Install
 
 ### Add the line below to `Packages/manifest.json`
