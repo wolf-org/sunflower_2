@@ -45,7 +45,7 @@ namespace Wolf.DataStorage
             if (datas == null) throw new NullReferenceException();
         }
 
-        private static string GetPath => GetDataPath($"data_{profile}.sun");
+        private static string GetPath => GetDataPath($"data_{profile}.dat");
 
         static string GetDataPath(string name)
         {
