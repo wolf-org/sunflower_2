@@ -25,7 +25,7 @@ namespace Wolf.Ads
 
         public override void Load()
         {
-#if WOLF_ADS && ADS_MAX
+#if WOLF_ADS && WOLF_MAX
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
             if (!_registerCallback)
             {
@@ -53,7 +53,7 @@ namespace Wolf.Ads
 
         protected override void ShowImpl()
         {
-#if WOLF_ADS && ADS_MAX
+#if WOLF_ADS && WOLF_MAX
             Load();
             MaxSdk.ShowBanner(Id);
 #endif
@@ -61,7 +61,7 @@ namespace Wolf.Ads
 
         public override void Destroy()
         {
-#if WOLF_ADS && ADS_MAX
+#if WOLF_ADS && WOLF_MAX
             if (string.IsNullOrEmpty(Id)) return;
             isBannerDestroyed = true;
             MaxSdk.DestroyBanner(Id);
@@ -70,7 +70,7 @@ namespace Wolf.Ads
 
         public void Hide()
         {
-#if WOLF_ADS && ADS_MAX
+#if WOLF_ADS && WOLF_MAX
             if (string.IsNullOrEmpty(Id)) return;
             MaxSdk.HideBanner(Id);
 #endif
@@ -78,7 +78,7 @@ namespace Wolf.Ads
 
         #region Fun Callback
 
-#if WOLF_ADS && ADS_MAX
+#if WOLF_ADS && WOLF_MAX
         public MaxSdkBase.BannerPosition ConvertPosition()
         {
             switch (position)

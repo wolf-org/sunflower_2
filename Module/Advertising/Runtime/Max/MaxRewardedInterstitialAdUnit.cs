@@ -22,7 +22,7 @@ namespace Wolf.Ads
 
         public override void Load()
         {
-#if WOLF_ADS && ADS_MAX
+#if WOLF_ADS && WOLF_MAX
             if (string.IsNullOrEmpty(Id)) return;
             if (!_registerCallback)
             {
@@ -42,7 +42,7 @@ namespace Wolf.Ads
 
         public override bool IsReady()
         {
-#if WOLF_ADS && ADS_MAX
+#if WOLF_ADS && WOLF_MAX
             return !string.IsNullOrEmpty(Id) && MaxSdk.IsRewardedInterstitialAdReady(Id);
 #else
             return false;
@@ -51,7 +51,7 @@ namespace Wolf.Ads
 
         protected override void ShowImpl()
         {
-#if WOLF_ADS && ADS_MAX
+#if WOLF_ADS && WOLF_MAX
             MaxSdk.ShowRewardedInterstitialAd(Id);
 #endif
         }
@@ -77,7 +77,7 @@ namespace Wolf.Ads
 
         #region Func Callback
 
-#if WOLF_ADS && ADS_MAX
+#if WOLF_ADS && WOLF_MAX
         private void OnAdRevenuePaid(string unit, MaxSdkBase.AdInfo info)
         {
             paidedCallback?.Invoke(info.Revenue,

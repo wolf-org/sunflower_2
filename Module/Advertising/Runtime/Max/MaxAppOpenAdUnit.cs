@@ -19,7 +19,7 @@ namespace Wolf.Ads
 
         public override void Load()
         {
-#if WOLF_ADS && ADS_MAX
+#if WOLF_ADS && WOLF_MAX
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
             if (!_registerCallback)
             {
@@ -38,7 +38,7 @@ namespace Wolf.Ads
 
         public override bool IsReady()
         {
-#if WOLF_ADS && ADS_MAX
+#if WOLF_ADS && WOLF_MAX
             return !string.IsNullOrEmpty(Id) && MaxSdk.IsAppOpenAdReady(Id);
 #else
             return false;
@@ -47,7 +47,7 @@ namespace Wolf.Ads
 
         protected override void ShowImpl()
         {
-#if WOLF_ADS && ADS_MAX
+#if WOLF_ADS && WOLF_MAX
             MaxSdk.LoadAppOpenAd(Id);
 #endif
         }
@@ -58,7 +58,7 @@ namespace Wolf.Ads
 
         #region Func Callback
 
-#if WOLF_ADS && ADS_MAX
+#if WOLF_ADS && WOLF_MAX
         private void OnAdLoaded(string unit, MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref loadedCallback);
