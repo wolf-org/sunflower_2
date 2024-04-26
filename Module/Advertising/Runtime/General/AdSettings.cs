@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using VirtueSky.Utils;
 
@@ -10,10 +11,9 @@ namespace VirtueSky.Ads
         [Range(5, 100), SerializeField] private float adLoadingInterval = 15f;
         [SerializeField] private AdNetwork adNetwork = AdNetwork.Max;
 
+        #region Max
 
-        [Header("Applovin")] [Space, TextArea, SerializeField]
-        private string sdkKey;
-
+        [TextArea, SerializeField] private string sdkKey;
         [SerializeField] private bool applovinEnableAgeRestrictedUser;
         [SerializeField] private MaxBannerAdUnit maxBannerAdUnit;
         [SerializeField] private MaxInterstitialAdUnit maxInterstitialAdUnit;
@@ -21,22 +21,50 @@ namespace VirtueSky.Ads
         [SerializeField] private MaxRewardedInterstitialAdUnit maxRewardedInterstitialAdUnit;
         [SerializeField] private MaxAppOpenAdUnit maxAppOpenAdUnit;
 
-        public static string SdkKey => Instance.sdkKey;
-        public static bool ApplovinEnableAgeRestrictedUser => Instance.applovinEnableAgeRestrictedUser;
-        public static MaxBannerAdUnit MaxBannerAdUnit => Instance.maxBannerAdUnit;
-        public static MaxInterstitialAdUnit MaxInterstitialAdUnit => Instance.maxInterstitialAdUnit;
-        public static MaxRewardAdUnit MaxRewardAdUnit => Instance.maxRewardAdUnit;
+        internal string SdkKey => Instance.sdkKey;
+        internal bool ApplovinEnableAgeRestrictedUser => Instance.applovinEnableAgeRestrictedUser;
+        internal MaxBannerAdUnit MaxBannerAdUnit => Instance.maxBannerAdUnit;
+        internal MaxInterstitialAdUnit MaxInterstitialAdUnit => Instance.maxInterstitialAdUnit;
+        internal MaxRewardAdUnit MaxRewardAdUnit => Instance.maxRewardAdUnit;
 
-        public static MaxRewardedInterstitialAdUnit MaxRewardedInterstitialAdUnit =>
+        internal MaxRewardedInterstitialAdUnit MaxRewardedInterstitialAdUnit =>
             Instance.maxRewardedInterstitialAdUnit;
 
-        public static MaxAppOpenAdUnit MaxAppOpenAdUnit => Instance.maxAppOpenAdUnit;
+        internal MaxAppOpenAdUnit MaxAppOpenAdUnit => Instance.maxAppOpenAdUnit;
 
-        public bool RuntimeAutoInit => runtimeAutoInit;
-        public float AdCheckingInterval => adCheckingInterval;
-        public float AdLoadingInterval => adLoadingInterval;
+        #endregion
 
-        public AdNetwork CurrentAdNetwork
+        #region Admob
+
+        [SerializeField] private AdmobBannerAdUnit admobBannerAdUnit;
+        [SerializeField] private AdmobInterstitialAdUnit admobInterstitialAdUnit;
+        [SerializeField] private AdmobRewardAdUnit admobRewardAdUnit;
+        [SerializeField] private AdmobRewardedInterstitialAdUnit admobRewardedInterstitialAdUnit;
+        [SerializeField] private AdmobAppOpenAdUnit admobAppOpenAdUnit;
+        [SerializeField] private bool admobEnableTestMode;
+        [SerializeField] private bool enableGDPR;
+        [SerializeField] private bool enableGDPRTestMode;
+        [SerializeField] private List<string> admobDevicesTest;
+
+
+        internal AdmobBannerAdUnit AdmobBannerAdUnit => admobBannerAdUnit;
+        internal AdmobInterstitialAdUnit AdmobInterstitialAdUnit => admobInterstitialAdUnit;
+        internal AdmobRewardAdUnit AdmobRewardAdUnit => admobRewardAdUnit;
+        internal AdmobRewardedInterstitialAdUnit AdmobRewardedInterstitialAdUnit => admobRewardedInterstitialAdUnit;
+        internal AdmobAppOpenAdUnit AdmobAppOpenAdUnit => admobAppOpenAdUnit;
+        internal bool AdmobEnableTestMode => admobEnableTestMode;
+        internal bool EnableGDPR => enableGDPR;
+        internal bool EnableGDPRTestMode => enableGDPRTestMode;
+        internal List<string> AdmobDevicesTest => admobDevicesTest;
+
+        #endregion
+
+
+        internal bool RuntimeAutoInit => runtimeAutoInit;
+        internal float AdCheckingInterval => adCheckingInterval;
+        internal float AdLoadingInterval => adLoadingInterval;
+
+        internal AdNetwork CurrentAdNetwork
         {
             get => adNetwork;
             set => adNetwork = value;

@@ -6,6 +6,11 @@ namespace VirtueSky.Ads
 {
     public static class AdStatic
     {
+        public static Action<bool> OnChangePreventDisplayAppOpenEvent;
+        public static Action<bool> OnPrivacyRequiredGDPR;
+        public static Action<bool> OnGDPRCanRequestAds;
+        public static Action OnshowPrivacyOptionsFormSuccess;
+
         public static bool IsRemoveAd
         {
             get => GameData.Get($"{Application.identifier}_removeads", false);
@@ -53,15 +58,15 @@ namespace VirtueSky.Ads
 
             switch (unit)
             {
-                // case AdmobInterVariable admobInter:
-                //     admobInter.completedCallback = onCompleted;
-                //     return unit;
-                // case AdmobRewardVariable admobReward:
-                //     admobReward.completedCallback = onCompleted;
-                //     return unit;
-                // case AdmobRewardInterVariable admobRewardInter:
-                //     admobRewardInter.completedCallback = onCompleted;
-                //     return unit;
+                case AdmobInterstitialAdUnit admobInter:
+                    admobInter.completedCallback = onCompleted;
+                    return unit;
+                case AdmobRewardAdUnit admobReward:
+                    admobReward.completedCallback = onCompleted;
+                    return unit;
+                case AdmobRewardedInterstitialAdUnit admobRewardInter:
+                    admobRewardInter.completedCallback = onCompleted;
+                    return unit;
                 case MaxInterstitialAdUnit maxInter:
                     maxInter.completedCallback = onCompleted;
                     return unit;
@@ -80,12 +85,12 @@ namespace VirtueSky.Ads
         {
             switch (unit)
             {
-                // case AdmobRewardVariable admobReward:
-                //     admobReward.skippedCallback = onSkipped;
-                //     return unit;
-                // case AdmobRewardInterVariable admobRewardInter:
-                //     admobRewardInter.skippedCallback = onSkipped;
-                //     return unit;
+                case AdmobRewardAdUnit admobReward:
+                    admobReward.skippedCallback = onSkipped;
+                    return unit;
+                case AdmobRewardedInterstitialAdUnit admobRewardInter:
+                    admobRewardInter.skippedCallback = onSkipped;
+                    return unit;
                 case MaxRewardAdUnit maxReward:
                     maxReward.skippedCallback = onSkipped;
                     return unit;

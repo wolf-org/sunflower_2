@@ -6,14 +6,14 @@ namespace VirtueSky.Ads
     [Serializable]
     public class MaxBannerAdUnit : AdUnit
     {
-        public BannerSize size;
-        public BannerPosition position;
+        public BannerSize size = BannerSize.Banner;
+        public BannerPosition position = BannerPosition.Bottom;
 
-        public MaxBannerAdUnit(string _androidId, string _iOSId) : base(_androidId, _iOSId)
-        {
-            size = BannerSize.Banner;
-            position = BannerPosition.Bottom;
-        }
+        // public MaxBannerAdUnit(string _androidId, string _iOSId) : base(_androidId, _iOSId)
+        // {
+        //     size = BannerSize.Banner;
+        //     position = BannerPosition.Bottom;
+        // }
 
         private bool isBannerDestroyed = true;
         private bool _registerCallback = false;

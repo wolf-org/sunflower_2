@@ -1,5 +1,9 @@
-using System;
 using System.Collections;
+using System.Collections.Generic;
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
+using GoogleMobileAds.Api;
+using GoogleMobileAds.Ump.Api;
+#endif
 using UnityEngine;
 using VirtueSky.Core;
 
@@ -20,21 +24,38 @@ namespace VirtueSky.Ads
         private void Start()
         {
             adSettings = AdSettings.Instance;
+            InitAdClient();
+            AdStatic.OnChangePreventDisplayAppOpenEvent += OnChangePreventDisplayOpenAd;
+            if (adSettings.EnableGDPR)
+            {
+#if VIRTUESKY_ADMOB
+                InitGDPR();
+#endif
+            }
+            else
+            {
+                InitAutoLoadAds();
+            }
+        }
+
+        void InitAdClient()
+        {
             switch (adSettings.CurrentAdNetwork)
             {
                 case AdNetwork.Max:
                     currentAdClient = new MaxAdClient();
                     break;
                 case AdNetwork.Admob:
+                    currentAdClient = new AdmobClient();
                     break;
             }
 
-            InitAutoLoadAds();
+            currentAdClient.SetupAdSettings(adSettings);
+            currentAdClient.Initialize();
         }
 
         public void InitAutoLoadAds()
         {
-            currentAdClient.Initialize();
             if (autoLoadAdCoroutine != null) StopCoroutine(autoLoadAdCoroutine);
             autoLoadAdCoroutine = IeAutoLoadAll();
             StartCoroutine(autoLoadAdCoroutine);
@@ -58,6 +79,45 @@ namespace VirtueSky.Ads
         {
             AdStatic.isShowingAd = state;
         }
+
+        #region Fun Show Ads
+
+        public AdUnit ShowInterstitial()
+        {
+            return currentAdClient.ShowInterstitial();
+        }
+
+        public AdUnit ShowReward()
+        {
+            return currentAdClient.ShowReward();
+        }
+
+        public AdUnit ShowRewardedInterstitial()
+        {
+            return currentAdClient.ShowRewardedInterstitial();
+        }
+
+        public void ShowAppOpen()
+        {
+            currentAdClient.ShowAppOpen();
+        }
+
+        public void ShowBanner()
+        {
+            currentAdClient.ShowBanner();
+        }
+
+        public void HideBanner()
+        {
+            currentAdClient.HideBanner();
+        }
+
+        public void DestroyBanner()
+        {
+            currentAdClient.DestroyBanner();
+        }
+
+        #endregion
 
         #region Func Load Ads
 
@@ -94,6 +154,126 @@ namespace VirtueSky.Ads
         }
 
         #endregion
+
+        #region Admob GDPR
+
+#if VIRTUESKY_ADMOB
+        public void InitGDPR()
+        {
+#if !UNITY_EDITOR
+            string deviceID = SystemInfo.deviceUniqueIdentifier;
+            string deviceIDUpperCase = deviceID.ToUpper();
+
+            Debug.Log("TestDeviceHashedId = " + deviceIDUpperCase);
+            var request = new ConsentRequestParameters { TagForUnderAgeOfConsent = false };
+            if (adSettings.EnableGDPRTestMode)
+            {
+                List<string> listDeviceIdTestMode = new List<string>();
+                listDeviceIdTestMode.Add(deviceIDUpperCase);
+                request.ConsentDebugSettings = new ConsentDebugSettings
+                {
+                    DebugGeography = DebugGeography.EEA,
+                    TestDeviceHashedIds = listDeviceIdTestMode
+                };
+            }
+
+            ConsentInformation.Update(request, OnConsentInfoUpdated);
+#endif
+        }
+
+        private void OnConsentInfoUpdated(FormError consentError)
+        {
+            if (consentError != null)
+            {
+                Debug.Log("error consentError = " + consentError);
+                return;
+            }
+
+            ConsentForm.LoadAndShowConsentFormIfRequired(
+                (FormError formError) =>
+                {
+                    if (formError != null)
+                    {
+                        Debug.Log("error consentError = " + consentError);
+                        return;
+                    }
+
+                    Debug.Log("ConsentStatus = " + ConsentInformation.ConsentStatus.ToString());
+                    Debug.Log("CanRequestAds = " + ConsentInformation.CanRequestAds());
+
+                    AdStatic.OnPrivacyRequiredGDPR?.Invoke(ConsentInformation.PrivacyOptionsRequirementStatus ==
+                                                           PrivacyOptionsRequirementStatus.Required);
+
+                    if (ConsentInformation.CanRequestAds())
+                    {
+                        MobileAds.RaiseAdEventsOnUnityMainThread = true;
+                        InitAutoLoadAds();
+                        AdStatic.OnGDPRCanRequestAds?.Invoke(true);
+                    }
+                    else
+                    {
+                        AdStatic.OnGDPRCanRequestAds?.Invoke(false);
+                    }
+                }
+            );
+        }
+
+        public void LoadAndShowConsentForm()
+        {
+            Debug.Log("LoadAndShowConsentForm Start!");
+
+            ConsentForm.Load((consentForm, loadError) =>
+            {
+                if (loadError != null)
+                {
+                    Debug.Log("error loadError = " + loadError);
+                    return;
+                }
+
+
+                consentForm.Show(showError =>
+                {
+                    if (showError != null)
+                    {
+                        Debug.Log("error showError = " + showError);
+                        return;
+                    }
+                });
+            });
+        }
+
+        public void ShowPrivacyOptionsForm()
+        {
+            Debug.Log("Showing privacy options form.");
+
+            ConsentForm.ShowPrivacyOptionsForm((FormError showError) =>
+            {
+                if (showError != null)
+                {
+                    Debug.LogError("Error showing privacy options form with error: " + showError.Message);
+                }
+
+                AdStatic.OnshowPrivacyOptionsFormSuccess?.Invoke();
+            });
+        }
+
+        public void ResetGDPR()
+        {
+#if !UNITY_EDITOR
+            Debug.Log("Reset GDPR!");
+            ConsentInformation.Reset();
+#endif
+        }
+#endif
+
+        #endregion
+
+#if VIRTUESKY_MAX
+        private void OnApplicationPause(bool pauseStatus)
+        {
+            if (!pauseStatus) (currentAdClient as MaxAdClient)?.ShowAppOpen();
+        }
+#endif
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void AutoInitialize()

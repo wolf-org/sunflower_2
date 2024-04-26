@@ -1,7 +1,7 @@
 using UnityEditor;
 using VirtueSky.Utils;
 
-namespace VirtueSky.Ads.Editor
+namespace VirtueSky.Ads
 {
     public class AdWindowEditor : EditorWindow
     {

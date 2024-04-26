@@ -11,9 +11,9 @@ namespace VirtueSky.Ads
         private bool _registerCallback = false;
         public bool IsEarnRewarded { get; private set; }
 
-        public MaxRewardAdUnit(string _androidId, string _iOSId) : base(_androidId, _iOSId)
-        {
-        }
+        // public MaxRewardAdUnit(string _androidId, string _iOSId) : base(_androidId, _iOSId)
+        // {
+        // }
 
         public override void Init()
         {
