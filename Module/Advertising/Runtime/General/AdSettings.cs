@@ -21,22 +21,22 @@ namespace VirtueSky.Ads
         [SerializeField] private MaxRewardedInterstitialAdUnit maxRewardedInterstitialAdUnit;
         [SerializeField] private MaxAppOpenAdUnit maxAppOpenAdUnit;
 
-        public static string SdkKey => Instance.sdkKey;
-        public static bool ApplovinEnableAgeRestrictedUser => Instance.applovinEnableAgeRestrictedUser;
-        public static MaxBannerAdUnit MaxBannerAdUnit => Instance.maxBannerAdUnit;
-        public static MaxInterstitialAdUnit MaxInterstitialAdUnit => Instance.maxInterstitialAdUnit;
-        public static MaxRewardAdUnit MaxRewardAdUnit => Instance.maxRewardAdUnit;
+        internal string SdkKey => Instance.sdkKey;
+        internal bool ApplovinEnableAgeRestrictedUser => Instance.applovinEnableAgeRestrictedUser;
+        internal MaxBannerAdUnit MaxBannerAdUnit => Instance.maxBannerAdUnit;
+        internal MaxInterstitialAdUnit MaxInterstitialAdUnit => Instance.maxInterstitialAdUnit;
+        internal MaxRewardAdUnit MaxRewardAdUnit => Instance.maxRewardAdUnit;
 
-        public static MaxRewardedInterstitialAdUnit MaxRewardedInterstitialAdUnit =>
+        internal MaxRewardedInterstitialAdUnit MaxRewardedInterstitialAdUnit =>
             Instance.maxRewardedInterstitialAdUnit;
 
-        public static MaxAppOpenAdUnit MaxAppOpenAdUnit => Instance.maxAppOpenAdUnit;
+        internal MaxAppOpenAdUnit MaxAppOpenAdUnit => Instance.maxAppOpenAdUnit;
 
-        public bool RuntimeAutoInit => runtimeAutoInit;
-        public float AdCheckingInterval => adCheckingInterval;
-        public float AdLoadingInterval => adLoadingInterval;
+        internal bool RuntimeAutoInit => runtimeAutoInit;
+        internal float AdCheckingInterval => adCheckingInterval;
+        internal float AdLoadingInterval => adLoadingInterval;
 
-        public AdNetwork CurrentAdNetwork
+        internal AdNetwork CurrentAdNetwork
         {
             get => adNetwork;
             set => adNetwork = value;

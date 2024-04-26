@@ -24,6 +24,7 @@ namespace VirtueSky.Ads
             {
                 case AdNetwork.Max:
                     currentAdClient = new MaxAdClient();
+                    currentAdClient.SetupAdSettings(adSettings);
                     break;
                 case AdNetwork.Admob:
                     break;
@@ -58,6 +59,45 @@ namespace VirtueSky.Ads
         {
             AdStatic.isShowingAd = state;
         }
+
+        #region Fun Show Ads
+
+        public AdUnit ShowInterstitial()
+        {
+            return currentAdClient.ShowInterstitial();
+        }
+
+        public AdUnit ShowReward()
+        {
+            return currentAdClient.ShowReward();
+        }
+
+        public AdUnit ShowRewardedInterstitial()
+        {
+            return currentAdClient.ShowRewardedInterstitial();
+        }
+
+        public void ShowAppOpen()
+        {
+            currentAdClient.ShowAppOpen();
+        }
+
+        public void ShowBanner()
+        {
+            currentAdClient.ShowBanner();
+        }
+
+        public void HideBanner()
+        {
+            currentAdClient.HideBanner();
+        }
+
+        public void DestroyBanner()
+        {
+            currentAdClient.DestroyBanner();
+        }
+
+        #endregion
 
         #region Func Load Ads
 
