@@ -30,11 +30,11 @@ namespace VirtueSky.Ads
             }
         }
 
-        public AdUnit(string _androidId, string _iOSId)
-        {
-            this.androidId = _androidId;
-            this.iOSId = _iOSId;
-        }
+        // public AdUnit(string _androidId, string _iOSId)
+        // {
+        //     this.androidId = _androidId;
+        //     this.iOSId = _iOSId;
+        // }
 
         public abstract void Init();
         public abstract void Load();

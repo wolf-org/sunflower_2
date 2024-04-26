@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using VirtueSky.Utils;
 
@@ -10,8 +11,9 @@ namespace VirtueSky.Ads
         [Range(5, 100), SerializeField] private float adLoadingInterval = 15f;
         [SerializeField] private AdNetwork adNetwork = AdNetwork.Max;
 
+        #region Max
 
-        [Header("Applovin")] [Space, TextArea, SerializeField]
+        [Header("Applovin - Max")] [Space, TextArea, SerializeField]
         private string sdkKey;
 
         [SerializeField] private bool applovinEnableAgeRestrictedUser;
@@ -31,6 +33,36 @@ namespace VirtueSky.Ads
             Instance.maxRewardedInterstitialAdUnit;
 
         internal MaxAppOpenAdUnit MaxAppOpenAdUnit => Instance.maxAppOpenAdUnit;
+
+        #endregion
+
+        #region Admob
+
+        [Header("Google Admob")] [Space] [SerializeField]
+        private AdmobBannerAdUnit admobBannerAdUnit;
+
+        [SerializeField] private AdmobInterstitialAdUnit admobInterstitialAdUnit;
+        [SerializeField] private AdmobRewardAdUnit admobRewardAdUnit;
+        [SerializeField] private AdmobRewardedInterstitialAdUnit admobRewardedInterstitialAdUnit;
+        [SerializeField] private AdmobAppOpenAdUnit admobAppOpenAdUnit;
+        [SerializeField] private bool admobEnableTestMode;
+        [SerializeField] private bool enableGDPR;
+        [SerializeField] private bool enableGDPRTestMode;
+        [SerializeField] private List<string> admobDevicesTest;
+
+
+        internal AdmobBannerAdUnit AdmobBannerAdUnit => admobBannerAdUnit;
+        internal AdmobInterstitialAdUnit AdmobInterstitialAdUnit => admobInterstitialAdUnit;
+        internal AdmobRewardAdUnit AdmobRewardAdUnit => admobRewardAdUnit;
+        internal AdmobRewardedInterstitialAdUnit AdmobRewardedInterstitialAdUnit => admobRewardedInterstitialAdUnit;
+        internal AdmobAppOpenAdUnit AdmobAppOpenAdUnit => admobAppOpenAdUnit;
+        internal bool AdmobEnableTestMode => admobEnableTestMode;
+        internal bool EnableGDPR => enableGDPR;
+        internal bool EnableGDPRTestMode => enableGDPRTestMode;
+        internal List<string> AdmobDevicesTest => admobDevicesTest;
+
+        #endregion
+
 
         internal bool RuntimeAutoInit => runtimeAutoInit;
         internal float AdCheckingInterval => adCheckingInterval;
