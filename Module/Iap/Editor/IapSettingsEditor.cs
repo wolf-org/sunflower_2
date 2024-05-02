@@ -76,14 +76,16 @@ namespace VirtueSky.Iap
                 str +=
                     $"\n\t\tpublic static IapDataProduct Purchase{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}()";
                 str += "\n\t\t{";
-                str += $"\n\t\t\treturn IapManager.Purchase(IapSettings.Instance.IapDataProducts[{i}]);";
+                str +=
+                    $"\n\t\t\treturn IapManager.Instance.PurchaseProduct(IapSettings.Instance.IapDataProducts[{i}]);";
                 str += "\n\t\t}";
                 str += "\n";
 
                 str +=
                     $"\n\t\tpublic static bool IsPurchased{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}()";
                 str += "\n\t\t{";
-                str += $"\n\t\t\treturn IapManager.Instance.IsPurchased(IapSettings.Instance.IapDataProducts[{i}].Id);";
+                str +=
+                    $"\n\t\t\treturn IapManager.Instance.IsPurchasedProduct(IapSettings.Instance.IapDataProducts[{i}]);";
                 str += "\n\t\t}";
                 str += "\n";
             }

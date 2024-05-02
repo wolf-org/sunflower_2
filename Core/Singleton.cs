@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace VirtueSky.Core
 {
-    public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+    public abstract class Singleton<T> : BaseMono where T : MonoBehaviour
     {
         [SerializeField] private bool isDontDestroyOnLoad;
         static T _instance;
