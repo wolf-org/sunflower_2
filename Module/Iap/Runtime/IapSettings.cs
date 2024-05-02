@@ -1,10 +1,11 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
+using VirtueSky.Inspector;
 using VirtueSky.Utils;
 
 namespace VirtueSky.Iap
 {
+    [EditorIcon("icon_scriptable")]
     public class IapSettings : ScriptableSettings<IapSettings>
     {
         [SerializeField] private bool runtimeAutoInit = true;

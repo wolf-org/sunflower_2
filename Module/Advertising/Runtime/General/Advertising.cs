@@ -6,9 +6,11 @@ using GoogleMobileAds.Ump.Api;
 #endif
 using UnityEngine;
 using VirtueSky.Core;
+using VirtueSky.Inspector;
 
 namespace VirtueSky.Ads
 {
+    [EditorIcon("icon_manager")]
     public class Advertising : Singleton<Advertising>
     {
         private IEnumerator autoLoadAdCoroutine;

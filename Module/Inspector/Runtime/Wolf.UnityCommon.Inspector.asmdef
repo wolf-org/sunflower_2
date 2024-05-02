@@ -1,0 +1,17 @@
+{
+    "name": "Wolf.UnityCommon.Inspector",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b59f3d97c7580944baac8dafbd217904",
+        "GUID:d25c81a6e03d11c4fb58d263c8aaea84"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -7,10 +7,12 @@ using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
 using VirtueSky.Ads;
 using VirtueSky.Core;
+using VirtueSky.Inspector;
 using VirtueSky.Misc;
 
 namespace VirtueSky.Iap
 {
+    [EditorIcon("icon_manager")]
     public class IapManager : Singleton<IapManager>, IDetailedStoreListener
     {
         private IStoreController _controller;

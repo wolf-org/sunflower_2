@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using VirtueSky.Inspector;
 using VirtueSky.Utils;
 
 namespace VirtueSky.Ads
 {
+    [EditorIcon("icon_scriptable")]
     public class AdSettings : ScriptableSettings<AdSettings>
     {
-        [SerializeField] private bool runtimeAutoInit;
+        [SerializeField] private bool runtimeAutoInit = true;
         [Range(5, 100), SerializeField] private float adCheckingInterval = 8f;
         [Range(5, 100), SerializeField] private float adLoadingInterval = 15f;
         [SerializeField] private AdNetwork adNetwork = AdNetwork.Max;
