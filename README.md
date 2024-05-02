@@ -4,7 +4,7 @@
 
 ### Add the line below to `Packages/manifest.json`
 
-for version `x.x.x`
+for version `1.0.0`
 ```csharp
-"com.virtuesky._package_name_":"https://github.com/VirtueSky/_package_name_.git#x.x.x",
+"com.wolf-package.unity-common":"https://github.com/wolf-package/unity-common.git#1.0.0",
 ```

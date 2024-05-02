@@ -1,16 +1,22 @@
 {
-  "name": "com.virtuesky._package_name_",
-  "displayName": "__Package_Name__",
-  "description": "__Package_Description__",
-  "version": "x.x.x",
-  "unity": "2021.3",
+  "name": "com.wolf-package.unity-common",
+  "displayName": "UnityCommon",
+  "description": "Core singleton for building Unity games ",
+  "version": "1.0.0",
+  "unity": "2022.3",
   "category": "virtuesky",
+  "license": "MIT",
   "author": {
     "name": "virtuesky",
     "email": "virtuesky.0520@gmail.com",
     "url": "https://github.com/VirtueSky"
   },
   "keywords": [
+    "Unity",
+    "Singleton"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "com.unity.serialization": "3.1.1",
+    "com.unity.collections": "2.1.4"
+  }
 }
