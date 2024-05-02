@@ -17,5 +17,15 @@ namespace VirtueSky.Iap
         public bool RuntimeAutoInit => runtimeAutoInit;
         public List<IapDataProduct> IapDataProducts => iapDataProducts;
         public bool IsValidatePurchase => isValidatePurchase;
+
+        public IapDataProduct GetIapProduct(string id)
+        {
+            foreach (var product in IapDataProducts)
+            {
+                if (product.Id == id) return product;
+            }
+
+            return null;
+        }
     }
 }

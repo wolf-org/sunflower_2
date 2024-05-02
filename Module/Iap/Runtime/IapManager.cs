@@ -52,7 +52,8 @@ namespace VirtueSky.Iap
         public bool IsPurchasedProduct(string id)
         {
             if (_controller == null) return false;
-            return GetIapType(id) == ProductType.NonConsumable && _controller.products.WithID(id).hasReceipt;
+            return ConvertProductType(iapSettings.GetIapProduct(id).iapProductType) == ProductType.NonConsumable &&
+                   _controller.products.WithID(id).hasReceipt;
         }
 
         private void PurchaseProductInternal(IapDataProduct product)
@@ -64,12 +65,30 @@ namespace VirtueSky.Iap
 #endif
         }
 
+        private void PurchaseProductInternal(string id)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _controller?.InitiatePurchase(id);
+#elif UNITY_EDITOR
+            InternalPurchaseSuccess(id);
+#endif
+        }
+
+        public IapDataProduct PurchaseProduct(string id)
+        {
+            AdStatic.OnChangePreventDisplayAppOpenEvent?.Invoke(true);
+            var product = iapSettings.GetIapProduct(id);
+            PurchaseProductInternal(product);
+            return product;
+        }
+
         public IapDataProduct PurchaseProduct(IapDataProduct product)
         {
             AdStatic.OnChangePreventDisplayAppOpenEvent?.Invoke(true);
             PurchaseProductInternal(product);
             return product;
         }
+
 
         private void RequestProductData(ConfigurationBuilder builder)
         {
@@ -188,18 +207,6 @@ namespace VirtueSky.Iap
             InternalPurchaseFailed(product.definition.id);
         }
 
-        ProductType GetIapType(string id)
-        {
-            foreach (var product in iapSettings.IapDataProducts)
-            {
-                if (product.Id == id)
-                {
-                    return ConvertProductType(product.iapProductType);
-                }
-            }
-
-            return ProductType.Consumable;
-        }
 #if UNITY_IOS
         public void RestorePurchase()
         {
