@@ -1,0 +1,26 @@
+{
+    "name": "Wolf.UnityCommon.Button",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:fca7ec166e04dc948b624a983315e2c9",
+        "GUID:324caed91501a9c47a04ebfd87b68794",
+        "GUID:80ecb87cae9c44d19824e70ea7229748",
+        "GUID:ba00a69c89ab3a94d84d27e0051afcfd"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.textmeshpro",
+            "expression": "",
+            "define": ""
+        }
+    ],
+    "noEngineReferences": false
+}

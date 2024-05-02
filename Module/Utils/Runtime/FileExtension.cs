@@ -85,6 +85,36 @@ namespace VirtueSky.Utils
 
             return list.ToArray();
         }
+
+        public static T FindAssetWithPath<T>(string fullPath) where T : Object
+        {
+            string path = GetPathInCurrentEnvironent(fullPath);
+            var t = AssetDatabase.LoadAssetAtPath(path, typeof(T));
+            if (t == null) Debug.LogError($"Couldn't load the {nameof(T)} at path :{path}");
+            return t as T;
+        }
+
+        public static T FindAssetWithPath<T>(string nameAsset, string relativePath) where T : Object
+        {
+            string path = AssetInPackagePath(relativePath, nameAsset);
+            var t = AssetDatabase.LoadAssetAtPath(path, typeof(T));
+            if (t == null) Debug.LogError($"Couldn't load the {nameof(T)} at path :{path}");
+            return t as T;
+        }
+
+        public static T[] FindAssetsWithPath<T>(string nameAsset, string relativePath)
+            where T : Object
+        {
+            string path = AssetInPackagePath(relativePath, nameAsset);
+            var t = AssetDatabase.LoadAllAssetsAtPath(path).OfType<T>().ToArray();
+            if (t.Length == 0) Debug.LogError($"Couldn't load the {nameof(T)} at path :{path}");
+            return t;
+        }
+
+        public static string AssetInPackagePath(string relativePath, string nameAsset)
+        {
+            return GetPathInCurrentEnvironent($"{relativePath}/{nameAsset}");
+        }
 #endif
 
 
