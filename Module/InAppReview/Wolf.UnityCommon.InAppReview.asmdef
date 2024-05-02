@@ -1,0 +1,19 @@
+{
+    "name": "Wolf.UnityCommon.InAppReview",
+    "rootNamespace": "",
+    "references": [
+        "GUID:ba00a69c89ab3a94d84d27e0051afcfd",
+        "GUID:324caed91501a9c47a04ebfd87b68794",
+        "GUID:4139e191aa32f459e9eb2e331225ad7e",
+        "GUID:b4318b6f3695442c4983c360248781db"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
