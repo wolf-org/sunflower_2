@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace VirtueSky.Utils
 {
-    public static class CreateAsset
+    public static class FileExtension
     {
 #if UNITY_EDITOR
         public static void CreateScriptableAssets<T>(string path = "")
@@ -97,6 +97,21 @@ namespace VirtueSky.Utils
             }
 
             return defaultResourcePath + path;
+        }
+
+        public static void ValidatePath(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+        }
+
+        public static string GetPathInCurrentEnvironent(string fullRelativePath)
+        {
+            var upmPath = $"Packages/com.wolf-package.unity-common/{fullRelativePath}";
+            var normalPath = $"Assets/unity-common/{fullRelativePath}";
+            return !File.Exists(Path.GetFullPath(upmPath)) ? normalPath : upmPath;
         }
     }
 }

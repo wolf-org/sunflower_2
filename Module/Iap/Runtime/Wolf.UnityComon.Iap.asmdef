@@ -1,0 +1,16 @@
+{
+    "name": "Wolf.UnityComon.Iap",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d25c81a6e03d11c4fb58d263c8aaea84"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
