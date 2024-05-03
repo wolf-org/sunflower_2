@@ -1,5 +1,5 @@
 {
-    "name": "Wolf.UnityCommon.TrackingRevenue",
+    "name": "Wolf.UnityCommon.Tracking",
     "rootNamespace": "",
     "references": [
         "GUID:73cfe616a226dd64690d08b6164cb0e2",
