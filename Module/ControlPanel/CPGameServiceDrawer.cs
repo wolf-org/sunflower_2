@@ -20,7 +20,7 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 AssetDatabase.ImportPackage(
                     FileExtension.GetPathInCurrentEnvironent(
-                        "VirtueSky/Utils/Editor/UnityPackage/google-play-game.unitypackage"), false);
+                        "Module/Utils/Editor/UnityPackage/google-play-game.unitypackage"), false);
             }
 
             GUILayout.Space(10);

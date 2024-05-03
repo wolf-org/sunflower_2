@@ -106,7 +106,7 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 AssetDatabase.ImportPackage(
                     FileExtension.GetPathInCurrentEnvironent(
-                        "VirtueSky/Utils/Editor/UnityPackage/max-sdk.unitypackage"), false);
+                        "Module/Utils/Editor/UnityPackage/max-sdk.unitypackage"), false);
             }
 
             GUILayout.Space(10);
@@ -135,7 +135,7 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 AssetDatabase.ImportPackage(
                     FileExtension.GetPathInCurrentEnvironent(
-                        "VirtueSky/Utils/Editor/UnityPackage/google-mobile-ads.unitypackage"), false);
+                        "Module/Utils/Editor/UnityPackage/google-mobile-ads.unitypackage"), false);
             }
 
             GUILayout.Space(10);
