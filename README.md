@@ -4,7 +4,7 @@
 
 ### Add the line below to `Packages/manifest.json`
 
-for version `1.0.0`
+for version `1.0.1`
 ```csharp
-"com.wolf-package.unity-common":"https://github.com/wolf-package/unity-common.git#1.0.0",
+"com.wolf-package.unity-common":"https://github.com/wolf-package/unity-common.git#1.0.1",
 ```
