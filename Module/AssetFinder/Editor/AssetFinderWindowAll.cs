@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using VirtueSky.DataStorage;
+using VirtueSky.Inspector;
 //using VirtueSky.Inspector;
 using Object = UnityEngine.Object;
 
@@ -732,10 +734,10 @@ namespace VirtueSky.AssetFinder.Editor
                 return;
             }
 
-            // EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height),
-            //     GameDataEditor.ColorBackgroundRectWindowSunflower.ToColor());
-            // GUI.contentColor = GameDataEditor.ColorTextContentWindowSunflower.ToColor();
-            // GUI.backgroundColor = GameDataEditor.ColorContentWindowSunflower.ToColor();
+            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height),
+                GameDataEditor.ColorBackgroundRectWindowSunflower.ToColor());
+            GUI.contentColor = GameDataEditor.ColorTextContentWindowSunflower.ToColor();
+            GUI.backgroundColor = GameDataEditor.ColorContentWindowSunflower.ToColor();
             if (sp1 == null) InitPanes();
 
             DrawHeader();

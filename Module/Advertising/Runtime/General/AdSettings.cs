@@ -66,7 +66,7 @@ namespace VirtueSky.Ads
         internal float AdCheckingInterval => adCheckingInterval;
         internal float AdLoadingInterval => adLoadingInterval;
 
-        internal AdNetwork CurrentAdNetwork
+        public AdNetwork CurrentAdNetwork
         {
             get => adNetwork;
             set => adNetwork = value;
