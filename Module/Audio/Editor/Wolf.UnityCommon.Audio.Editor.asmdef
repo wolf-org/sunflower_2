@@ -1,9 +1,10 @@
 {
-    "name": "Wolf.UnityCommon.Utils.Editor",
+    "name": "Wolf.UnityCommon.Audio.Editor",
     "rootNamespace": "",
     "references": [
+        "GUID:cffc8ee6e190a44f395783c66f5ea00c",
         "GUID:d25c81a6e03d11c4fb58d263c8aaea84",
-        "GUID:98c7400721ddc874d9bad4ee2f3f66d6"
+        "GUID:b59f3d97c7580944baac8dafbd217904"
     ],
     "includePlatforms": [
         "Editor"

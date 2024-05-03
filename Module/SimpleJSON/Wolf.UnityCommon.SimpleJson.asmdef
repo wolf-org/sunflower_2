@@ -1,13 +1,8 @@
 {
-    "name": "Wolf.UnityCommon.Utils.Editor",
+    "name": "Wolf.UnityCommon.SimpleJson",
     "rootNamespace": "",
-    "references": [
-        "GUID:d25c81a6e03d11c4fb58d263c8aaea84",
-        "GUID:98c7400721ddc874d9bad4ee2f3f66d6"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "references": [],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

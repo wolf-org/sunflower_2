@@ -1,19 +1,20 @@
 {
-  "name": "Wolf.UnityComon.Iap.Editor",
-  "rootNamespace": "",
-  "references": [
-    "GUID:37f16d35c05c6f34eacb567043cec159",
-    "GUID:d25c81a6e03d11c4fb58d263c8aaea84"
-  ],
-  "includePlatforms": [
-    "Editor"
-  ],
-  "excludePlatforms": [],
-  "allowUnsafeCode": false,
-  "overrideReferences": false,
-  "precompiledReferences": [],
-  "autoReferenced": true,
-  "defineConstraints": [],
-  "versionDefines": [],
-  "noEngineReferences": false
+    "name": "Wolf.UnityComon.Iap.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:37f16d35c05c6f34eacb567043cec159",
+        "GUID:b59f3d97c7580944baac8dafbd217904",
+        "GUID:d25c81a6e03d11c4fb58d263c8aaea84"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

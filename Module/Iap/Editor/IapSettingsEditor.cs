@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using VirtueSky.Utils;
+using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.Iap
 {

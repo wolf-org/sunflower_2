@@ -1,5 +1,5 @@
 using UnityEditor;
-using VirtueSky.Utils;
+using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.Iap
 {
@@ -8,7 +8,7 @@ namespace VirtueSky.Iap
         [MenuItem("Unity-Common/Iap/IapSettings %W", false)]
         public static void MenuOpenIapSettings()
         {
-            var settings = FileExtension.CreateAndGetScriptableAsset<VirtueSky.Iap.IapSettings>();
+            var settings = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.IapSettings>();
             Selection.activeObject = settings;
             EditorGUIUtility.PingObject(settings);
             EditorUtility.FocusProjectWindow();
