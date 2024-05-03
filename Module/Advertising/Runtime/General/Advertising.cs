@@ -300,6 +300,7 @@ namespace VirtueSky.Ads
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void AutoInitialize()
         {
+            if (AdSettings.Instance == null) return;
             if (AdSettings.Instance.RuntimeAutoInit)
             {
                 var ads = new GameObject("Advertising");

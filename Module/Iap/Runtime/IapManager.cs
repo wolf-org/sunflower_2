@@ -254,6 +254,7 @@ namespace VirtueSky.Iap
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void AutoInitialize()
         {
+            if (IapSettings.Instance == null) return;
             if (IapSettings.Instance.RuntimeAutoInit)
             {
                 var iapManager = new GameObject("IapManager");
