@@ -36,7 +36,6 @@ namespace VirtueSky.ControlPanel.Editor
             statePanelControl = StatePanelControl.About;
             CPAdvertisingDrawer.OnEnable();
             CPIapDrawer.OnEnable();
-            CPLevelEditorDrawer.OnEnable();
         }
 
         private void OnDisable()
@@ -74,7 +73,7 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButtonChooseState("In App Purchase", StatePanelControl.InAppPurchase);
             DrawButtonChooseState("Audio", StatePanelControl.Audio);
             DrawButtonChooseState("Assets Finder", StatePanelControl.AssetsFinder);
-            DrawButtonChooseState("Level Editor", StatePanelControl.LevelEditor);
+            DrawButtonChooseState("Level Editor", StatePanelControl.LevelEditor, () => CPLevelEditorDrawer.OnEnable());
             DrawButtonChooseState("Game Service", StatePanelControl.GameService);
             DrawButtonChooseState("Hierarchy", StatePanelControl.Hierarchy);
             DrawButtonChooseState("Scripting Define Symbols", StatePanelControl.ScriptDefineSymbols);
@@ -147,13 +146,14 @@ namespace VirtueSky.ControlPanel.Editor
 
         #endregion
 
-        void DrawButtonChooseState(string title, StatePanelControl _statePanelControlTab)
+        void DrawButtonChooseState(string title, StatePanelControl _statePanelControlTab, Action OnCompleted = null)
         {
             bool clicked = GUILayout.Toggle(_statePanelControlTab == statePanelControl, title, GUI.skin.button,
                 GUILayout.ExpandWidth(true));
             if (clicked && statePanelControl != _statePanelControlTab)
             {
                 statePanelControl = _statePanelControlTab;
+                OnCompleted?.Invoke();
             }
         }
     }
