@@ -82,11 +82,21 @@ namespace VirtueSky.Ads
             AdStatic.isShowingAd = state;
         }
 
-        #region Fun Show Ads
+        #region Public API
+
+        public bool IsInterstitialReady()
+        {
+            return currentAdClient.IsInterstitialReady();
+        }
 
         public AdUnit ShowInterstitial()
         {
             return currentAdClient.ShowInterstitial();
+        }
+
+        public bool IsRewardedReady()
+        {
+            return currentAdClient.IsRewardedReady();
         }
 
         public AdUnit ShowReward()
@@ -94,9 +104,19 @@ namespace VirtueSky.Ads
             return currentAdClient.ShowReward();
         }
 
+        public bool IsRewardedInterstitialReady()
+        {
+            return currentAdClient.IsRewardedInterstitialReady();
+        }
+
         public AdUnit ShowRewardedInterstitial()
         {
             return currentAdClient.ShowRewardedInterstitial();
+        }
+
+        public bool IsAppOpenReady()
+        {
+            return currentAdClient.IsAppOpenReady();
         }
 
         public void ShowAppOpen()
@@ -121,7 +141,7 @@ namespace VirtueSky.Ads
 
         #endregion
 
-        #region Func Load Ads
+        #region Method Load Ads
 
         void AutoLoadInterAds()
         {
