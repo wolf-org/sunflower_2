@@ -9,6 +9,7 @@ using VirtueSky.UtilsEditor;
 public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
 {
     private ButtonCustom _buttonCustom;
+    private SerializedProperty _isHandleEventClickButton;
     private SerializedProperty _isMotion;
     private SerializedProperty _ease;
     private SerializedProperty _scale;
@@ -21,6 +22,7 @@ public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
     {
         base.OnEnable();
         _buttonCustom = target as ButtonCustom;
+        _isHandleEventClickButton = serializedObject.FindProperty("isHandleEventClickButton");
         _isMotion = serializedObject.FindProperty("isMotion");
         _easingTypes = serializedObject.FindProperty("easingTypes");
         _scale = serializedObject.FindProperty("scale");
@@ -41,6 +43,7 @@ public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
 
     void DrawSetting()
     {
+        EditorGUILayout.PropertyField(_isHandleEventClickButton);
         EditorGUILayout.PropertyField(_isMotion);
         if (_isMotion.boolValue)
         {
