@@ -12,6 +12,7 @@ namespace VirtueSky.UIButton
     [EditorIcon("icon_button")]
     public class ButtonCustom : Button
     {
+        [SerializeField] private bool isHandleEventClickButton = true;
         [SerializeField] private bool isMotion = true;
         [SerializeField] private Ease easingTypes = Ease.OutQuint;
 
@@ -41,7 +42,10 @@ namespace VirtueSky.UIButton
         {
             base.OnPointerDown(eventData);
             DoScale();
-            GlobalStatic.OnClickButtonEvent?.Invoke();
+            if (isHandleEventClickButton)
+            {
+                GlobalStatic.OnClickButtonEvent?.Invoke();
+            }
         }
 
 
