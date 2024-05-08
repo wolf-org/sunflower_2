@@ -6,7 +6,11 @@ using UnityEditor;
 using UnityEngine;
 using VirtueSky.Core;
 using VirtueSky.Inspector;
+
+#if UNITY_EDITOR
 using VirtueSky.UtilsEditor;
+#endif
+
 #if VIRTUESKY_FIREBASE
 using Firebase;
 using Firebase.Extensions;
