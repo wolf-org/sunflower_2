@@ -2,7 +2,7 @@
   "name": "com.wolf-package.unity-common",
   "displayName": "UnityCommon",
   "description": "Core singleton for building Unity games ",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "unity": "2022.3",
   "category": "virtuesky",
   "license": "MIT",
@@ -17,6 +17,8 @@
   ],
   "dependencies": {
     "com.unity.serialization": "3.1.1",
-    "com.unity.collections": "2.1.4"
+    "com.unity.collections": "2.1.4",
+    "com.unity.textmeshpro": "3.0.8",
+    "com.unity.addressables": "1.21.20"
   }
 }

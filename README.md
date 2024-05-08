@@ -4,8 +4,8 @@
 
 ### Add the line below to `Packages/manifest.json`
 
-for version `1.0.2`
+for version `1.0.3`
 ```csharp
-"com.wolf-package.unity-common":"https://github.com/wolf-package/unity-common.git#1.0.2",
+"com.wolf-package.unity-common":"https://github.com/wolf-package/unity-common.git#1.0.3",
 ```
 - [Project Implement](https://github.com/VirtueSky/Base-game-hyper-casual)
