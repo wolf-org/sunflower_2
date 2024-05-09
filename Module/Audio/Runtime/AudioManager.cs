@@ -13,8 +13,11 @@ namespace VirtueSky.Audio
         [SerializeField] private Transform audioHolder;
         [SerializeField] private SoundComponent soundComponentPrefab;
         private SoundComponent music;
-        private List<SoundData> listAudioDatas = new List<SoundData>();
-        private List<SoundComponent> listSoundComponents = new List<SoundComponent>();
+
+        private Dictionary<SoundCache, SoundComponent> dictSfxCache =
+            new Dictionary<SoundCache, SoundComponent>();
+
+        private int key = 0;
         private const string KEY_MUSIC_VOLUME = "KEY_MUSIC_VOLUME";
         private const string KEY_SFX_VOLUME = "KEY_SFX_VOLUME";
 
@@ -40,91 +43,67 @@ namespace VirtueSky.Audio
 
         #region Sfx Method
 
-        /// <summary>
-        /// Play Sound FX
-        /// </summary>
-        /// <param name="soundData"></param>
-        public void PlaySfx(SoundData soundData)
+        public SoundCache PlaySfx(SoundData soundData)
         {
             SoundComponent sfxComponent = PoolManager.Instance.Spawn(soundComponentPrefab, audioHolder);
             sfxComponent.PlayAudioClip(soundData.GetAudioClip(), soundData.loop, soundData.volume * SfxVolume);
             if (!soundData.loop) sfxComponent.OnCompleted += OnFinishPlayingAudio;
-            listAudioDatas.Add(soundData);
-            listSoundComponents.Add(sfxComponent);
+            SoundCache soundCache = GetSoundCache(soundData);
+            dictSfxCache.Add(soundCache, sfxComponent);
+            return soundCache;
         }
 
-        /// <summary>
-        /// Stop Sound FX
-        /// </summary>
-        /// <param name="soundData"></param>
-        public void StopSfx(SoundData soundData)
+
+        public void StopSfx(SoundCache soundCache)
         {
-            var soundComponent = GetSoundComponent(soundData);
+            var soundComponent = GetSoundComponent(soundCache);
             if (soundComponent == null) return;
             StopAndCleanAudioComponent(soundComponent);
-            if (listAudioDatas.Count > 0)
+            if (dictSfxCache.ContainsKey(soundCache))
             {
-                listSoundComponents.Remove(GetSoundComponent(soundData));
-                listAudioDatas.Remove(soundData);
+                dictSfxCache.Remove(soundCache);
             }
         }
 
-        /// <summary>
-        /// Pause Sound FX
-        /// </summary>
-        /// <param name="soundData"></param>
-        public void PauseSfx(SoundData soundData)
+
+        public void PauseSfx(SoundCache soundCache)
         {
-            var soundComponent = GetSoundComponent(soundData);
+            var soundComponent = GetSoundComponent(soundCache);
             if (soundComponent == null || !soundComponent.IsPlaying) return;
             soundComponent.Pause();
         }
 
-        /// <summary>
-        /// Resume Sound FX
-        /// </summary>
-        /// <param name="soundData"></param>
-        public void ResumeSfx(SoundData soundData)
+        public void ResumeSfx(SoundCache soundCache)
         {
-            var soundComponent = GetSoundComponent(soundData);
+            var soundComponent = GetSoundComponent(soundCache);
             if (soundComponent == null || soundComponent.IsPlaying) return;
             soundComponent.Resume();
         }
 
-        /// <summary>
-        /// Finish Sound FX
-        /// </summary>
-        /// <param name="soundData"></param>
-        public void FinishSfx(SoundData soundData)
+
+        public void FinishSfx(SoundCache soundCache)
         {
-            var soundComponent = GetSoundComponent(soundData);
+            var soundComponent = GetSoundComponent(soundCache);
             if (soundComponent == null || !soundComponent.IsPlaying) return;
             soundComponent.Finish();
             soundComponent.OnCompleted += OnFinishPlayingAudio;
         }
 
-        /// <summary>
-        /// Stop All Sound FX
-        /// </summary>
         public void StopAllSfx()
         {
-            foreach (var soundComponent in listSoundComponents)
+            foreach (var cache in dictSfxCache)
             {
-                StopAndCleanAudioComponent(soundComponent);
+                StopAndCleanAudioComponent(cache.Value);
             }
 
-            listSoundComponents.Clear();
-            listAudioDatas.Clear();
+            dictSfxCache.Clear();
+            key = 0;
         }
 
         #endregion
 
         #region Music Method
 
-        /// <summary>
-        /// Play Music
-        /// </summary>
-        /// <param name="soundData"></param>
         public void PlayMusic(SoundData soundData)
         {
             if (music == null || !music.IsPlaying)
@@ -137,9 +116,7 @@ namespace VirtueSky.Audio
             music.OnCompleted += StopAudioMusic;
         }
 
-        /// <summary>
-        /// Stop Music
-        /// </summary>
+
         public void StopMusic()
         {
             if (music != null && music.IsPlaying)
@@ -149,9 +126,6 @@ namespace VirtueSky.Audio
             }
         }
 
-        /// <summary>
-        /// Pause Music
-        /// </summary>
         public void PauseMusic()
         {
             if (music != null && music.IsPlaying)
@@ -160,9 +134,6 @@ namespace VirtueSky.Audio
             }
         }
 
-        /// <summary>
-        /// ResumeMusic
-        /// </summary>
         public void ResumeMusic()
         {
             if (music != null && !music.IsPlaying)
@@ -173,10 +144,7 @@ namespace VirtueSky.Audio
 
         #endregion
 
-        /// <summary>
-        /// Change volume for music
-        /// </summary>
-        /// <param name="volume"></param>
+
         private void OnMusicVolumeChanged(float volume)
         {
             if (music != null)
@@ -185,15 +153,12 @@ namespace VirtueSky.Audio
             }
         }
 
-        /// <summary>
-        /// Change volume for all sound fx
-        /// </summary>
-        /// <param name="volume"></param>
+
         private void OnSfxVolumeChanged(float volume)
         {
-            foreach (var audio in listSoundComponents)
+            foreach (var cache in dictSfxCache)
             {
-                audio.Volume = volume;
+                cache.Value.Volume = volume;
             }
         }
 
@@ -219,15 +184,24 @@ namespace VirtueSky.Audio
             PoolManager.Instance.DeSpawn(soundComponent.gameObject);
         }
 
-        SoundComponent GetSoundComponent(SoundData soundData)
+        SoundComponent GetSoundComponent(SoundCache soundCache)
         {
-            int index = listAudioDatas.FindIndex(x => x == soundData);
-            if (index < 0)
+            if (!dictSfxCache.ContainsKey(soundCache)) return null;
+            foreach (var cache in dictSfxCache)
             {
-                return null;
+                if (cache.Key == soundCache)
+                {
+                    return cache.Value;
+                }
             }
 
-            return listSoundComponents[index];
+            return null;
+        }
+
+        SoundCache GetSoundCache(SoundData soundData)
+        {
+            key++;
+            return new SoundCache(key, soundData);
         }
     }
 }
