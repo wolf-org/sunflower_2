@@ -139,13 +139,22 @@ namespace VirtueSky.RemoteConfigs
                 switch (listRmcData[i].typeRemoteConfigData)
                 {
                     case TypeRemoteConfigData.StringData:
-                        GenMethod(ref str, "string", rmcKey);
+                        str +=
+                            $"\n\t\tpublic const string DEFAULT_{rmcKey.ToUpper()} = \"{listRmcData[i].defaultValueString}\";";
+                        str +=
+                            $"\n\t\tpublic static string {rmcKey.ToUpper()} => VirtueSky.DataStorage.GameData.Get(KEY_{rmcKey.ToUpper()}, DEFAULT_{rmcKey.ToUpper()});";
                         break;
                     case TypeRemoteConfigData.BooleanData:
-                        GenMethod(ref str, "bool", rmcKey);
+                        str +=
+                            $"\n\t\tpublic const bool DEFAULT_{rmcKey.ToUpper()} = {GetBool(listRmcData[i].defaultValueBool)};";
+                        str +=
+                            $"\n\t\tpublic static bool {rmcKey.ToUpper()} => VirtueSky.DataStorage.GameData.Get(KEY_{rmcKey.ToUpper()}, DEFAULT_{rmcKey.ToUpper()});";
                         break;
                     case TypeRemoteConfigData.IntData:
-                        GenMethod(ref str, "int", rmcKey);
+                        str +=
+                            $"\n\t\tpublic const int DEFAULT_{rmcKey.ToUpper()} = {listRmcData[i].defaultValueInt};";
+                        str +=
+                            $"\n\t\tpublic static int {rmcKey.ToUpper()} => VirtueSky.DataStorage.GameData.Get(KEY_{rmcKey.ToUpper()}, DEFAULT_{rmcKey.ToUpper()});";
                         break;
                 }
             }
@@ -158,10 +167,9 @@ namespace VirtueSky.RemoteConfigs
             writer.Close();
             AssetDatabase.ImportAsset(productImplPath);
 
-            void GenMethod(ref string str, string typeMethod, string key)
+            string GetBool(bool condition)
             {
-                str +=
-                    $"\n\t\tpublic static {typeMethod} {key.ToUpper()} => VirtueSky.DataStorage.GameData.Get<{typeMethod}>(KEY_{key.ToUpper()});";
+                return condition ? "true" : "false";
             }
         }
 #endif
