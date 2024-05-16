@@ -27,4 +27,32 @@ for version `1.0.4`
 ```csharp
 "com.wolf-package.unity-common":"https://github.com/wolf-package/unity-common.git#1.0.4",
 ```
+
+## Includes modules
+
+```bash
+├── Core (Update only called once in Monobehaviour,...)
+├── ATT_IOS
+├── Advertising (Support for Max & Admob)
+├── In App Purchase (IAP)
+├── Asset Finder
+├── Audio
+├── Button (Custom UI Button)
+├── Data
+├── Firebase (Remote config, Analytic)
+├── Tri-Inspector
+├── Level Editor
+├── Mobile Notification
+├── Object Pooling
+├── Prime tween
+├── Hierarchy
+├── In app review
+├── UniTask
+├── SimpleJSON
+├── Tracking Revenue (by Firebase analytic, Adjust or Appsflyer)
+├── Vibration (Vibration native support for android & ios)
+├── Misc (Extension support Transform, SafeArea, Play Animancer, Skeleton,...)
+├── Component
+```
+
 - [Project Implement](https://github.com/VirtueSky/TheBeginning_2)
