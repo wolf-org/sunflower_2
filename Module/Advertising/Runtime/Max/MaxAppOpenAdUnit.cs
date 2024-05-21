@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using VirtueSky.Misc;
 
 namespace VirtueSky.Ads
@@ -6,6 +7,9 @@ namespace VirtueSky.Ads
     [Serializable]
     public class MaxAppOpenAdUnit : AdUnit
     {
+        [Tooltip("Automatically show AppOpenAd when app status is changed")]
+        public bool autoShow = false;
+
         private bool _registerCallback = false;
 
         // public MaxAppOpenAdUnit(string _androidId, string _iOSId) : base(_androidId, _iOSId)

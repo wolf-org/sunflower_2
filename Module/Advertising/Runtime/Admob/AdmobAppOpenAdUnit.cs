@@ -12,6 +12,9 @@ namespace VirtueSky.Ads
     [Serializable]
     public class AdmobAppOpenAdUnit : AdUnit
     {
+        [Tooltip("Automatically show AppOpenAd when app status is changed")]
+        public bool autoShow = false;
+
         public bool useTestId;
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
         private AppOpenAd _appOpenAd;

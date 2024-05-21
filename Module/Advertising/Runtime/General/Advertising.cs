@@ -293,7 +293,7 @@ namespace VirtueSky.Ads
 #if VIRTUESKY_MAX
         private void OnApplicationPause(bool pauseStatus)
         {
-            if (!pauseStatus) (currentAdClient as MaxAdClient)?.ShowAppOpen();
+            if (!pauseStatus && adSettings.MaxAppOpenAdUnit.autoShow) (currentAdClient as MaxAdClient)?.ShowAppOpen();
         }
 #endif
 
