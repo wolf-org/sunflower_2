@@ -98,27 +98,27 @@ namespace VirtueSky.Ads
         private void OnAdClicked()
         {
             Common.CallActionAndClean(ref clickedCallback);
-            OnAdClickedEvent?.Invoke();
+            OnClickedAdEvent?.Invoke();
         }
 
         private void OnAdOpening()
         {
             AdStatic.isShowingAd = true;
             Common.CallActionAndClean(ref displayedCallback);
-            OnAdDisplayedEvent?.Invoke();
+            OnDisplayedAdEvent?.Invoke();
         }
 
         private void OnAdFailedToShow(AdError error)
         {
             Common.CallActionAndClean(ref failedToDisplayCallback);
-            OnAdFailedToDisplayEvent?.Invoke(error.GetMessage());
+            OnFailedToDisplayAdEvent?.Invoke(error.GetMessage());
         }
 
         private void OnAdClosed()
         {
             AdStatic.isShowingAd = false;
             Common.CallActionAndClean(ref completedCallback);
-            OnAdClosedEvent?.Invoke();
+            OnClosedAdEvent?.Invoke();
             Destroy();
         }
 
@@ -133,13 +133,13 @@ namespace VirtueSky.Ads
         private void OnAdLoaded()
         {
             Common.CallActionAndClean(ref loadedCallback);
-            OnAdLoadEvent?.Invoke();
+            OnLoadAdEvent?.Invoke();
         }
 
         private void OnAdFailedToLoad(LoadAdError error)
         {
             Common.CallActionAndClean(ref failedToLoadCallback);
-            OnAdFailedToLoadEvent?.Invoke(error.GetMessage());
+            OnFailedToLoadAdEvent?.Invoke(error.GetMessage());
         }
 #endif
 

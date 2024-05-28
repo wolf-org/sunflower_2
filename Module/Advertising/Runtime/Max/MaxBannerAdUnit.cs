@@ -107,31 +107,31 @@ namespace VirtueSky.Ads
         private void OnAdLoaded(string unit, MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref loadedCallback);
-            OnAdLoadEvent?.Invoke();
+            OnLoadAdEvent?.Invoke();
         }
 
         private void OnAdClicked(string arg1, MaxSdkBase.AdInfo arg2)
         {
             Common.CallActionAndClean(ref clickedCallback);
-            OnAdClickedEvent?.Invoke();
+            OnClickedAdEvent?.Invoke();
         }
 
         private void OnAdExpanded(string unit, MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref displayedCallback);
-            OnAdDisplayedEvent?.Invoke();
+            OnDisplayedAdEvent?.Invoke();
         }
 
         private void OnAdLoadFailed(string unit, MaxSdkBase.ErrorInfo info)
         {
             Common.CallActionAndClean(ref failedToLoadCallback);
-            OnAdFailedToLoadEvent?.Invoke(info.Message);
+            OnFailedToLoadAdEvent?.Invoke(info.Message);
         }
 
         private void OnAdCollapsed(string unit, MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref closedCallback);
-            OnAdClosedEvent?.Invoke();
+            OnClosedAdEvent?.Invoke();
         }
 #endif
 

@@ -99,33 +99,33 @@ namespace VirtueSky.Ads
         private void OnAdClicked(string arg1, MaxSdkBase.AdInfo arg2)
         {
             Common.CallActionAndClean(ref clickedCallback);
-            OnAdClickedEvent?.Invoke();
+            OnClickedAdEvent?.Invoke();
         }
 
         private void OnAdLoadFailed(string unit, MaxSdkBase.ErrorInfo error)
         {
             Common.CallActionAndClean(ref failedToLoadCallback);
-            OnAdFailedToLoadEvent?.Invoke(error.Message);
+            OnFailedToLoadAdEvent?.Invoke(error.Message);
         }
 
         private void OnAdLoaded(string unit, MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref loadedCallback);
-            OnAdLoadEvent?.Invoke();
+            OnLoadAdEvent?.Invoke();
         }
 
         private void OnAdDisplayFailed(string unit, MaxSdkBase.ErrorInfo error,
             MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref failedToDisplayCallback);
-            OnAdFailedToDisplayEvent?.Invoke(error.Message);
+            OnFailedToDisplayAdEvent?.Invoke(error.Message);
         }
 
         private void OnAdHidden(string unit, MaxSdkBase.AdInfo info)
         {
             AdStatic.isShowingAd = false;
             Common.CallActionAndClean(ref closedCallback);
-            OnAdClosedEvent?.Invoke();
+            OnClosedAdEvent?.Invoke();
             if (!IsReady()) MaxSdk.LoadRewardedInterstitialAd(Id);
 
             if (IsEarnRewarded)
@@ -142,7 +142,7 @@ namespace VirtueSky.Ads
         {
             AdStatic.isShowingAd = true;
             Common.CallActionAndClean(ref displayedCallback);
-            OnAdDisplayedEvent?.Invoke();
+            OnDisplayedAdEvent?.Invoke();
         }
 #endif
 
