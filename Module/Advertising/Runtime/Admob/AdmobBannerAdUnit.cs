@@ -109,6 +109,7 @@ namespace VirtueSky.Ads
         private void OnAdClicked()
         {
             Common.CallActionAndClean(ref clickedCallback);
+            OnAdClickedEvent?.Invoke();
         }
 
         public AdPosition ConvertPosition()
@@ -150,16 +151,19 @@ namespace VirtueSky.Ads
         private void OnAdOpening()
         {
             Common.CallActionAndClean(ref displayedCallback);
+            OnAdDisplayedEvent?.Invoke();
         }
 
         private void OnAdLoaded()
         {
             Common.CallActionAndClean(ref loadedCallback);
+            OnAdLoadEvent?.Invoke();
         }
 
         private void OnAdFailedToLoad(LoadAdError error)
         {
             Common.CallActionAndClean(ref failedToLoadCallback);
+            OnAdFailedToLoadEvent?.Invoke(error.GetMessage());
             if (_reload != null) App.StopCoroutine(_reload);
             _reload = DelayBannerReload();
             App.StartCoroutine(_reload);
@@ -168,6 +172,7 @@ namespace VirtueSky.Ads
         private void OnAdClosed()
         {
             Common.CallActionAndClean(ref closedCallback);
+            OnAdClosedEvent?.Invoke();
         }
 
         private IEnumerator DelayBannerReload()
