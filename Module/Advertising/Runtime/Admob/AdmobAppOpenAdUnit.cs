@@ -90,10 +90,16 @@ namespace VirtueSky.Ads
             _appOpenAd.OnAdFullScreenContentClosed += OnAdClosed;
             _appOpenAd.OnAdFullScreenContentFailed += OnAdFailedToShow;
             _appOpenAd.OnAdFullScreenContentOpened += OnAdOpening;
+            _appOpenAd.OnAdClicked += OnAdClicked;
             OnAdLoaded();
 
             // App open ads can be preloaded for up to 4 hours.
             _expireTime = DateTime.Now + TimeSpan.FromHours(4);
+        }
+
+        private void OnAdClicked()
+        {
+            Common.CallActionAndClean(ref clickedCallback);
         }
 
         private void OnAdOpening()

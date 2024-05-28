@@ -33,6 +33,7 @@ namespace VirtueSky.Ads
                 MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent += OnAdLoadFailed;
                 MaxSdkCallbacks.Rewarded.OnAdRevenuePaidEvent += OnAdRevenuePaid;
                 MaxSdkCallbacks.Rewarded.OnAdReceivedRewardEvent += OnAdReceivedReward;
+                MaxSdkCallbacks.Rewarded.OnAdClickedEvent += OnAdClicked;
                 _registerCallback = true;
             }
 
@@ -95,23 +96,33 @@ namespace VirtueSky.Ads
         private void OnAdLoadFailed(string unit, MaxSdkBase.ErrorInfo info)
         {
             Common.CallActionAndClean(ref failedToLoadCallback);
+            OnAdFailedToLoadEvent?.Invoke(info.Message);
+        }
+
+        private void OnAdClicked(string arg1, MaxSdkBase.AdInfo arg2)
+        {
+            Common.CallActionAndClean(ref clickedCallback);
+            OnAdClickedEvent?.Invoke();
         }
 
         private void OnAdDisplayFailed(string unit, MaxSdkBase.ErrorInfo errorInfo,
             MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref failedToDisplayCallback);
+            OnAdFailedToDisplayEvent?.Invoke(errorInfo.Message);
         }
 
         private void OnAdLoaded(string unit, MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref loadedCallback);
+            OnAdLoadEvent?.Invoke();
         }
 
         private void OnAdHidden(string unit, MaxSdkBase.AdInfo info)
         {
             AdStatic.isShowingAd = false;
             Common.CallActionAndClean(ref closedCallback);
+            OnAdClosedEvent?.Invoke();
             if (!IsReady()) MaxSdk.LoadRewardedAd(Id);
             if (IsEarnRewarded)
             {
@@ -127,6 +138,7 @@ namespace VirtueSky.Ads
         {
             AdStatic.isShowingAd = true;
             Common.CallActionAndClean(ref displayedCallback);
+            OnAdDisplayedEvent?.Invoke();
         }
 #endif
 

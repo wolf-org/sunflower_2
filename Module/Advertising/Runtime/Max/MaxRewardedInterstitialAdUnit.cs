@@ -33,12 +33,14 @@ namespace VirtueSky.Ads
                 MaxSdkCallbacks.RewardedInterstitial.OnAdLoadFailedEvent += OnAdLoadFailed;
                 MaxSdkCallbacks.RewardedInterstitial.OnAdReceivedRewardEvent += OnAdReceivedReward;
                 MaxSdkCallbacks.RewardedInterstitial.OnAdRevenuePaidEvent += OnAdRevenuePaid;
+                MaxSdkCallbacks.RewardedInterstitial.OnAdClickedEvent += OnAdClicked;
                 _registerCallback = true;
             }
 
             MaxSdk.LoadRewardedInterstitialAd(Id);
 #endif
         }
+
 
         public override bool IsReady()
         {
@@ -94,26 +96,36 @@ namespace VirtueSky.Ads
                 true;
         }
 
+        private void OnAdClicked(string arg1, MaxSdkBase.AdInfo arg2)
+        {
+            Common.CallActionAndClean(ref clickedCallback);
+            OnAdClickedEvent?.Invoke();
+        }
+
         private void OnAdLoadFailed(string unit, MaxSdkBase.ErrorInfo error)
         {
             Common.CallActionAndClean(ref failedToLoadCallback);
+            OnAdFailedToLoadEvent?.Invoke(error.Message);
         }
 
         private void OnAdLoaded(string unit, MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref loadedCallback);
+            OnAdLoadEvent?.Invoke();
         }
 
         private void OnAdDisplayFailed(string unit, MaxSdkBase.ErrorInfo error,
             MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref failedToDisplayCallback);
+            OnAdFailedToDisplayEvent?.Invoke(error.Message);
         }
 
         private void OnAdHidden(string unit, MaxSdkBase.AdInfo info)
         {
             AdStatic.isShowingAd = false;
             Common.CallActionAndClean(ref closedCallback);
+            OnAdClosedEvent?.Invoke();
             if (!IsReady()) MaxSdk.LoadRewardedInterstitialAd(Id);
 
             if (IsEarnRewarded)
@@ -130,6 +142,7 @@ namespace VirtueSky.Ads
         {
             AdStatic.isShowingAd = true;
             Common.CallActionAndClean(ref displayedCallback);
+            OnAdDisplayedEvent?.Invoke();
         }
 #endif
 

@@ -34,6 +34,7 @@ namespace VirtueSky.Ads
                 MaxSdkCallbacks.Banner.OnAdLoadFailedEvent += OnAdLoadFailed;
                 MaxSdkCallbacks.Banner.OnAdCollapsedEvent += OnAdCollapsed;
                 MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent += OnAdRevenuePaid;
+                MaxSdkCallbacks.Banner.OnAdClickedEvent += OnAdClicked;
                 if (size != BannerSize.Adaptive)
                     MaxSdk.SetBannerExtraParameter(Id, "adaptive_banner", "false");
                 _registerCallback = true;
@@ -45,6 +46,7 @@ namespace VirtueSky.Ads
             }
 #endif
         }
+
 
         public override bool IsReady()
         {
@@ -105,21 +107,31 @@ namespace VirtueSky.Ads
         private void OnAdLoaded(string unit, MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref loadedCallback);
+            OnAdLoadEvent?.Invoke();
+        }
+
+        private void OnAdClicked(string arg1, MaxSdkBase.AdInfo arg2)
+        {
+            Common.CallActionAndClean(ref clickedCallback);
+            OnAdClickedEvent?.Invoke();
         }
 
         private void OnAdExpanded(string unit, MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref displayedCallback);
+            OnAdDisplayedEvent?.Invoke();
         }
 
         private void OnAdLoadFailed(string unit, MaxSdkBase.ErrorInfo info)
         {
             Common.CallActionAndClean(ref failedToLoadCallback);
+            OnAdFailedToLoadEvent?.Invoke(info.Message);
         }
 
         private void OnAdCollapsed(string unit, MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref closedCallback);
+            OnAdClosedEvent?.Invoke();
         }
 #endif
 

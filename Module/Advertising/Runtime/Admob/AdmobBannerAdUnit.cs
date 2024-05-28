@@ -41,6 +41,7 @@ namespace VirtueSky.Ads
             _bannerView.OnBannerAdLoaded += OnAdLoaded;
             _bannerView.OnAdFullScreenContentOpened += OnAdOpening;
             _bannerView.OnAdPaid += OnAdPaided;
+            _bannerView.OnAdClicked += OnAdClicked;
             var adRequest = new AdRequest();
             if (useCollapsible)
             {
@@ -51,6 +52,7 @@ namespace VirtueSky.Ads
 
 #endif
         }
+
 
         public override bool IsReady()
         {
@@ -102,6 +104,11 @@ namespace VirtueSky.Ads
                 //case BannerSize.SmartBanner: return AdSize.SmartBanner;
                 default: return AdSize.Banner;
             }
+        }
+
+        private void OnAdClicked()
+        {
+            Common.CallActionAndClean(ref clickedCallback);
         }
 
         public AdPosition ConvertPosition()
