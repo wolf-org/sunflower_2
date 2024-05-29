@@ -16,7 +16,7 @@ namespace VirtueSky.ControlPanel.Editor
         private string inputPackageFullNameRemove = "";
         private Vector2 scrollButton = Vector2.zero;
 
-        [MenuItem("Unity-Common/Control Panel &1", false)]
+        [MenuItem("Unity-Common/Control Panel &1", false, priority = 1)]
         public static void ShowPanelControlWindow()
         {
             ControlPanelWindowEditor window =

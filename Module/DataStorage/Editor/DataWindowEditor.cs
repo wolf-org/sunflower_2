@@ -9,7 +9,7 @@ namespace VirtueSky.DataStorage
 #if UNITY_EDITOR
     public class DataWindowEditor : EditorWindow
     {
-        [MenuItem("Unity-Common/Game Data/Clear All Data")]
+        [MenuItem("Unity-Common/Clear All Data", priority = 501)]
         public static void ClearAllData()
         {
             GameData.DeleteAll();
@@ -18,30 +18,24 @@ namespace VirtueSky.DataStorage
             Debug.Log($"<color=Green>Clear all data succeed</color>");
         }
 
-        [MenuItem("Unity-Common/Game Data/Save Data")]
+        [MenuItem("Unity-Common/Save Data", priority = 504)]
         public static void SaveData()
         {
             GameData.Save();
             Debug.Log($"<color=Green>Save data succeed</color>");
         }
 
-        [MenuItem("Unity-Common/Game Data/Clear Path Data")]
-        public static void ClearSunDataPath()
+        [MenuItem("Unity-Common/Clear Path Data", priority = 502)]
+        public static void ClearDataPath()
         {
             GameData.DeleteAll();
             GameData.DeleteFileData();
             Debug.Log($"<color=Green>Clear path data succeed</color>");
         }
 
-        [MenuItem("Unity-Common/Game Data/Clear PlayerPrefs Data")]
-        public static void ClearPlayerPrefs()
-        {
-            PlayerPrefs.DeleteAll();
-            Debug.Log($"<color=Green>Clear data PlayerPrefs succeed</color>");
-        }
 
-        [MenuItem("Unity-Common/Game Data/Open Path Data")]
-        public static void OpenSunPathData()
+        [MenuItem("Unity-Common/Open Path Data", priority = 503)]
+        public static void OpenPathData()
         {
             string path = GameData.GetPersistentDataPath();
             switch (SystemInfo.operatingSystemFamily)
