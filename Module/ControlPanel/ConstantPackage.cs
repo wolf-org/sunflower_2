@@ -2,7 +2,7 @@
 {
     public class ConstantPackage
     {
-        public const string VersionUnityCommon = "1.0.6";
+        public const string VersionUnityCommon = "1.0.7";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
         public const string MaxVersionInAppPurchase = "4.11.0";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
@@ -12,7 +12,7 @@
         public const string PackageNameMobileNotification = "com.unity.mobile.notifications";
         public const string MaxVersionMobileNotification = "2.3.2";
         public const string PackageNameAddressables = "com.unity.addressables";
-        public const string MaxVersionAddressables = "1.21.20";
+        public const string MaxVersionAddressables = "1.21.21";
 
 
         #region Google Unity
