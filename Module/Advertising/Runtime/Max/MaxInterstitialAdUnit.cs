@@ -9,9 +9,6 @@ namespace VirtueSky.Ads
         [NonSerialized] internal Action completedCallback;
         private bool _registerCallback = false;
 
-        // public MaxInterstitialAdUnit(string _androidId, string _iOSId) : base(_androidId, _iOSId)
-        // {
-        // }
 
         public override void Init()
         {

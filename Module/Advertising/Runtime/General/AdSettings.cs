@@ -23,16 +23,16 @@ namespace VirtueSky.Ads
         [SerializeField] private MaxRewardedInterstitialAdUnit maxRewardedInterstitialAdUnit;
         [SerializeField] private MaxAppOpenAdUnit maxAppOpenAdUnit;
 
-        internal string SdkKey => Instance.sdkKey;
-        internal bool ApplovinEnableAgeRestrictedUser => Instance.applovinEnableAgeRestrictedUser;
-        internal MaxBannerAdUnit MaxBannerAdUnit => Instance.maxBannerAdUnit;
-        internal MaxInterstitialAdUnit MaxInterstitialAdUnit => Instance.maxInterstitialAdUnit;
-        internal MaxRewardAdUnit MaxRewardAdUnit => Instance.maxRewardAdUnit;
+        public string SdkKey => Instance.sdkKey;
+        public bool ApplovinEnableAgeRestrictedUser => Instance.applovinEnableAgeRestrictedUser;
+        public MaxBannerAdUnit MaxBannerAdUnit => Instance.maxBannerAdUnit;
+        public MaxInterstitialAdUnit MaxInterstitialAdUnit => Instance.maxInterstitialAdUnit;
+        public MaxRewardAdUnit MaxRewardAdUnit => Instance.maxRewardAdUnit;
 
-        internal MaxRewardedInterstitialAdUnit MaxRewardedInterstitialAdUnit =>
+        public MaxRewardedInterstitialAdUnit MaxRewardedInterstitialAdUnit =>
             Instance.maxRewardedInterstitialAdUnit;
 
-        internal MaxAppOpenAdUnit MaxAppOpenAdUnit => Instance.maxAppOpenAdUnit;
+        public MaxAppOpenAdUnit MaxAppOpenAdUnit => Instance.maxAppOpenAdUnit;
 
         #endregion
 
@@ -49,22 +49,22 @@ namespace VirtueSky.Ads
         [SerializeField] private List<string> admobDevicesTest;
 
 
-        internal AdmobBannerAdUnit AdmobBannerAdUnit => admobBannerAdUnit;
-        internal AdmobInterstitialAdUnit AdmobInterstitialAdUnit => admobInterstitialAdUnit;
-        internal AdmobRewardAdUnit AdmobRewardAdUnit => admobRewardAdUnit;
-        internal AdmobRewardedInterstitialAdUnit AdmobRewardedInterstitialAdUnit => admobRewardedInterstitialAdUnit;
-        internal AdmobAppOpenAdUnit AdmobAppOpenAdUnit => admobAppOpenAdUnit;
-        internal bool AdmobEnableTestMode => admobEnableTestMode;
-        internal bool EnableGDPR => enableGDPR;
-        internal bool EnableGDPRTestMode => enableGDPRTestMode;
-        internal List<string> AdmobDevicesTest => admobDevicesTest;
+        public AdmobBannerAdUnit AdmobBannerAdUnit => admobBannerAdUnit;
+        public AdmobInterstitialAdUnit AdmobInterstitialAdUnit => admobInterstitialAdUnit;
+        public AdmobRewardAdUnit AdmobRewardAdUnit => admobRewardAdUnit;
+        public AdmobRewardedInterstitialAdUnit AdmobRewardedInterstitialAdUnit => admobRewardedInterstitialAdUnit;
+        public AdmobAppOpenAdUnit AdmobAppOpenAdUnit => admobAppOpenAdUnit;
+        public bool AdmobEnableTestMode => admobEnableTestMode;
+        public bool EnableGDPR => enableGDPR;
+        public bool EnableGDPRTestMode => enableGDPRTestMode;
+        public List<string> AdmobDevicesTest => admobDevicesTest;
 
         #endregion
 
 
-        internal bool RuntimeAutoInit => runtimeAutoInit;
-        internal float AdCheckingInterval => adCheckingInterval;
-        internal float AdLoadingInterval => adLoadingInterval;
+        public bool RuntimeAutoInit => runtimeAutoInit;
+        public float AdCheckingInterval => adCheckingInterval;
+        public float AdLoadingInterval => adLoadingInterval;
 
         public AdNetwork CurrentAdNetwork
         {

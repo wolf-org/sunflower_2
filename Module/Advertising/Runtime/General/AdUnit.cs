@@ -6,8 +6,11 @@ namespace VirtueSky.Ads
     [Serializable]
     public abstract class AdUnit
     {
+#if UNITY_ANDROID
         [SerializeField] protected string androidId;
+#elif UNITY_IOS
         [SerializeField] protected string iOSId;
+#endif
 
         [NonSerialized] internal Action loadedCallback;
         [NonSerialized] internal Action failedToLoadCallback;
@@ -24,25 +27,31 @@ namespace VirtueSky.Ads
         public Action OnAdClosedEvent;
         public Action OnAdClickedEvent;
 
+        [NonSerialized] private string runtimeId = String.Empty;
+
         public string Id
         {
             get
             {
+                if (runtimeId == string.Empty)
+                {
 #if UNITY_ANDROID
-                return androidId;
+                    return androidId;
 #elif UNITY_IOS
                 return iOSId;
 #else
                 return string.Empty;
 #endif
+                }
+
+                return runtimeId;
             }
         }
 
-        // public AdUnit(string _androidId, string _iOSId)
-        // {
-        //     this.androidId = _androidId;
-        //     this.iOSId = _iOSId;
-        // }
+        public void SetIdRuntime(string unitId)
+        {
+            runtimeId = unitId;
+        }
 
         public abstract void Init();
         public abstract void Load();

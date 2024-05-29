@@ -12,10 +12,6 @@ namespace VirtueSky.Ads
 
         private bool _registerCallback = false;
 
-        // public MaxAppOpenAdUnit(string _androidId, string _iOSId) : base(_androidId, _iOSId)
-        // {
-        // }
-
         public override void Init()
         {
             _registerCallback = false;
