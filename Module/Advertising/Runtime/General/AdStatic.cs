@@ -18,6 +18,8 @@ namespace VirtueSky.Ads
         }
 
         internal static bool isShowingAd;
+        internal static Action waitAppOpenDisplayedAction;
+        internal static Action waitAppOpenClosedAction;
 
         public static AdUnit OnDisplayed(this AdUnit unit, Action onDisplayed)
         {

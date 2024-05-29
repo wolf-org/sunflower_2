@@ -95,6 +95,7 @@ namespace VirtueSky.Ads
 
         private void OnAdHidden(string unit, MaxSdkBase.AdInfo info)
         {
+            AdStatic.waitAppOpenClosedAction?.Invoke();
             AdStatic.isShowingAd = false;
             Common.CallActionAndClean(ref closedCallback);
             OnClosedAdEvent?.Invoke();
@@ -104,6 +105,7 @@ namespace VirtueSky.Ads
 
         private void OnAdDisplayed(string unit, MaxSdkBase.AdInfo info)
         {
+            AdStatic.waitAppOpenDisplayedAction?.Invoke();
             AdStatic.isShowingAd = true;
             Common.CallActionAndClean(ref displayedCallback);
             OnDisplayedAdEvent?.Invoke();

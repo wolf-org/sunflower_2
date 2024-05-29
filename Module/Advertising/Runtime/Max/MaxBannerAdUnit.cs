@@ -9,8 +9,10 @@ namespace VirtueSky.Ads
         public BannerSize size = BannerSize.Banner;
         public BannerPosition position = BannerPosition.Bottom;
 
-        private bool isBannerDestroyed = true;
+        private bool _isBannerDestroyed = true;
         private bool _registerCallback = false;
+        private bool _isBannerShowing;
+        private bool _previousBannerShowStatus;
 
         public override void Init()
         {
@@ -34,13 +36,28 @@ namespace VirtueSky.Ads
                 _registerCallback = true;
             }
 
-            if (isBannerDestroyed)
+            if (_isBannerDestroyed)
             {
                 MaxSdk.CreateBanner(Id, ConvertPosition());
+                _isBannerDestroyed = false;
             }
 #endif
         }
 
+        void OnWaitAppOpenClosed()
+        {
+            if (_previousBannerShowStatus)
+            {
+                _previousBannerShowStatus = false;
+                Show();
+            }
+        }
+
+        void OnWaitAppOpenDisplayed()
+        {
+            _previousBannerShowStatus = _isBannerShowing;
+            if (_isBannerShowing) Hide();
+        }
 
         public override bool IsReady()
         {
@@ -50,6 +67,9 @@ namespace VirtueSky.Ads
         protected override void ShowImpl()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_MAX
+            _isBannerShowing = true;
+            AdStatic.waitAppOpenClosedAction = OnWaitAppOpenClosed;
+            AdStatic.waitAppOpenDisplayedAction = OnWaitAppOpenDisplayed;
             Load();
             MaxSdk.ShowBanner(Id);
 #endif
@@ -59,7 +79,10 @@ namespace VirtueSky.Ads
         {
 #if VIRTUESKY_ADS && VIRTUESKY_MAX
             if (string.IsNullOrEmpty(Id)) return;
-            isBannerDestroyed = true;
+            _isBannerShowing = false;
+            _isBannerDestroyed = true;
+            AdStatic.waitAppOpenClosedAction = null;
+            AdStatic.waitAppOpenDisplayedAction = null;
             MaxSdk.DestroyBanner(Id);
 #endif
         }
@@ -67,6 +90,7 @@ namespace VirtueSky.Ads
         public void Hide()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_MAX
+            _isBannerShowing = false;
             if (string.IsNullOrEmpty(Id)) return;
             MaxSdk.HideBanner(Id);
 #endif

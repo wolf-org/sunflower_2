@@ -21,6 +21,8 @@ namespace VirtueSky.Ads
 #endif
         private readonly WaitForSeconds _waitBannerReload = new WaitForSeconds(5f);
         private IEnumerator _reload;
+        private bool _isBannerShowing;
+        private bool _previousBannerShowStatus;
 
         public override void Init()
         {
@@ -53,6 +55,20 @@ namespace VirtueSky.Ads
 #endif
         }
 
+        void OnWaitAppOpenClosed()
+        {
+            if (_previousBannerShowStatus)
+            {
+                _previousBannerShowStatus = false;
+                Show();
+            }
+        }
+
+        void OnWaitAppOpenDisplayed()
+        {
+            _previousBannerShowStatus = _isBannerShowing;
+            if (_isBannerShowing) Hide();
+        }
 
         public override bool IsReady()
         {
@@ -66,7 +82,14 @@ namespace VirtueSky.Ads
         protected override void ShowImpl()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
-            Load();
+            _isBannerShowing = true;
+            AdStatic.waitAppOpenClosedAction = OnWaitAppOpenClosed;
+            AdStatic.waitAppOpenDisplayedAction = OnWaitAppOpenDisplayed;
+            if (_bannerView == null)
+            {
+                Load();
+            }
+
             _bannerView.Show();
 #endif
         }
@@ -75,6 +98,9 @@ namespace VirtueSky.Ads
         {
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (_bannerView == null) return;
+            _isBannerShowing = false;
+            AdStatic.waitAppOpenClosedAction = null;
+            AdStatic.waitAppOpenDisplayedAction = null;
             _bannerView.Destroy();
             _bannerView = null;
 #endif
@@ -83,8 +109,8 @@ namespace VirtueSky.Ads
         public void Hide()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
-            if (_bannerView == null) return;
-            _bannerView.Hide();
+            _isBannerShowing = false;
+            if (_bannerView != null) _bannerView.Hide();
 #endif
         }
 
