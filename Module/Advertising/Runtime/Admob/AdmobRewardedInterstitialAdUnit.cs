@@ -101,19 +101,19 @@ namespace VirtueSky.Ads
         private void OnAdClicked()
         {
             Common.CallActionAndClean(ref clickedCallback);
-            OnAdClickedEvent?.Invoke();
+            OnClickedAdEvent?.Invoke();
         }
 
         private void OnAdFailedToLoad(LoadAdError error)
         {
             Common.CallActionAndClean(ref failedToLoadCallback);
-            OnAdFailedToLoadEvent?.Invoke(error.GetMessage());
+            OnFailedToLoadAdEvent?.Invoke(error.GetMessage());
         }
 
         private void OnAdLoaded()
         {
             Common.CallActionAndClean(ref loadedCallback);
-            OnAdLoadEvent?.Invoke();
+            OnLoadAdEvent?.Invoke();
         }
 
         private void OnAdPaided(AdValue value)
@@ -127,21 +127,21 @@ namespace VirtueSky.Ads
         private void OnAdFailedToShow(AdError error)
         {
             Common.CallActionAndClean(ref failedToDisplayCallback);
-            OnAdFailedToDisplayEvent?.Invoke(error.GetMessage());
+            OnFailedToDisplayAdEvent?.Invoke(error.GetMessage());
         }
 
         private void OnAdOpening()
         {
             AdStatic.isShowingAd = true;
             Common.CallActionAndClean(ref displayedCallback);
-            OnAdDisplayedEvent?.Invoke();
+            OnDisplayedAdEvent?.Invoke();
         }
 
         private void OnAdClosed()
         {
             AdStatic.isShowingAd = false;
             Common.CallActionAndClean(ref closedCallback);
-            OnAdClosedEvent?.Invoke();
+            OnClosedAdEvent?.Invoke();
             if (IsEarnRewarded)
             {
                 Common.CallActionAndClean(ref completedCallback);

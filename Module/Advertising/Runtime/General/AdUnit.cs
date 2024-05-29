@@ -20,12 +20,12 @@ namespace VirtueSky.Ads
         [NonSerialized] internal Action clickedCallback;
         [NonSerialized] public Action<double, string, string, string, string> paidedCallback;
 
-        public Action OnAdLoadEvent;
-        public Action<string> OnAdFailedToLoadEvent;
-        public Action OnAdDisplayedEvent;
-        public Action<string> OnAdFailedToDisplayEvent;
-        public Action OnAdClosedEvent;
-        public Action OnAdClickedEvent;
+        public Action OnLoadAdEvent;
+        public Action<string> OnFailedToLoadAdEvent;
+        public Action OnDisplayedAdEvent;
+        public Action<string> OnFailedToDisplayAdEvent;
+        public Action OnClosedAdEvent;
+        public Action OnClickedAdEvent;
 
         [NonSerialized] private string runtimeId = String.Empty;
 
