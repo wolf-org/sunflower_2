@@ -19,6 +19,7 @@ namespace VirtueSky.Notifications
         private void Start()
         {
 #if UNITY_ANDROID
+            PermissionPostNotification();
             Prepare();
 #endif
             if (autoSchedule)
@@ -64,6 +65,14 @@ namespace VirtueSky.Notifications
                 UnityWebRequest.Get(Path.Combine(Application.streamingAssetsPath, filename));
             yield return uwr.SendWebRequest();
             File.WriteAllBytes(path, uwr.downloadHandler.data);
+        }
+
+        void PermissionPostNotification()
+        {
+            if (!UnityEngine.Android.Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS"))
+            {
+                UnityEngine.Android.Permission.RequestUserPermission("android.permission.POST_NOTIFICATIONS");
+            }
         }
 #endif
     }
