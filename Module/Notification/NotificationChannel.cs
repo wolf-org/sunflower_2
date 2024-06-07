@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using UnityEngine;
+using VirtueSky.DataStorage;
 using VirtueSky.Inspector;
 using VirtueSky.Misc;
 
@@ -10,7 +11,14 @@ namespace VirtueSky.Notifications
     public class NotificationChannel
     {
         [SerializeField] private string identifier;
-        public int minute;
+
+        [SerializeField] private bool isRemoteConfigTimeSchedule;
+
+        [ShowIf(nameof(isRemoteConfigTimeSchedule))] [SerializeField]
+        private string keyRemoteConfig;
+
+        [SerializeField] private int minute = 720;
+
         [SerializeField] private bool repeat;
         [SerializeField] internal bool bigPicture;
 
@@ -34,6 +42,10 @@ namespace VirtueSky.Notifications
 
         [SerializeField] private NotificationData[] datas;
 
+        private int GetTimeSchedule()
+        {
+            return isRemoteConfigTimeSchedule ? GameData.Get(keyRemoteConfig, minute) : minute;
+        }
 
         public void Send()
         {
@@ -59,7 +71,7 @@ namespace VirtueSky.Notifications
             NotificationConsole.Schedule(identifier,
                 data.title,
                 data.message,
-                TimeSpan.FromMinutes(minute),
+                TimeSpan.FromMinutes(GetTimeSchedule()),
                 smallIcon: smallIcon,
                 largeIcon: largeIcon,
                 bigPicture: bigPicture,
