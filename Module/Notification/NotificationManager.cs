@@ -14,7 +14,7 @@ namespace VirtueSky.Notifications
         [SerializeField] private bool autoSchedule = true;
         [SerializeField] private List<NotificationChannel> channels = new List<NotificationChannel>();
 
-        public List<NotificationChannel> Channel => channels;
+        public List<NotificationChannel> Channels => channels;
 
         private void Start()
         {
