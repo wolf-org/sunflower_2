@@ -3,7 +3,7 @@ using GoogleMobileAds.Api;
 #endif
 using System;
 using VirtueSky.Core;
-using VirtueSky.TrackingRevenue;
+using VirtueSky.Tracking;
 
 namespace VirtueSky.Ads
 {
