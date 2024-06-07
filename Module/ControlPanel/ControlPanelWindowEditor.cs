@@ -23,7 +23,7 @@ namespace VirtueSky.ControlPanel.Editor
                 GetWindow<ControlPanelWindowEditor>("Unity-Common Control Panel");
             if (window == null)
             {
-                Debug.LogError("Couldn't open the iap settings window!");
+                Debug.LogError("Couldn't open the window!");
                 return;
             }
 
