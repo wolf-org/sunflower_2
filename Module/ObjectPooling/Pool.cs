@@ -1,231 +1,164 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using VirtueSky.Core;
 
 namespace VirtueSky.ObjectPooling
 {
-    public class Pool
+    public static class Pool
     {
-        private Dictionary<GameObject, Queue<GameObject>> waitPool;
-        private LinkedList<GameObject> activePool;
-        private Transform container;
-        private bool initialized;
+        private static PoolHandle _poolHandle;
 
-        public void Initialize()
+        public static void InitPool()
         {
-            if (initialized) return;
-            initialized = true;
-
-            waitPool = new Dictionary<GameObject, Queue<GameObject>>();
-            activePool = new LinkedList<GameObject>();
-            container = new GameObject("PoolContainer").transform;
-            UnityEngine.Object.DontDestroyOnLoad(container.gameObject);
-        }
-
-        public void PreSpawn(PoolData poolData)
-        {
-            for (var i = 0; i < poolData.count; i++)
+            if (_poolHandle == null)
             {
-                SpawnNew(poolData.prefab);
+                _poolHandle = new PoolHandle();
+                _poolHandle.Initialize();
             }
         }
 
-        public void SpawnNew(GameObject prefab)
+        #region API SpawnNew
+
+        public static void PreSpawn(PoolData poolData)
         {
-            var gameObject = UnityEngine.Object.Instantiate(prefab);
-            var id = gameObject.AddComponent<PooledObjectId>();
-            id.prefab = prefab;
-
-            activePool.AddLast(gameObject);
-
-            DeSpawn(gameObject, false);
-        }
-
-        public void DeSpawn<T>(T type, bool destroy = false, bool worldPositionStays = true) where T : Component
-        {
-            DeSpawn(type.gameObject, destroy, worldPositionStays);
-        }
-
-        public void DeSpawn(GameObject gameObject, bool destroy = false, bool worldPositionStays = true)
-        {
-            var id = gameObject.GetComponent<PooledObjectId>();
-            if (id == null)
+            if (_poolHandle == null)
             {
-                Debug.LogError($"{gameObject.name} is not a pooled object!");
+                Debug.Log($"Please init pool before {System.Reflection.MethodBase.GetCurrentMethod()?.Name}");
                 return;
             }
 
-            if (!activePool.Contains(gameObject))
+            _poolHandle.PreSpawn(poolData);
+        }
+
+        public static void SpawnNew(GameObject prepfab)
+        {
+            if (_poolHandle == null)
             {
-                Debug.LogError($"{gameObject.name} is not in active pool!");
+                Debug.Log($"Please init pool before {System.Reflection.MethodBase.GetCurrentMethod()?.Name}");
                 return;
             }
 
-            activePool.Remove(gameObject);
-            if (!waitPool.ContainsKey(id.prefab))
-            {
-                waitPool.Add(id.prefab, new Queue<GameObject>());
-            }
-
-            var stack = waitPool[id.prefab];
-            if (stack.Contains(gameObject))
-            {
-                Debug.LogError($"{gameObject.name} is already pooled!");
-                return;
-            }
-
-            CleanUp(gameObject);
-            if (destroy)
-            {
-                UnityEngine.Object.Destroy(gameObject);
-            }
-            else
-            {
-                gameObject.SetActive(false);
-                gameObject.transform.SetParent(container, worldPositionStays);
-                stack.Enqueue(gameObject);
-            }
+            _poolHandle.SpawnNew(prepfab);
         }
 
-        public void DeSpawnAll()
-        {
-            var arr = activePool.ToArray();
-            foreach (var o in arr)
-            {
-                if (o != null) DeSpawn(o);
-            }
-        }
+        #endregion
 
-        public void DestroyAllWaitPools()
-        {
-            foreach (var (key, queue) in waitPool)
-            {
-                foreach (var go in queue)
-                {
-                    CleanUp(go);
-                    UnityEngine.Object.DestroyImmediate(go);
-                }
+        #region API Spawn
 
-                queue.Clear();
-            }
-
-            waitPool.Clear();
-        }
-
-        public void DestroyAll()
-        {
-            var arr = waitPool.Values.SelectMany(g => g).ToArray();
-            for (var i = 0; i < arr.Length; i++)
-            {
-                UnityEngine.Object.Destroy(arr[i].gameObject);
-            }
-
-            waitPool.Clear();
-        }
-
-        public T Spawn<T>(T type, Transform parent = null, bool worldPositionStays = true, bool initialize = true)
-            where T : Component
-        {
-            return Spawn(type.gameObject, parent, worldPositionStays, initialize).GetComponent<T>();
-        }
-
-        public GameObject Spawn(GameObject prefab, Transform parent = null, bool worldPositionStays = true,
+        public static GameObject Spawn(this GameObject prefab, Transform parent = null, bool worldPositionStays = true,
             bool initialize = true)
         {
-            if (!waitPool.ContainsKey(prefab))
+            if (_poolHandle == null)
             {
-                waitPool.Add(prefab, new Queue<GameObject>());
+                Debug.Log($"Please init pool before {System.Reflection.MethodBase.GetCurrentMethod()?.Name}");
+                return null;
             }
 
-            var stack = waitPool[prefab];
-            if (stack.Count == 0)
-            {
-                SpawnNew(prefab);
-            }
-
-            var gameObject = stack.Dequeue();
-
-            gameObject.transform.SetParent(parent, worldPositionStays);
-
-            if (parent == null)
-            {
-                SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
-            }
-
-            gameObject.SetActive(true);
-
-            if (initialize)
-            {
-                InitializeObj(gameObject);
-            }
-
-            activePool.AddLast(gameObject);
-
-            return gameObject;
+            return _poolHandle.Spawn(prefab, parent, worldPositionStays, initialize);
         }
 
-        public T Spawn<T>(T type, Vector3 position, Quaternion rotation, Transform parent = null,
-            bool worldPositionStays = true, bool initialize = true)
-            where T : Component
+        public static T Spawn<T>(this T type, Transform parent = null, bool worldPositionStays = true,
+            bool initialize = true) where T : Component
         {
-            return Spawn(type.gameObject, position, rotation, parent, worldPositionStays, initialize).GetComponent<T>();
+            if (_poolHandle == null)
+            {
+                Debug.Log($"Please init pool before {System.Reflection.MethodBase.GetCurrentMethod()?.Name}");
+                return null;
+            }
+
+            return _poolHandle.Spawn(type, parent, worldPositionStays, initialize).GetComponent<T>();
         }
 
-        public GameObject Spawn(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent = null,
+        public static GameObject Spawn(this GameObject prefab, Vector3 position, Quaternion rotation,
+            Transform parent = null,
             bool worldPositionStays = true,
             bool initialize = true)
         {
-            if (!waitPool.ContainsKey(prefab))
+            if (_poolHandle == null)
             {
-                waitPool.Add(prefab, new Queue<GameObject>());
+                Debug.Log($"Please init pool before {System.Reflection.MethodBase.GetCurrentMethod()?.Name}");
+                return null;
             }
 
-            var stack = waitPool[prefab];
-            if (stack.Count == 0)
-            {
-                SpawnNew(prefab);
-            }
-
-            var gameObject = stack.Dequeue();
-
-            gameObject.transform.SetParent(parent, worldPositionStays);
-            gameObject.transform.SetPositionAndRotation(position, rotation);
-
-            if (parent == null)
-            {
-                SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
-            }
-
-            gameObject.SetActive(true);
-
-            if (initialize)
-            {
-                InitializeObj(gameObject);
-            }
-
-            activePool.AddLast(gameObject);
-
-            return gameObject;
+            return _poolHandle.Spawn(prefab, position, rotation, parent, worldPositionStays, initialize);
         }
 
-        void InitializeObj(GameObject go)
+        public static T Spawn<T>(this T type, Vector3 position, Quaternion rotation, Transform parent = null,
+            bool worldPositionStays = true, bool initialize = true)
+            where T : Component
         {
-            var monos = go.GetComponentsInChildren<BaseMono>(true);
-            foreach (var mono in monos)
+            if (_poolHandle == null)
             {
-                mono.Initialize();
+                Debug.Log($"Please init pool before {System.Reflection.MethodBase.GetCurrentMethod()?.Name}");
+                return null;
             }
+
+            return _poolHandle.Spawn(type, position, rotation, parent, worldPositionStays, initialize)
+                .GetComponent<T>();
         }
 
-        void CleanUp(GameObject go)
+        #endregion
+
+        #region API DeSpawn
+
+        public static void DeSpawn(this GameObject gameObject, bool destroy = false, bool worldPositionStays = true)
         {
-            var monos = go.GetComponentsInChildren<BaseMono>(true);
-            foreach (var mono in monos)
+            if (_poolHandle == null)
             {
-                mono.CleanUp();
+                Debug.Log($"Please init pool before {System.Reflection.MethodBase.GetCurrentMethod()?.Name}");
+                return;
             }
+
+            _poolHandle.DeSpawn(gameObject, destroy, worldPositionStays);
         }
+
+        public static void DeSpawn<T>(this T type, bool destroy = false, bool worldPositionStays = true)
+            where T : Component
+        {
+            if (_poolHandle == null)
+            {
+                Debug.Log($"Please init pool before {System.Reflection.MethodBase.GetCurrentMethod()?.Name}");
+                return;
+            }
+
+            _poolHandle.DeSpawn(type, destroy, worldPositionStays);
+        }
+
+        public static void DeSpawnAll()
+        {
+            if (_poolHandle == null)
+            {
+                Debug.Log($"Please init pool before {System.Reflection.MethodBase.GetCurrentMethod()?.Name}");
+                return;
+            }
+
+            _poolHandle.DeSpawnAll();
+        }
+
+        #endregion
+
+        #region API Destroy
+
+        public static void DestroyAll()
+        {
+            if (_poolHandle == null)
+            {
+                Debug.Log($"Please init pool before {System.Reflection.MethodBase.GetCurrentMethod()?.Name}");
+                return;
+            }
+
+            _poolHandle.DestroyAll();
+        }
+
+        public static void DestroyAllWaitPools()
+        {
+            if (_poolHandle == null)
+            {
+                Debug.Log($"Please init pool before {System.Reflection.MethodBase.GetCurrentMethod()?.Name}");
+                return;
+            }
+
+            _poolHandle.DestroyAllWaitPools();
+        }
+
+        #endregion
     }
 }
