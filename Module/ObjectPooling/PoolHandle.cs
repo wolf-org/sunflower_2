@@ -32,7 +32,7 @@ namespace VirtueSky.ObjectPooling
             }
         }
 
-        internal void SpawnNew(GameObject prefab)
+        private void SpawnNew(GameObject prefab)
         {
             var gameObject = UnityEngine.Object.Instantiate(prefab);
             var id = gameObject.AddComponent<PooledObjectId>();

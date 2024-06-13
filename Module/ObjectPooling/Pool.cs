@@ -15,9 +15,10 @@ namespace VirtueSky.ObjectPooling
             }
         }
 
-        #region API SpawnNew
 
-        public static void PreSpawn(PoolData poolData)
+        #region API Spawn
+
+        public static void PreSpawn(this PoolData poolData)
         {
             if (_poolHandle == null)
             {
@@ -27,21 +28,6 @@ namespace VirtueSky.ObjectPooling
 
             _poolHandle.PreSpawn(poolData);
         }
-
-        public static void SpawnNew(GameObject prepfab)
-        {
-            if (_poolHandle == null)
-            {
-                Debug.Log($"Please init pool before {System.Reflection.MethodBase.GetCurrentMethod()?.Name}");
-                return;
-            }
-
-            _poolHandle.SpawnNew(prepfab);
-        }
-
-        #endregion
-
-        #region API Spawn
 
         public static GameObject Spawn(this GameObject prefab, Transform parent = null, bool worldPositionStays = true,
             bool initialize = true)
