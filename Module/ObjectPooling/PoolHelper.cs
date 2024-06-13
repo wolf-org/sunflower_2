@@ -6,7 +6,7 @@ namespace VirtueSky.ObjectPooling
     {
         private static Pool _pool;
 
-        public static void Initialize()
+        public static void InitPool()
         {
             if (_pool == null)
             {
