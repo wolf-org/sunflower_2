@@ -14,7 +14,7 @@ namespace VirtueSky.Audio
         [SerializeField] private SoundComponent soundComponentPrefab;
         private SoundComponent music;
 
-        private Dictionary<SoundCache, SoundComponent> dictSfxCache =
+        private readonly Dictionary<SoundCache, SoundComponent> dictSfxCache =
             new Dictionary<SoundCache, SoundComponent>();
 
         private int key = 0;
@@ -45,7 +45,7 @@ namespace VirtueSky.Audio
 
         public SoundCache PlaySfx(SoundData soundData)
         {
-            SoundComponent sfxComponent = PoolManager.Instance.Spawn(soundComponentPrefab, audioHolder);
+            SoundComponent sfxComponent = soundComponentPrefab.Spawn(audioHolder);
             sfxComponent.PlayAudioClip(soundData.GetAudioClip(), soundData.loop, soundData.volume * SfxVolume);
             if (!soundData.loop) sfxComponent.OnCompleted += OnFinishPlayingAudio;
             SoundCache soundCache = GetSoundCache(soundData);
@@ -108,7 +108,7 @@ namespace VirtueSky.Audio
         {
             if (music == null || !music.IsPlaying)
             {
-                music = PoolManager.Instance.Spawn(soundComponentPrefab, audioHolder);
+                music = soundComponentPrefab.Spawn(audioHolder);
             }
 
             music.FadePlayMusic(soundData.GetAudioClip(), soundData.loop, soundData.volume * MusicVolume,
@@ -122,7 +122,7 @@ namespace VirtueSky.Audio
             if (music != null && music.IsPlaying)
             {
                 music.Stop();
-                PoolManager.Instance.DeSpawn(music.gameObject);
+                music.gameObject.DeSpawn();
             }
         }
 
@@ -175,13 +175,13 @@ namespace VirtueSky.Audio
             }
 
             soundComponent.Stop();
-            PoolManager.Instance.DeSpawn(soundComponent.gameObject);
+            soundComponent.gameObject.DeSpawn();
         }
 
         void StopAudioMusic(SoundComponent soundComponent)
         {
             soundComponent.OnCompleted -= StopAudioMusic;
-            PoolManager.Instance.DeSpawn(soundComponent.gameObject);
+            soundComponent.gameObject.DeSpawn();
         }
 
         SoundComponent GetSoundComponent(SoundCache soundCache)

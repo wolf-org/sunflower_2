@@ -7,6 +7,6 @@ namespace VirtueSky.ObjectPooling
     public class PoolData
     {
         public GameObject prefab;
-        public int preSpawn;
+        public int count;
     }
 }

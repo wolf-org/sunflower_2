@@ -1,26 +1,17 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using VirtueSky.Inspector;
 using VirtueSky.Core;
 
 namespace VirtueSky.ObjectPooling
 {
-    [EditorIcon("icon_generator")]
-    public class PoolManager : Singleton<PoolManager>
+    public class Pool
     {
-        [SerializeField] private PoolData[] poolDatas;
         private Dictionary<GameObject, Queue<GameObject>> waitPool;
         private LinkedList<GameObject> activePool;
         private Transform container;
         private bool initialized;
-
-        private void Start()
-        {
-            Initialize();
-        }
 
         public void Initialize()
         {
@@ -30,25 +21,20 @@ namespace VirtueSky.ObjectPooling
             waitPool = new Dictionary<GameObject, Queue<GameObject>>();
             activePool = new LinkedList<GameObject>();
             container = new GameObject("PoolContainer").transform;
-            DontDestroyOnLoad(container.gameObject);
-
-            PreSpawn();
+            UnityEngine.Object.DontDestroyOnLoad(container.gameObject);
         }
 
-        void PreSpawn()
+        public void PreSpawn(PoolData poolData)
         {
-            foreach (var data in poolDatas)
+            for (var i = 0; i < poolData.count; i++)
             {
-                for (var i = 0; i < data.preSpawn; i++)
-                {
-                    SpawnNew(data.prefab);
-                }
+                SpawnNew(poolData.prefab);
             }
         }
 
         public void SpawnNew(GameObject prefab)
         {
-            var gameObject = Instantiate(prefab);
+            var gameObject = UnityEngine.Object.Instantiate(prefab);
             var id = gameObject.AddComponent<PooledObjectId>();
             id.prefab = prefab;
 
@@ -57,6 +43,10 @@ namespace VirtueSky.ObjectPooling
             DeSpawn(gameObject, false);
         }
 
+        public void DeSpawn<T>(T type, bool destroy = false, bool worldPositionStays = true) where T : Component
+        {
+            DeSpawn(type.gameObject, destroy, worldPositionStays);
+        }
 
         public void DeSpawn(GameObject gameObject, bool destroy = false, bool worldPositionStays = true)
         {
@@ -89,7 +79,7 @@ namespace VirtueSky.ObjectPooling
             CleanUp(gameObject);
             if (destroy)
             {
-                Destroy(gameObject);
+                UnityEngine.Object.Destroy(gameObject);
             }
             else
             {
@@ -115,7 +105,7 @@ namespace VirtueSky.ObjectPooling
                 foreach (var go in queue)
                 {
                     CleanUp(go);
-                    DestroyImmediate(go);
+                    UnityEngine.Object.DestroyImmediate(go);
                 }
 
                 queue.Clear();
@@ -129,7 +119,7 @@ namespace VirtueSky.ObjectPooling
             var arr = waitPool.Values.SelectMany(g => g).ToArray();
             for (var i = 0; i < arr.Length; i++)
             {
-                Destroy(arr[i].gameObject);
+                UnityEngine.Object.Destroy(arr[i].gameObject);
             }
 
             waitPool.Clear();
