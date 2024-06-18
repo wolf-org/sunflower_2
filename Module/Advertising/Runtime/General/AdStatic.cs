@@ -7,9 +7,6 @@ namespace VirtueSky.Ads
     public static class AdStatic
     {
         public static Action<bool> OnChangePreventDisplayAppOpenEvent;
-        public static Action<bool> OnPrivacyRequiredGDPR;
-        public static Action<bool> OnGDPRCanRequestAds;
-        public static Action OnshowPrivacyOptionsFormSuccess;
 
         public static bool IsRemoveAd
         {

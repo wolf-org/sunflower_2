@@ -223,18 +223,11 @@ namespace VirtueSky.Ads
                     Debug.Log("ConsentStatus = " + ConsentInformation.ConsentStatus.ToString());
                     Debug.Log("CanRequestAds = " + ConsentInformation.CanRequestAds());
 
-                    AdStatic.OnPrivacyRequiredGDPR?.Invoke(ConsentInformation.PrivacyOptionsRequirementStatus ==
-                                                           PrivacyOptionsRequirementStatus.Required);
 
                     if (ConsentInformation.CanRequestAds())
                     {
                         MobileAds.RaiseAdEventsOnUnityMainThread = true;
                         InitAdClient();
-                        AdStatic.OnGDPRCanRequestAds?.Invoke(true);
-                    }
-                    else
-                    {
-                        AdStatic.OnGDPRCanRequestAds?.Invoke(false);
                     }
                 }
             );
@@ -274,17 +267,7 @@ namespace VirtueSky.Ads
                 {
                     Debug.LogError("Error showing privacy options form with error: " + showError.Message);
                 }
-
-                AdStatic.OnshowPrivacyOptionsFormSuccess?.Invoke();
             });
-        }
-
-        public void ResetGDPR()
-        {
-#if !UNITY_EDITOR
-            Debug.Log("Reset GDPR!");
-            ConsentInformation.Reset();
-#endif
         }
 #endif
 
