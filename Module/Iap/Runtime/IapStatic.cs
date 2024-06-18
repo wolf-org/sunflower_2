@@ -9,11 +9,6 @@ namespace VirtueSky.Iap
 {
     public static class IapStatic
     {
-        public static Action<string> OnPurchaseFailed;
-        public static Action<string> OnPurchaseSuccess;
-#if VIRTUESKY_IAP
-        public static Action<Product> OnIapTrackingRevenue;
-#endif
         public static IapDataProduct OnCompleted(this IapDataProduct product, Action onComplete)
         {
             product.purchaseSuccessCallback = onComplete;

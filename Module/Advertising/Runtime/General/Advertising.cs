@@ -10,7 +10,7 @@ using VirtueSky.Inspector;
 
 namespace VirtueSky.Ads
 {
-    [EditorIcon("icon_manager")]
+    [EditorIcon("icon_manager"), HideMonoScript]
     public class Advertising : Singleton<Advertising>
     {
         private IEnumerator autoLoadAdCoroutine;

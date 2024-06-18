@@ -12,9 +12,13 @@ using VirtueSky.Misc;
 
 namespace VirtueSky.Iap
 {
-    [EditorIcon("icon_manager")]
+    [EditorIcon("icon_manager"), HideMonoScript]
     public class IapManager : Singleton<IapManager>, IDetailedStoreListener
     {
+        public static event Action<string> OnPurchaseSucceedEvent;
+        public static event Action<string> OnPurchaseFailedEvent;
+        public static event Action<Product> OnIapTrackingRevenueEvent;
+
         private IStoreController _controller;
         private IExtensionProvider _extensionProvider;
         public bool IsInitialized { get; set; }
@@ -106,7 +110,7 @@ namespace VirtueSky.Iap
             foreach (var product in iapSettings.IapDataProducts)
             {
                 if (product.Id != id) continue;
-                IapStatic.OnPurchaseFailed?.Invoke(product.Id);
+                OnPurchaseFailedEvent?.Invoke(product.Id);
                 Common.CallActionAndClean(ref product.purchaseFailedCallback);
             }
         }
@@ -170,7 +174,7 @@ namespace VirtueSky.Iap
         void PurchaseVerified(PurchaseEventArgs purchaseEvent)
         {
             AdStatic.OnChangePreventDisplayAppOpenEvent?.Invoke(false);
-            IapStatic.OnIapTrackingRevenue?.Invoke(purchaseEvent.purchasedProduct);
+            OnIapTrackingRevenueEvent?.Invoke(purchaseEvent.purchasedProduct);
             InternalPurchaseSuccess(purchaseEvent.purchasedProduct.definition.id);
         }
 
@@ -180,7 +184,7 @@ namespace VirtueSky.Iap
             foreach (var product in iapSettings.IapDataProducts)
             {
                 if (product.Id != id) continue;
-                IapStatic.OnPurchaseSuccess?.Invoke(product.Id);
+                OnPurchaseSucceedEvent?.Invoke(product.Id);
                 Common.CallActionAndClean(ref product.purchaseSuccessCallback);
             }
         }
