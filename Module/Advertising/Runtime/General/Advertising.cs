@@ -235,11 +235,11 @@ namespace VirtueSky.Ads
 
         #region Public API
 
-        public AdUnit BannerAd => currentAdClient.BannerAdUnit();
-        public AdUnit InterstitialAd => currentAdClient.InterstitialAdUnit();
-        public AdUnit RewardAd => currentAdClient.RewardAdUnit();
-        public AdUnit RewardedInterstitialAd => currentAdClient.RewardedInterstitialAdUnit();
-        public AdUnit AppOpenAd => currentAdClient.AppOpenAdUnit();
+        public static AdUnit BannerAd => Instance.currentAdClient.BannerAdUnit();
+        public static AdUnit InterstitialAd => Instance.currentAdClient.InterstitialAdUnit();
+        public static AdUnit RewardAd => Instance.currentAdClient.RewardAdUnit();
+        public static AdUnit RewardedInterstitialAd => Instance.currentAdClient.RewardedInterstitialAdUnit();
+        public static AdUnit AppOpenAd => Instance.currentAdClient.AppOpenAdUnit();
 
         #endregion
     }
