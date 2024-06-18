@@ -84,40 +84,19 @@ namespace VirtueSky.Ads
 
         #region Public API
 
-        public bool IsInterstitialReady()
-        {
-            return currentAdClient.IsInterstitialReady();
-        }
+        public bool IsInterstitialReady() => currentAdClient.IsInterstitialReady();
 
-        public AdUnit ShowInterstitial()
-        {
-            return currentAdClient.ShowInterstitial();
-        }
+        public AdUnit ShowInterstitial() => currentAdClient.ShowInterstitial();
 
-        public bool IsRewardedReady()
-        {
-            return currentAdClient.IsRewardedReady();
-        }
+        public bool IsRewardedReady() => currentAdClient.IsRewardedReady();
 
-        public AdUnit ShowReward()
-        {
-            return currentAdClient.ShowReward();
-        }
+        public AdUnit ShowReward() => currentAdClient.ShowReward();
 
-        public bool IsRewardedInterstitialReady()
-        {
-            return currentAdClient.IsRewardedInterstitialReady();
-        }
+        public bool IsRewardedInterstitialReady() => currentAdClient.IsRewardedInterstitialReady();
 
-        public AdUnit ShowRewardedInterstitial()
-        {
-            return currentAdClient.ShowRewardedInterstitial();
-        }
+        public AdUnit ShowRewardedInterstitial() => currentAdClient.ShowRewardedInterstitial();
 
-        public bool IsAppOpenReady()
-        {
-            return currentAdClient.IsAppOpenReady();
-        }
+        public bool IsAppOpenReady() => currentAdClient.IsAppOpenReady();
 
         public void ShowAppOpen()
         {
@@ -180,7 +159,7 @@ namespace VirtueSky.Ads
         #region Admob GDPR
 
 #if VIRTUESKY_ADMOB
-        public void InitGDPR()
+        private void InitGDPR()
         {
 #if !UNITY_EDITOR
             string deviceID = SystemInfo.deviceUniqueIdentifier;
