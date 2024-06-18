@@ -82,44 +82,6 @@ namespace VirtueSky.Ads
             AdStatic.isShowingAd = state;
         }
 
-        #region Public API
-
-        public bool IsInterstitialReady() => currentAdClient.IsInterstitialReady();
-
-        public AdUnit ShowInterstitial() => currentAdClient.ShowInterstitial();
-
-        public bool IsRewardedReady() => currentAdClient.IsRewardedReady();
-
-        public AdUnit ShowReward() => currentAdClient.ShowReward();
-
-        public bool IsRewardedInterstitialReady() => currentAdClient.IsRewardedInterstitialReady();
-
-        public AdUnit ShowRewardedInterstitial() => currentAdClient.ShowRewardedInterstitial();
-
-        public bool IsAppOpenReady() => currentAdClient.IsAppOpenReady();
-
-        public void ShowAppOpen()
-        {
-            currentAdClient.ShowAppOpen();
-        }
-
-        public void ShowBanner()
-        {
-            currentAdClient.ShowBanner();
-        }
-
-        public void HideBanner()
-        {
-            currentAdClient.HideBanner();
-        }
-
-        public void DestroyBanner()
-        {
-            currentAdClient.DestroyBanner();
-        }
-
-        #endregion
-
         #region Method Load Ads
 
         void AutoLoadInterAds()
@@ -270,5 +232,15 @@ namespace VirtueSky.Ads
                 DontDestroyOnLoad(ads);
             }
         }
+
+        #region Public API
+
+        public AdUnit BannerAd => currentAdClient.BannerAdUnit();
+        public AdUnit InterstitialAd => currentAdClient.InterstitialAdUnit();
+        public AdUnit RewardAd => currentAdClient.RewardAdUnit();
+        public AdUnit RewardedInterstitialAd => currentAdClient.RewardedInterstitialAdUnit();
+        public AdUnit AppOpenAd => currentAdClient.AppOpenAdUnit();
+
+        #endregion
     }
 }
