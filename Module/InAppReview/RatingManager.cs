@@ -4,7 +4,7 @@ using UnityEngine;
 using VirtueSky.Core;
 using VirtueSky.Inspector;
 #if UNITY_IOS
-    using UnityEngine.iOS;
+using UnityEngine.iOS;
 #elif UNITY_ANDROID && VIRTUESKY_RATING
 using Google.Play.Review;
 
@@ -12,7 +12,7 @@ using Google.Play.Review;
 
 namespace VirtueSky.Rating
 {
-    [EditorIcon("icon_manager")]
+    [EditorIcon("icon_manager"), HideMonoScript]
     public class RatingManager : Singleton<RatingManager>
     {
 #if UNITY_ANDROID && VIRTUESKY_RATING

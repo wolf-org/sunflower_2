@@ -8,13 +8,13 @@ using VirtueSky.Inspector;
 
 namespace VirtueSky.Notifications
 {
-    [EditorIcon("script_noti")]
+    [EditorIcon("script_noti"), HideMonoScript]
     public class NotificationManager : Singleton<NotificationManager>
     {
-        [SerializeField] private bool autoSchedule = true;
+        [Space, SerializeField] private bool autoSchedule = true;
         [SerializeField] private List<NotificationChannel> channels = new List<NotificationChannel>();
 
-        public List<NotificationChannel> Channels => channels;
+        public static List<NotificationChannel> Channels => Instance.channels;
 
         private void Start()
         {

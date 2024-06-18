@@ -7,10 +7,10 @@ using VirtueSky.ObjectPooling;
 
 namespace VirtueSky.Audio
 {
-    [EditorIcon("icon_sound_mixer")]
+    [EditorIcon("icon_sound_mixer"), HideMonoScript]
     public class AudioManager : Singleton<AudioManager>
     {
-        [SerializeField] private Transform audioHolder;
+        [Space, SerializeField] private Transform audioHolder;
         [SerializeField] private SoundComponent soundComponentPrefab;
         private SoundComponent music;
 
