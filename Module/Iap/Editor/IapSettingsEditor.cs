@@ -64,7 +64,7 @@ namespace VirtueSky.Iap
             FileExtension.ValidatePath(pathDefaultScript);
             var productImplPath = $"{pathDefaultScript}/IapProduct.cs";
             var str = "namespace VirtueSky.Iap\n{";
-            str += "\n\tpublic static class IapProduct\n\t{";
+            str += "\n\tpublic struct IapProduct\n\t{";
 
             var iapDataProducts = _iapSettings.IapDataProducts;
             for (int i = 0; i < _iapSettings.IapDataProducts.Count; i++)
@@ -86,6 +86,15 @@ namespace VirtueSky.Iap
                 str += "\n\t\t{";
                 str +=
                     $"\n\t\t\treturn IapManager.Instance.IsPurchasedProduct(IapSettings.Instance.IapDataProducts[{i}]);";
+                str += "\n\t\t}";
+
+                str += "\n";
+
+                str +=
+                    $"\n\t\tpublic static string LocalizedPrice{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}()";
+                str += "\n\t\t{";
+                str +=
+                    $"\n\t\t\treturn IapManager.Instance.LocalizedPriceProduct(IapSettings.Instance.IapDataProducts[{i}]);";
                 str += "\n\t\t}";
                 str += "\n";
             }

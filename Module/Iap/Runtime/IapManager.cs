@@ -48,19 +48,6 @@ namespace VirtueSky.Iap
             IsInitialized = true;
         }
 
-        public bool IsPurchasedProduct(IapDataProduct product)
-        {
-            if (_controller == null) return false;
-            return ConvertProductType(product.iapProductType) == ProductType.NonConsumable &&
-                   _controller.products.WithID(product.Id).hasReceipt;
-        }
-
-        public bool IsPurchasedProduct(string id)
-        {
-            if (_controller == null) return false;
-            return ConvertProductType(iapSettings.GetIapProduct(id).iapProductType) == ProductType.NonConsumable &&
-                   _controller.products.WithID(id).hasReceipt;
-        }
 
         private void PurchaseProductInternal(IapDataProduct product)
         {
@@ -78,21 +65,6 @@ namespace VirtueSky.Iap
 #elif UNITY_EDITOR
             InternalPurchaseSuccess(id);
 #endif
-        }
-
-        public IapDataProduct PurchaseProduct(string id)
-        {
-            AdStatic.OnChangePreventDisplayAppOpenEvent?.Invoke(true);
-            var product = iapSettings.GetIapProduct(id);
-            PurchaseProductInternal(product);
-            return product;
-        }
-
-        public IapDataProduct PurchaseProduct(IapDataProduct product)
-        {
-            AdStatic.OnChangePreventDisplayAppOpenEvent?.Invoke(true);
-            PurchaseProductInternal(product);
-            return product;
         }
 
 
@@ -266,6 +238,51 @@ namespace VirtueSky.Iap
                 DontDestroyOnLoad(iapManager);
             }
         }
+
+        #region API
+
+        public IapDataProduct PurchaseProduct(string id)
+        {
+            AdStatic.OnChangePreventDisplayAppOpenEvent?.Invoke(true);
+            var product = iapSettings.GetIapProduct(id);
+            PurchaseProductInternal(product);
+            return product;
+        }
+
+        public IapDataProduct PurchaseProduct(IapDataProduct product)
+        {
+            AdStatic.OnChangePreventDisplayAppOpenEvent?.Invoke(true);
+            PurchaseProductInternal(product);
+            return product;
+        }
+
+        public bool IsPurchasedProduct(IapDataProduct product)
+        {
+            if (_controller == null) return false;
+            return ConvertProductType(product.iapProductType) == ProductType.NonConsumable &&
+                   _controller.products.WithID(product.Id).hasReceipt;
+        }
+
+        public bool IsPurchasedProduct(string id)
+        {
+            if (_controller == null) return false;
+            return ConvertProductType(iapSettings.GetIapProduct(id).iapProductType) == ProductType.NonConsumable &&
+                   _controller.products.WithID(id).hasReceipt;
+        }
+
+        public string LocalizedPriceProduct(IapDataProduct product)
+        {
+            if (_controller == null) return "";
+            return _controller.products.WithID(product.Id).metadata.localizedPriceString;
+        }
+
+        public string LocalizedPriceProduct(string id)
+        {
+            if (_controller == null) return "";
+            return _controller.products.WithID(id).metadata.localizedPriceString;
+        }
+
+        #endregion
     }
 }
 
