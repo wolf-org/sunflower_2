@@ -26,7 +26,7 @@ namespace VirtueSky.RemoteConfigs
     public class FirebaseRemoteConfigManager : Singleton<FirebaseRemoteConfigManager>
     {
 #if VIRTUESKY_FIREBASE
-        [ReadOnly, SerializeField] private DependencyStatus dependencyStatus = DependencyStatus.UnavailableOther;
+        [Space, ReadOnly, SerializeField] private DependencyStatus dependencyStatus = DependencyStatus.UnavailableOther;
 #endif
         [SerializeField] private bool isSetupDefaultData = true;
         [Space(10), SerializeField] private List<FirebaseRemoteConfigData> listRemoteConfigData;
@@ -99,11 +99,9 @@ namespace VirtueSky.RemoteConfigs
                                 info.FetchTime));
                             foreach (var remoteConfigData in listRemoteConfigData)
                             {
-                                if (!string.IsNullOrEmpty(remoteConfigData.key.ToString()))
-                                {
-                                    remoteConfigData.SetupData(FirebaseRemoteConfig.DefaultInstance
-                                        .GetValue(remoteConfigData.key.ToString()));
-                                }
+                                if (string.IsNullOrEmpty(remoteConfigData.key)) continue;
+                                remoteConfigData.SetupData(FirebaseRemoteConfig.DefaultInstance
+                                    .GetValue(remoteConfigData.key.ToString()));
                             }
 
                             isFetchRemoteConfigCompleted = true;
