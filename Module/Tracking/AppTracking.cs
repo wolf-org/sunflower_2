@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-#if VIRTUESKY_FIREBASE_ANALYTIC
+﻿#if VIRTUESKY_FIREBASE_ANALYTIC
 using Firebase.Analytics;
 #endif
 
@@ -23,31 +22,5 @@ namespace VirtueSky.Tracking
             FirebaseAnalytics.LogEvent("app_tracking_transparency", "status", status);
 #endif
         }
-
-        #region Firebase Track (Log Event)
-
-        public static void FirebaseAnalyticTrack(string eventName)
-        {
-            if (!Application.isMobilePlatform) return;
-#if VIRTUESKY_FIREBASE_ANALYTIC
-            Firebase.Analytics.FirebaseAnalytics.LogEvent(eventName);
-#endif
-        }
-
-        public static void FirebaseAnalyticTrack(string eventName, string parameterName, string parameterValue)
-        {
-            if (!Application.isMobilePlatform) return;
-#if VIRTUESKY_FIREBASE_ANALYTIC
-            Firebase.Analytics.FirebaseAnalytics.LogEvent(eventName, parameterName, parameterValue);
-#endif
-        }
-#if VIRTUESKY_FIREBASE_ANALYTIC
-        public static void FirebaseAnalyticTrack(string eventName, Parameter[] parameters)
-        {
-            Firebase.Analytics.FirebaseAnalytics.LogEvent(eventName, parameters);
-        }
-#endif
-
-        #endregion
     }
 }
