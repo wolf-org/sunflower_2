@@ -57,7 +57,7 @@ namespace VirtueSky.Ads
             InitAutoLoadAds();
         }
 
-        public void InitAutoLoadAds()
+        private void InitAutoLoadAds()
         {
             if (autoLoadAdCoroutine != null) StopCoroutine(autoLoadAdCoroutine);
             autoLoadAdCoroutine = IeAutoLoadAll();
@@ -77,7 +77,7 @@ namespace VirtueSky.Ads
             }
         }
 
-        public void OnChangePreventDisplayOpenAd(bool state)
+        private void OnChangePreventDisplayOpenAd(bool state)
         {
             AdStatic.isShowingAd = state;
         }
