@@ -58,16 +58,6 @@ namespace VirtueSky.Iap
 #endif
         }
 
-        private void PurchaseProductInternal(string id)
-        {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _controller?.InitiatePurchase(id);
-#elif UNITY_EDITOR
-            InternalPurchaseSuccess(id);
-#endif
-        }
-
-
         private void RequestProductData(ConfigurationBuilder builder)
         {
             foreach (var p in iapSettings.IapDataProducts)
@@ -152,7 +142,6 @@ namespace VirtueSky.Iap
 
         void InternalPurchaseSuccess(string id)
         {
-            AdStatic.OnChangePreventDisplayAppOpenEvent?.Invoke(false);
             foreach (var product in iapSettings.IapDataProducts)
             {
                 if (product.Id != id) continue;
