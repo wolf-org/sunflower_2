@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using VirtueSky.Inspector;
@@ -61,6 +62,55 @@ namespace VirtueSky.Ads
 
         #endregion
 
+        #region IronSource
+
+        [SerializeField] private string androidAppKey;
+        [SerializeField] private string iOSAppKey;
+        [SerializeField] private bool useTestAppKey;
+        [SerializeField] private IronSourceBannerAdUnit ironSourceBannerAdUnit;
+        [SerializeField] private IronSourceInterstitialAdUnit ironSourceInterstitialAdUnit;
+        [SerializeField] private IronSourceRewardAdUnit ironSourceRewardAdUnit;
+
+        public string AndroidAppKey
+        {
+            get => androidAppKey;
+            set => androidAppKey = value;
+        }
+
+        public string IosAppKey
+        {
+            get => iOSAppKey;
+            set => iOSAppKey = value;
+        }
+
+        public string AppKey
+        {
+            get
+            {
+#if UNITY_ANDROID
+                return androidAppKey;
+#elif UNITY_IOS
+                return iOSAppKey;
+#else
+                return string.Empty;
+#endif
+            }
+            set
+            {
+#if UNITY_ANDROID
+                androidAppKey = value;
+#elif UNITY_IOS
+                iOSAppKey = value;
+#endif
+            }
+        }
+
+        public bool UseTestAppKey => useTestAppKey;
+        public IronSourceBannerAdUnit IronSourceBannerAdUnit => ironSourceBannerAdUnit;
+        public IronSourceInterstitialAdUnit IronSourceInterstitialAdUnit => ironSourceInterstitialAdUnit;
+        public IronSourceRewardAdUnit IronSourceRewardAdUnit => ironSourceRewardAdUnit;
+
+        #endregion
 
         public bool RuntimeAutoInit => runtimeAutoInit;
         public float AdCheckingInterval => adCheckingInterval;
@@ -76,7 +126,8 @@ namespace VirtueSky.Ads
     public enum AdNetwork
     {
         Max,
-        Admob
+        Admob,
+        IronSource
     }
 
     public enum BannerPosition

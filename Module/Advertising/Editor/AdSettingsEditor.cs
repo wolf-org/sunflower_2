@@ -30,6 +30,13 @@ namespace VirtueSky.Ads
         private SerializedProperty _enableGDPRTestMode;
         private SerializedProperty _admobDevicesTest;
 
+        private SerializedProperty _androidAppKey;
+        private SerializedProperty _iOSAppKey;
+        private SerializedProperty _useTestAppKey;
+        private SerializedProperty _ironSourceBannerAdUnit;
+        private SerializedProperty _ironSourceInterstitialAdUnit;
+        private SerializedProperty _ironSourceRewardAdUnit;
+
         void Initialize()
         {
             _adSettings = target as AdSettings;
@@ -53,6 +60,12 @@ namespace VirtueSky.Ads
             _enableGDPR = serializedObject.FindProperty("enableGDPR");
             _enableGDPRTestMode = serializedObject.FindProperty("enableGDPRTestMode");
             _admobDevicesTest = serializedObject.FindProperty("admobDevicesTest");
+            _androidAppKey = serializedObject.FindProperty("androidAppKey");
+            _iOSAppKey = serializedObject.FindProperty("iOSAppKey");
+            _useTestAppKey = serializedObject.FindProperty("useTestAppKey");
+            _ironSourceBannerAdUnit = serializedObject.FindProperty("ironSourceBannerAdUnit");
+            _ironSourceInterstitialAdUnit = serializedObject.FindProperty("ironSourceInterstitialAdUnit");
+            _ironSourceRewardAdUnit = serializedObject.FindProperty("ironSourceRewardAdUnit");
         }
 
         public override void OnInspectorGUI()
@@ -68,60 +81,80 @@ namespace VirtueSky.Ads
             EditorGUILayout.PropertyField(_adNetwork);
             GUILayout.Space(10);
             GuiLine(2);
-            DrawMax();
-            DrawAdmob();
+            switch (_adNetwork.enumValueIndex)
+            {
+                case (int)AdNetwork.Max:
+                    DrawMax();
+                    break;
+                case (int)AdNetwork.Admob:
+                    DrawAdmob();
+                    break;
+                case (int)AdNetwork.IronSource:
+                    DrawIronSource();
+                    break;
+            }
+
+
             EditorUtility.SetDirty(target);
             serializedObject.ApplyModifiedProperties();
         }
 
+
         void DrawMax()
         {
             GUILayout.Space(10);
-            if (_adNetwork.enumValueIndex == (int)AdNetwork.Max)
-            {
-                EditorGUILayout.LabelField("APPLOVIN-MAX", EditorStyles.boldLabel);
-                GUILayout.Space(5);
-                EditorGUILayout.PropertyField(_sdkKey);
-                GUILayout.Space(5);
-                EditorGUILayout.PropertyField(_applovinEnableAgeRestrictedUser);
-                EditorGUILayout.PropertyField(_maxBannerAdUnit);
-                EditorGUILayout.PropertyField(_maxInterstitialAdUnit);
-                EditorGUILayout.PropertyField(_maxRewardAdUnit);
-                EditorGUILayout.PropertyField(_maxRewardedInterstitialAdUnit);
-                EditorGUILayout.PropertyField(_maxAppOpenAdUnit);
-            }
+            EditorGUILayout.LabelField("APPLOVIN-MAX", EditorStyles.boldLabel);
+            GUILayout.Space(5);
+            EditorGUILayout.PropertyField(_sdkKey);
+            GUILayout.Space(5);
+            EditorGUILayout.PropertyField(_applovinEnableAgeRestrictedUser);
+            EditorGUILayout.PropertyField(_maxBannerAdUnit);
+            EditorGUILayout.PropertyField(_maxInterstitialAdUnit);
+            EditorGUILayout.PropertyField(_maxRewardAdUnit);
+            EditorGUILayout.PropertyField(_maxRewardedInterstitialAdUnit);
+            EditorGUILayout.PropertyField(_maxAppOpenAdUnit);
         }
 
         void DrawAdmob()
         {
             GUILayout.Space(10);
-            if (_adNetwork.enumValueIndex == (int)AdNetwork.Admob)
+            EditorGUILayout.LabelField("GOOGLE-ADMOB", EditorStyles.boldLabel);
+            GUILayout.Space(5);
+            EditorGUILayout.PropertyField(_admobBannerAdUnit);
+            EditorGUILayout.PropertyField(_admobInterstitialAdUnit);
+            EditorGUILayout.PropertyField(_admobRewardAdUnit);
+            EditorGUILayout.PropertyField(_admobRewardedInterstitialAdUnit);
+            EditorGUILayout.PropertyField(_admobAppOpenAdUnit);
+            EditorGUILayout.PropertyField(_admobEnableTestMode);
+            EditorGUILayout.PropertyField(_enableGDPR);
+            if (_enableGDPR.boolValue)
             {
-                EditorGUILayout.LabelField("GOOGLE-ADMOB", EditorStyles.boldLabel);
-                GUILayout.Space(5);
-                EditorGUILayout.PropertyField(_admobBannerAdUnit);
-                EditorGUILayout.PropertyField(_admobInterstitialAdUnit);
-                EditorGUILayout.PropertyField(_admobRewardAdUnit);
-                EditorGUILayout.PropertyField(_admobRewardedInterstitialAdUnit);
-                EditorGUILayout.PropertyField(_admobAppOpenAdUnit);
-                EditorGUILayout.PropertyField(_admobEnableTestMode);
-                EditorGUILayout.PropertyField(_enableGDPR);
-                if (_enableGDPR.boolValue)
-                {
-                    EditorGUILayout.PropertyField(_enableGDPRTestMode);
-                }
-
-                EditorGUILayout.PropertyField(_admobDevicesTest);
-                GUILayout.Space(10);
-                GUI.enabled = false;
-                EditorGUILayout.TextField("App Id Test", "ca-app-pub-3940256099942544~3347511713");
-                GUI.enabled = true;
-                GUILayout.Space(10);
-                if (GUILayout.Button("Open GoogleAdmobSetting", GUILayout.Height(20)))
-                {
-                    EditorApplication.ExecuteMenuItem("Assets/Google Mobile Ads/Settings...");
-                }
+                EditorGUILayout.PropertyField(_enableGDPRTestMode);
             }
+
+            EditorGUILayout.PropertyField(_admobDevicesTest);
+            GUILayout.Space(10);
+            GUI.enabled = false;
+            EditorGUILayout.TextField("App Id Test", "ca-app-pub-3940256099942544~3347511713");
+            GUI.enabled = true;
+            GUILayout.Space(10);
+            if (GUILayout.Button("Open GoogleAdmobSetting", GUILayout.Height(20)))
+            {
+                EditorApplication.ExecuteMenuItem("Assets/Google Mobile Ads/Settings...");
+            }
+        }
+
+        void DrawIronSource()
+        {
+            GUILayout.Space(10);
+            EditorGUILayout.LabelField("IRON-SOURCE", EditorStyles.boldLabel);
+            GUILayout.Space(5);
+            EditorGUILayout.PropertyField(_androidAppKey);
+            EditorGUILayout.PropertyField(_iOSAppKey);
+            EditorGUILayout.PropertyField(_useTestAppKey);
+            EditorGUILayout.PropertyField(_ironSourceBannerAdUnit);
+            EditorGUILayout.PropertyField(_ironSourceInterstitialAdUnit);
+            EditorGUILayout.PropertyField(_ironSourceRewardAdUnit);
         }
 
         void GuiLine(int i_height = 1)

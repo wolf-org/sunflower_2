@@ -5,6 +5,7 @@ namespace VirtueSky.UtilsEditor
         public const string VIRTUESKY_ADS = "VIRTUESKY_ADS";
         public const string ADS_APPLOVIN = "VIRTUESKY_MAX";
         public const string ADS_ADMOB = "VIRTUESKY_ADMOB";
+        public const string ADS_IRONSOURCE = "VIRTUESKY_IRONSOURCE";
         public const string VIRTUESKY_ADJUST = "VIRTUESKY_ADJUST";
         public const string VIRTUESKY_FIREBASE_ANALYTIC = "VIRTUESKY_FIREBASE_ANALYTIC";
         public const string VIRTUESKY_FIREBASE_REMOTECONFIG = "VIRTUESKY_FIREBASE_REMOTECONFIG";

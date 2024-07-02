@@ -21,7 +21,8 @@ namespace VirtueSky.Ads
             return adSettings.CurrentAdNetwork switch
             {
                 AdNetwork.Max => adSettings.MaxInterstitialAdUnit,
-                _ => adSettings.AdmobInterstitialAdUnit,
+                AdNetwork.Admob => adSettings.AdmobInterstitialAdUnit,
+                _ => adSettings.IronSourceInterstitialAdUnit,
             };
         }
 
@@ -44,7 +45,8 @@ namespace VirtueSky.Ads
             return adSettings.CurrentAdNetwork switch
             {
                 AdNetwork.Max => adSettings.MaxRewardAdUnit,
-                _ => adSettings.AdmobRewardAdUnit,
+                AdNetwork.Admob => adSettings.AdmobRewardAdUnit,
+                _ => adSettings.IronSourceRewardAdUnit,
             };
         }
 
