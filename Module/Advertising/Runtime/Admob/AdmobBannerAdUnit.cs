@@ -6,6 +6,7 @@ using GoogleMobileAds.Api;
 #endif
 using System.Collections;
 using VirtueSky.Misc;
+using VirtueSky.Tracking;
 
 namespace VirtueSky.Ads
 {
@@ -30,6 +31,10 @@ namespace VirtueSky.Ads
             {
                 GetUnitTest();
             }
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
+            if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
+            paidedCallback = AppTracking.TrackRevenue;
+#endif
         }
 
         public override void Load()

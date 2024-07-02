@@ -1,5 +1,6 @@
 using System;
 using VirtueSky.Misc;
+using VirtueSky.Tracking;
 
 namespace VirtueSky.Ads
 {
@@ -8,32 +9,30 @@ namespace VirtueSky.Ads
     {
         [NonSerialized] internal Action completedCallback;
         [NonSerialized] internal Action skippedCallback;
-        private bool _registerCallback = false;
+
         public bool IsEarnRewarded { get; private set; }
 
 
         public override void Init()
         {
-            _registerCallback = false;
+#if VIRTUESKY_ADS && VIRTUESKY_MAX
+            if (string.IsNullOrEmpty(Id)) return;
+            paidedCallback = AppTracking.TrackRevenue;
+            MaxSdkCallbacks.RewardedInterstitial.OnAdDisplayedEvent += OnAdDisplayed;
+            MaxSdkCallbacks.RewardedInterstitial.OnAdHiddenEvent += OnAdHidden;
+            MaxSdkCallbacks.RewardedInterstitial.OnAdDisplayFailedEvent += OnAdDisplayFailed;
+            MaxSdkCallbacks.RewardedInterstitial.OnAdLoadedEvent += OnAdLoaded;
+            MaxSdkCallbacks.RewardedInterstitial.OnAdLoadFailedEvent += OnAdLoadFailed;
+            MaxSdkCallbacks.RewardedInterstitial.OnAdReceivedRewardEvent += OnAdReceivedReward;
+            MaxSdkCallbacks.RewardedInterstitial.OnAdRevenuePaidEvent += OnAdRevenuePaid;
+            MaxSdkCallbacks.RewardedInterstitial.OnAdClickedEvent += OnAdClicked;
+#endif
         }
 
         public override void Load()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_MAX
             if (string.IsNullOrEmpty(Id)) return;
-            if (!_registerCallback)
-            {
-                MaxSdkCallbacks.RewardedInterstitial.OnAdDisplayedEvent += OnAdDisplayed;
-                MaxSdkCallbacks.RewardedInterstitial.OnAdHiddenEvent += OnAdHidden;
-                MaxSdkCallbacks.RewardedInterstitial.OnAdDisplayFailedEvent += OnAdDisplayFailed;
-                MaxSdkCallbacks.RewardedInterstitial.OnAdLoadedEvent += OnAdLoaded;
-                MaxSdkCallbacks.RewardedInterstitial.OnAdLoadFailedEvent += OnAdLoadFailed;
-                MaxSdkCallbacks.RewardedInterstitial.OnAdReceivedRewardEvent += OnAdReceivedReward;
-                MaxSdkCallbacks.RewardedInterstitial.OnAdRevenuePaidEvent += OnAdRevenuePaid;
-                MaxSdkCallbacks.RewardedInterstitial.OnAdClickedEvent += OnAdClicked;
-                _registerCallback = true;
-            }
-
             MaxSdk.LoadRewardedInterstitialAd(Id);
 #endif
         }

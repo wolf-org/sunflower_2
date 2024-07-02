@@ -1,6 +1,7 @@
 using System;
 #if VIRTUESKY_ADMOB && VIRTUESKY_ADS
 using GoogleMobileAds.Api;
+using VirtueSky.Tracking;
 #endif
 using VirtueSky.Misc;
 
@@ -22,6 +23,10 @@ namespace VirtueSky.Ads
             {
                 GetUnitTest();
             }
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
+            if (string.IsNullOrEmpty(Id)) return;
+            paidedCallback = AppTracking.TrackRevenue;
+#endif
         }
 
         public bool IsEarnRewarded { get; private set; }

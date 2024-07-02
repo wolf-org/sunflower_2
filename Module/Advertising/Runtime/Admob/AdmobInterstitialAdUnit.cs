@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
 using GoogleMobileAds.Api;
+using VirtueSky.Tracking;
 #endif
 using VirtueSky.Misc;
 
@@ -21,6 +22,10 @@ namespace VirtueSky.Ads
             {
                 GetUnitTest();
             }
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
+            if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
+            paidedCallback = AppTracking.TrackRevenue;
+#endif
         }
 
         public override void Load()

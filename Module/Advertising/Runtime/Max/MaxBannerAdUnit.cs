@@ -1,5 +1,6 @@
 using System;
 using VirtueSky.Misc;
+using VirtueSky.Tracking;
 
 namespace VirtueSky.Ads
 {
@@ -10,32 +11,31 @@ namespace VirtueSky.Ads
         public BannerPosition position = BannerPosition.Bottom;
 
         private bool _isBannerDestroyed = true;
-        private bool _registerCallback = false;
         private bool _isBannerShowing;
         private bool _previousBannerShowStatus;
 
         public override void Init()
         {
-            _registerCallback = false;
+#if VIRTUESKY_ADS && VIRTUESKY_MAX
+            if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
+            paidedCallback = AppTracking.TrackRevenue;
+            MaxSdkCallbacks.Banner.OnAdLoadedEvent += OnAdLoaded;
+            MaxSdkCallbacks.Banner.OnAdExpandedEvent += OnAdExpanded;
+            MaxSdkCallbacks.Banner.OnAdLoadFailedEvent += OnAdLoadFailed;
+            MaxSdkCallbacks.Banner.OnAdCollapsedEvent += OnAdCollapsed;
+            MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent += OnAdRevenuePaid;
+            MaxSdkCallbacks.Banner.OnAdClickedEvent += OnAdClicked;
+            if (size != BannerSize.Adaptive)
+            {
+                MaxSdk.SetBannerExtraParameter(Id, "adaptive_banner", "false");
+            }
+#endif
         }
 
         public override void Load()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_MAX
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
-            if (!_registerCallback)
-            {
-                MaxSdkCallbacks.Banner.OnAdLoadedEvent += OnAdLoaded;
-                MaxSdkCallbacks.Banner.OnAdExpandedEvent += OnAdExpanded;
-                MaxSdkCallbacks.Banner.OnAdLoadFailedEvent += OnAdLoadFailed;
-                MaxSdkCallbacks.Banner.OnAdCollapsedEvent += OnAdCollapsed;
-                MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent += OnAdRevenuePaid;
-                MaxSdkCallbacks.Banner.OnAdClickedEvent += OnAdClicked;
-                if (size != BannerSize.Adaptive)
-                    MaxSdk.SetBannerExtraParameter(Id, "adaptive_banner", "false");
-                _registerCallback = true;
-            }
-
             if (_isBannerDestroyed)
             {
                 MaxSdk.CreateBanner(Id, ConvertPosition());

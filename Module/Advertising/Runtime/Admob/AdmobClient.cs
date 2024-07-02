@@ -3,7 +3,6 @@ using GoogleMobileAds.Api;
 #endif
 using System;
 using VirtueSky.Core;
-using VirtueSky.Tracking;
 
 namespace VirtueSky.Ads
 {
@@ -21,11 +20,6 @@ namespace VirtueSky.Ads
             // https://developers.google.com/admob/unity/quick-start#raise_ad_events_on_the_unity_main_thread
             MobileAds.RaiseAdEventsOnUnityMainThread = true;
 
-            adSettings.AdmobBannerAdUnit.Init();
-            adSettings.AdmobInterstitialAdUnit.Init();
-            adSettings.AdmobRewardAdUnit.Init();
-            adSettings.AdmobRewardedInterstitialAdUnit.Init();
-            adSettings.AdmobAppOpenAdUnit.Init();
 
             MobileAds.Initialize(initStatus =>
             {
@@ -37,11 +31,11 @@ namespace VirtueSky.Ads
                     MobileAds.SetRequestConfiguration(configuration);
                 });
             });
-            adSettings.AdmobBannerAdUnit.paidedCallback = AppTracking.TrackRevenue;
-            adSettings.AdmobInterstitialAdUnit.paidedCallback = AppTracking.TrackRevenue;
-            adSettings.AdmobRewardAdUnit.paidedCallback = AppTracking.TrackRevenue;
-            adSettings.AdmobRewardedInterstitialAdUnit.paidedCallback = AppTracking.TrackRevenue;
-            adSettings.AdmobAppOpenAdUnit.paidedCallback = AppTracking.TrackRevenue;
+            adSettings.AdmobBannerAdUnit.Init();
+            adSettings.AdmobInterstitialAdUnit.Init();
+            adSettings.AdmobRewardAdUnit.Init();
+            adSettings.AdmobRewardedInterstitialAdUnit.Init();
+            adSettings.AdmobAppOpenAdUnit.Init();
             RegisterAppStateChange();
             LoadInterstitial();
             LoadRewarded();
@@ -59,7 +53,8 @@ namespace VirtueSky.Ads
 
         void OnAppStateChanged(GoogleMobileAds.Common.AppState state)
         {
-            if (state == GoogleMobileAds.Common.AppState.Foreground && adSettings.AdmobAppOpenAdUnit.autoShow && !AdStatic.isShowingAd)
+            if (state == GoogleMobileAds.Common.AppState.Foreground && adSettings.AdmobAppOpenAdUnit.autoShow &&
+                !AdStatic.isShowingAd)
             {
                 if (adSettings.CurrentAdNetwork == AdNetwork.Admob) ShowAppOpen();
             }

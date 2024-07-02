@@ -1,5 +1,6 @@
 using System;
 using VirtueSky.Misc;
+using VirtueSky.Tracking;
 
 namespace VirtueSky.Ads
 {
@@ -8,32 +9,29 @@ namespace VirtueSky.Ads
     {
         [NonSerialized] internal Action completedCallback;
         [NonSerialized] internal Action skippedCallback;
-        private bool _registerCallback = false;
         public bool IsEarnRewarded { get; private set; }
 
 
         public override void Init()
         {
-            _registerCallback = false;
+#if VIRTUESKY_ADS && VIRTUESKY_MAX
+            if (string.IsNullOrEmpty(Id)) return;
+            paidedCallback = AppTracking.TrackRevenue;
+            MaxSdkCallbacks.Rewarded.OnAdDisplayedEvent += OnAdDisplayed;
+            MaxSdkCallbacks.Rewarded.OnAdHiddenEvent += OnAdHidden;
+            MaxSdkCallbacks.Rewarded.OnAdLoadedEvent += OnAdLoaded;
+            MaxSdkCallbacks.Rewarded.OnAdDisplayFailedEvent += OnAdDisplayFailed;
+            MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent += OnAdLoadFailed;
+            MaxSdkCallbacks.Rewarded.OnAdRevenuePaidEvent += OnAdRevenuePaid;
+            MaxSdkCallbacks.Rewarded.OnAdReceivedRewardEvent += OnAdReceivedReward;
+            MaxSdkCallbacks.Rewarded.OnAdClickedEvent += OnAdClicked;
+#endif
         }
 
         public override void Load()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_MAX
             if (string.IsNullOrEmpty(Id)) return;
-            if (!_registerCallback)
-            {
-                MaxSdkCallbacks.Rewarded.OnAdDisplayedEvent += OnAdDisplayed;
-                MaxSdkCallbacks.Rewarded.OnAdHiddenEvent += OnAdHidden;
-                MaxSdkCallbacks.Rewarded.OnAdLoadedEvent += OnAdLoaded;
-                MaxSdkCallbacks.Rewarded.OnAdDisplayFailedEvent += OnAdDisplayFailed;
-                MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent += OnAdLoadFailed;
-                MaxSdkCallbacks.Rewarded.OnAdRevenuePaidEvent += OnAdRevenuePaid;
-                MaxSdkCallbacks.Rewarded.OnAdReceivedRewardEvent += OnAdReceivedReward;
-                MaxSdkCallbacks.Rewarded.OnAdClickedEvent += OnAdClicked;
-                _registerCallback = true;
-            }
-
             MaxSdk.LoadRewardedAd(Id);
 #endif
         }
