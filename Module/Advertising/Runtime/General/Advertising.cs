@@ -225,6 +225,7 @@ namespace VirtueSky.Ads
         }
 #endif
 
+#if VIRTUESKY_ADS
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void AutoInitialize()
         {
@@ -236,6 +237,7 @@ namespace VirtueSky.Ads
                 DontDestroyOnLoad(ads);
             }
         }
+#endif
 
         #region Public API
 
