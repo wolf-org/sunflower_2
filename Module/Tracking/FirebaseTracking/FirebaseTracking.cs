@@ -45,5 +45,11 @@ namespace VirtueSky.Tracking
             FirebaseAnalytics.LogEvent(eventName, parameters);
         }
 #endif
+        public static void TrackEventATTResult(int status)
+        {
+#if VIRTUESKY_FIREBASE_ANALYTIC
+            FirebaseAnalytics.LogEvent("app_tracking_transparency", "status", status);
+#endif
+        }
     }
 }

@@ -1,9 +1,4 @@
-﻿#if VIRTUESKY_FIREBASE_ANALYTIC
-using Firebase.Analytics;
-#endif
-
-
-namespace VirtueSky.Tracking
+﻿namespace VirtueSky.Tracking
 {
     public struct AppTracking
     {
@@ -14,13 +9,6 @@ namespace VirtueSky.Tracking
             FirebaseAnalyticTrackingRevenue.FirebaseAnalyticTrackRevenue(value, network, unitId,
                 format, adNetwork);
             AppsFlyerTrackingRevenue.AppsFlyerTrackRevenueAd(value, network, unitId, format, adNetwork);
-        }
-
-        public static void FirebaseAnalyticTrackATTResult(int status)
-        {
-#if VIRTUESKY_FIREBASE_ANALYTIC
-            FirebaseAnalytics.LogEvent("app_tracking_transparency", "status", status);
-#endif
         }
     }
 }
