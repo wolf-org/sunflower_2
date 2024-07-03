@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using VirtueSky.Core;
 using VirtueSky.Inspector;
+
 #if UNITY_IOS
 using UnityEngine.iOS;
 #elif UNITY_ANDROID && VIRTUESKY_RATING
@@ -33,7 +34,7 @@ namespace VirtueSky.Rating
 #endif
         }
 
-        public void RateAndReview()
+        private void InternalRateAndReview()
         {
             if (!Application.isMobilePlatform) return;
 
@@ -82,5 +83,7 @@ namespace VirtueSky.Rating
         {
             Application.OpenURL($"https://play.google.com/store/apps/details?id={Application.identifier}");
         }
+
+        public static void RateAndReview() => Instance.InternalRateAndReview();
     }
 }
