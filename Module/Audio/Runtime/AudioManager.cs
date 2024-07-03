@@ -21,7 +21,7 @@ namespace VirtueSky.Audio
         private const string KEY_MUSIC_VOLUME = "KEY_MUSIC_VOLUME";
         private const string KEY_SFX_VOLUME = "KEY_SFX_VOLUME";
 
-        public float MusicVolume
+        private float InternalMusicVolume
         {
             get => GameData.Get(KEY_MUSIC_VOLUME, 1);
             set
@@ -31,7 +31,7 @@ namespace VirtueSky.Audio
             }
         }
 
-        public float SfxVolume
+        private float InternalSfxVolume
         {
             get => GameData.Get(KEY_SFX_VOLUME, 1);
             set
@@ -43,10 +43,10 @@ namespace VirtueSky.Audio
 
         #region Sfx Method
 
-        public SoundCache PlaySfx(SoundData soundData)
+        private SoundCache InternalPlaySfx(SoundData soundData)
         {
             SoundComponent sfxComponent = soundComponentPrefab.Spawn(audioHolder);
-            sfxComponent.PlayAudioClip(soundData.GetAudioClip(), soundData.loop, soundData.volume * SfxVolume);
+            sfxComponent.PlayAudioClip(soundData.GetAudioClip(), soundData.loop, soundData.volume * InternalSfxVolume);
             if (!soundData.loop) sfxComponent.OnCompleted += OnFinishPlayingAudio;
             SoundCache soundCache = GetSoundCache(soundData);
             dictSfxCache.Add(soundCache, sfxComponent);
@@ -54,7 +54,7 @@ namespace VirtueSky.Audio
         }
 
 
-        public void StopSfx(SoundCache soundCache)
+        private void InternalStopSfx(SoundCache soundCache)
         {
             var soundComponent = GetSoundComponent(soundCache);
             if (soundComponent == null) return;
@@ -66,14 +66,14 @@ namespace VirtueSky.Audio
         }
 
 
-        public void PauseSfx(SoundCache soundCache)
+        private void InternalPauseSfx(SoundCache soundCache)
         {
             var soundComponent = GetSoundComponent(soundCache);
             if (soundComponent == null || !soundComponent.IsPlaying) return;
             soundComponent.Pause();
         }
 
-        public void ResumeSfx(SoundCache soundCache)
+        private void InternalResumeSfx(SoundCache soundCache)
         {
             var soundComponent = GetSoundComponent(soundCache);
             if (soundComponent == null || soundComponent.IsPlaying) return;
@@ -81,7 +81,7 @@ namespace VirtueSky.Audio
         }
 
 
-        public void FinishSfx(SoundCache soundCache)
+        private void InternalFinishSfx(SoundCache soundCache)
         {
             var soundComponent = GetSoundComponent(soundCache);
             if (soundComponent == null || !soundComponent.IsPlaying) return;
@@ -89,7 +89,7 @@ namespace VirtueSky.Audio
             soundComponent.OnCompleted += OnFinishPlayingAudio;
         }
 
-        public void StopAllSfx()
+        private void InternalStopAllSfx()
         {
             foreach (var cache in dictSfxCache)
             {
@@ -104,20 +104,20 @@ namespace VirtueSky.Audio
 
         #region Music Method
 
-        public void PlayMusic(SoundData soundData)
+        private void InternalPlayMusic(SoundData soundData)
         {
             if (music == null || !music.IsPlaying)
             {
                 music = soundComponentPrefab.Spawn(audioHolder);
             }
 
-            music.FadePlayMusic(soundData.GetAudioClip(), soundData.loop, soundData.volume * MusicVolume,
+            music.FadePlayMusic(soundData.GetAudioClip(), soundData.loop, soundData.volume * InternalMusicVolume,
                 soundData.isMusicFadeVolume, soundData.fadeOutDuration, soundData.fadeInDuration);
             music.OnCompleted += StopAudioMusic;
         }
 
 
-        public void StopMusic()
+        private void InternalStopMusic()
         {
             if (music != null && music.IsPlaying)
             {
@@ -126,7 +126,7 @@ namespace VirtueSky.Audio
             }
         }
 
-        public void PauseMusic()
+        private void InternalPauseMusic()
         {
             if (music != null && music.IsPlaying)
             {
@@ -134,7 +134,7 @@ namespace VirtueSky.Audio
             }
         }
 
-        public void ResumeMusic()
+        private void InternalResumeMusic()
         {
             if (music != null && !music.IsPlaying)
             {
@@ -144,6 +144,7 @@ namespace VirtueSky.Audio
 
         #endregion
 
+        #region Handle
 
         private void OnMusicVolumeChanged(float volume)
         {
@@ -203,5 +204,34 @@ namespace VirtueSky.Audio
             key++;
             return new SoundCache(key, soundData);
         }
+
+        #endregion
+
+        #region Public APi
+
+        public static SoundCache PlaySfx(SoundData soundData) => Instance.InternalPlaySfx(soundData);
+        public static void StopSfx(SoundCache soundCache) => Instance.InternalStopSfx(soundCache);
+        public static void PauseSfx(SoundCache soundCache) => Instance.InternalPauseSfx(soundCache);
+        public static void ResumeSfx(SoundCache soundCache) => Instance.InternalResumeSfx(soundCache);
+        public static void FinishSfx(SoundCache soundCache) => Instance.InternalFinishSfx(soundCache);
+        public static void StopAllSfx() => Instance.InternalStopAllSfx();
+        public static void PlayMusic(SoundData soundData) => Instance.InternalPlayMusic(soundData);
+        public static void StopMusic() => Instance.InternalStopMusic();
+        public static void PauseMusic() => Instance.InternalPauseMusic();
+        public static void ResumeMusic() => Instance.InternalResumeMusic();
+
+        public static float SfxVolume
+        {
+            get => Instance.InternalSfxVolume;
+            set => Instance.InternalSfxVolume = value;
+        }
+
+        public static float MusicVolume
+        {
+            get => Instance.InternalMusicVolume;
+            set => Instance.InternalMusicVolume = value;
+        }
+
+        #endregion
     }
 }
