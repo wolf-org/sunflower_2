@@ -1,5 +1,9 @@
 using System;
+
+#if VIRTUESKY_FIREBASE_REMOTECONFIG
 using Firebase.RemoteConfig;
+#endif
+
 using UnityEngine;
 using VirtueSky.DataStorage;
 using VirtueSky.Inspector;
