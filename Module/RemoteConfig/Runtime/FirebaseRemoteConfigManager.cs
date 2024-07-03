@@ -30,12 +30,10 @@ namespace VirtueSky.RemoteConfigs
 #endif
         [SerializeField] private bool isSetupDefaultData = true;
         [Space(10), SerializeField] private List<FirebaseRemoteConfigData> listRemoteConfigData;
-
-        public List<FirebaseRemoteConfigData> ListRemoteConfigData => listRemoteConfigData;
-
-
         private bool isFetchRemoteConfigCompleted = false;
-        public bool IsFetchRemoteConfigCompleted => isFetchRemoteConfigCompleted;
+
+        public static List<FirebaseRemoteConfigData> ListRemoteConfigData => Instance.listRemoteConfigData;
+        public static bool IsFetchRemoteConfigCompleted => Instance.isFetchRemoteConfigCompleted;
 
 #if VIRTUESKY_FIREBASE
         private void Start()
@@ -127,7 +125,7 @@ namespace VirtueSky.RemoteConfigs
             var str = "namespace VirtueSky.RemoteConfigs\n{";
             str += "\n\tpublic struct RemoteData\n\t{";
 
-            var listRmcData = ListRemoteConfigData;
+            var listRmcData = listRemoteConfigData;
             for (int i = 0; i < listRmcData.Count; i++)
             {
                 var rmcKey = listRmcData[i].key;
