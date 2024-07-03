@@ -77,7 +77,7 @@ namespace VirtueSky.Iap
                     $"\n\t\tpublic static IapDataProduct Purchase{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}()";
                 str += "\n\t\t{";
                 str +=
-                    $"\n\t\t\treturn IapManager.Instance.PurchaseProduct(IapSettings.Instance.IapDataProducts[{i}]);";
+                    $"\n\t\t\treturn IapManager.PurchaseProduct(IapSettings.Instance.IapDataProducts[{i}]);";
                 str += "\n\t\t}";
                 str += "\n";
 
@@ -85,7 +85,7 @@ namespace VirtueSky.Iap
                     $"\n\t\tpublic static bool IsPurchased{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}()";
                 str += "\n\t\t{";
                 str +=
-                    $"\n\t\t\treturn IapManager.Instance.IsPurchasedProduct(IapSettings.Instance.IapDataProducts[{i}]);";
+                    $"\n\t\t\treturn IapManager.IsPurchasedProduct(IapSettings.Instance.IapDataProducts[{i}]);";
                 str += "\n\t\t}";
 
                 str += "\n";
@@ -94,7 +94,7 @@ namespace VirtueSky.Iap
                     $"\n\t\tpublic static string LocalizedPrice{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}()";
                 str += "\n\t\t{";
                 str +=
-                    $"\n\t\t\treturn IapManager.Instance.LocalizedPriceProduct(IapSettings.Instance.IapDataProducts[{i}]);";
+                    $"\n\t\t\treturn IapManager.LocalizedPriceProduct(IapSettings.Instance.IapDataProducts[{i}]);";
                 str += "\n\t\t}";
                 str += "\n";
             }

@@ -21,7 +21,7 @@ namespace VirtueSky.Iap
 
         private IStoreController _controller;
         private IExtensionProvider _extensionProvider;
-        public bool IsInitialized { get; set; }
+        private bool _IsInitialized { get; set; }
         private IapSettings iapSettings;
 
         private void Start()
@@ -39,13 +39,13 @@ namespace VirtueSky.Iap
 
         void InitImpl()
         {
-            if (IsInitialized) return;
+            if (_IsInitialized) return;
             var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
             RequestProductData(builder);
             builder.Configure<IGooglePlayConfiguration>();
 
             UnityPurchasing.Initialize(this, builder);
-            IsInitialized = true;
+            _IsInitialized = true;
         }
 
 
@@ -175,7 +175,7 @@ namespace VirtueSky.Iap
         }
 
 #if UNITY_IOS
-        public void RestorePurchase()
+        private void InternalRestorePurchase()
         {
             if (!IsInitialized)
             {
@@ -183,7 +183,8 @@ namespace VirtueSky.Iap
                 return;
             }
 
-            if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.OSXPlayer)
+            if (Application.platform == RuntimePlatform.IPhonePlayer ||
+                Application.platform == RuntimePlatform.OSXPlayer)
             {
                 Debug.Log("Restore purchase started ...");
 
@@ -191,7 +192,8 @@ namespace VirtueSky.Iap
                 storeProvider.RestoreTransactions(_ =>
                 {
                     // no purchase are avaiable to restore
-                    Debug.Log("Restore purchase continuting: " + _ + ". If no further messages, no purchase available to restore.");
+                    Debug.Log("Restore purchase continuting: " + _ +
+                              ". If no further messages, no purchase available to restore.");
                 });
             }
             else
@@ -228,9 +230,9 @@ namespace VirtueSky.Iap
             }
         }
 
-        #region API
+        #region Internal API
 
-        public IapDataProduct PurchaseProduct(string id)
+        private IapDataProduct InternalPurchaseProduct(string id)
         {
             AdStatic.OnChangePreventDisplayAppOpenEvent?.Invoke(true);
             var product = iapSettings.GetIapProduct(id);
@@ -238,38 +240,60 @@ namespace VirtueSky.Iap
             return product;
         }
 
-        public IapDataProduct PurchaseProduct(IapDataProduct product)
+        private IapDataProduct InternalPurchaseProduct(IapDataProduct product)
         {
             AdStatic.OnChangePreventDisplayAppOpenEvent?.Invoke(true);
             PurchaseProductInternal(product);
             return product;
         }
 
-        public bool IsPurchasedProduct(IapDataProduct product)
+        private bool InternalIsPurchasedProduct(IapDataProduct product)
         {
             if (_controller == null) return false;
             return ConvertProductType(product.iapProductType) == ProductType.NonConsumable &&
                    _controller.products.WithID(product.Id).hasReceipt;
         }
 
-        public bool IsPurchasedProduct(string id)
+        private bool InternalIsPurchasedProduct(string id)
         {
             if (_controller == null) return false;
             return ConvertProductType(iapSettings.GetIapProduct(id).iapProductType) == ProductType.NonConsumable &&
                    _controller.products.WithID(id).hasReceipt;
         }
 
-        public string LocalizedPriceProduct(IapDataProduct product)
+        private string InternalLocalizedPriceProduct(IapDataProduct product)
         {
             if (_controller == null) return "";
             return _controller.products.WithID(product.Id).metadata.localizedPriceString;
         }
 
-        public string LocalizedPriceProduct(string id)
+        private string InternalLocalizedPriceProduct(string id)
         {
             if (_controller == null) return "";
             return _controller.products.WithID(id).metadata.localizedPriceString;
         }
+
+        #endregion
+
+        #region Public API
+
+        public static IapDataProduct PurchaseProduct(string id) => Instance.InternalPurchaseProduct(id);
+
+        public static IapDataProduct PurchaseProduct(IapDataProduct product) =>
+            Instance.InternalPurchaseProduct(product);
+
+        public static bool IsPurchasedProduct(IapDataProduct product) => Instance.InternalIsPurchasedProduct(product);
+        public static bool IsPurchasedProduct(string id) => Instance.InternalIsPurchasedProduct(id);
+
+        public static string LocalizedPriceProduct(IapDataProduct product) =>
+            Instance.InternalLocalizedPriceProduct(product);
+
+        public static string LocalizedPriceProduct(string id) => Instance.InternalLocalizedPriceProduct(id);
+
+#if UNITY_IOS
+        public static void RestorePurchase() => Instance.InternalRestorePurchase();
+#endif
+        public static bool IsInitialized => Instance._IsInitialized;
 
         #endregion
     }

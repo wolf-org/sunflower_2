@@ -177,7 +177,7 @@ namespace VirtueSky.Ads
             );
         }
 
-        public void LoadAndShowConsentForm()
+        private void LoadAndShowConsentForm()
         {
             Debug.Log("LoadAndShowConsentForm Start!");
 
@@ -201,7 +201,7 @@ namespace VirtueSky.Ads
             });
         }
 
-        public void ShowPrivacyOptionsForm()
+        private void ShowPrivacyOptionsForm()
         {
             Debug.Log("Showing privacy options form.");
 
@@ -246,6 +246,11 @@ namespace VirtueSky.Ads
         public static AdUnit RewardAd => Instance.currentAdClient.RewardAdUnit();
         public static AdUnit RewardedInterstitialAd => Instance.currentAdClient.RewardedInterstitialAdUnit();
         public static AdUnit AppOpenAd => Instance.currentAdClient.AppOpenAdUnit();
+
+#if VIRTUESKY_ADMOB
+        public static void LoadAndShowGdpr() => Instance.LoadAndShowConsentForm();
+        public static void ShowAgainGdpr() => Instance.ShowPrivacyOptionsForm();
+#endif
 
         #endregion
     }
