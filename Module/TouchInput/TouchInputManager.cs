@@ -80,21 +80,15 @@ namespace VirtueSky.TouchInput
 
                     break;
                 case TouchPhase.Stationary:
-
+                    InputEventTouchStationary?.Invoke(touch);
 
                     break;
                 case TouchPhase.Ended:
-                    if (inputEventTouchEnd != null)
-                    {
-                        inputEventTouchEnd.Raise(touch);
-                    }
+                    InputEventTouchEnd?.Invoke(touch);
 
                     break;
                 case TouchPhase.Canceled:
-                    if (inputEventTouchCancel != null)
-                    {
-                        inputEventTouchCancel.Raise(touch);
-                    }
+                    InputEventTouchCancel?.Invoke(touch);
 
                     break;
             }
@@ -110,11 +104,7 @@ namespace VirtueSky.TouchInput
                 {
                     _mouseDown = true;
                     _mouseUpdate = true;
-                    if (inputEventMouseDown != null)
-                    {
-                        inputEventMouseDown.Raise(Input.mousePosition);
-                    }
-
+                    InputEventMouseDown?.Invoke(Input.mousePosition);
                     touchPosition = Input.mousePosition;
                 }
             }
@@ -122,21 +112,13 @@ namespace VirtueSky.TouchInput
             {
                 _mouseDown = false;
                 _mouseUpdate = false;
-                if (inputEventMouseUp != null)
-                {
-                    inputEventMouseUp.Raise(Input.mousePosition);
-                }
-
+                InputEventMouseUp?.Invoke(Input.mousePosition);
                 touchPosition = Input.mousePosition;
             }
 
             if (_mouseDown && _mouseUpdate)
             {
-                if (inputEventMouseUpdate != null)
-                {
-                    inputEventMouseUpdate.Raise(Input.mousePosition);
-                }
-
+                InputEventMouseUpdate?.Invoke(Input.mousePosition);
                 touchPosition = Input.mousePosition;
             }
         }
