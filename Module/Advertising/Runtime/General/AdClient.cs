@@ -33,6 +33,7 @@ namespace VirtueSky.Ads
 
         public virtual void LoadInterstitial()
         {
+            if (InterstitialAdUnit() == null) return;
             if (!IsInterstitialReady()) InterstitialAdUnit().Load();
         }
 
@@ -57,6 +58,7 @@ namespace VirtueSky.Ads
 
         public virtual void LoadRewarded()
         {
+            if (RewardAdUnit() == null) return;
             if (!IsRewardedReady()) RewardAdUnit().Load();
         }
 
@@ -69,7 +71,8 @@ namespace VirtueSky.Ads
             return adSettings.CurrentAdNetwork switch
             {
                 AdNetwork.Max => adSettings.MaxRewardedInterstitialAdUnit,
-                _ => adSettings.AdmobRewardedInterstitialAdUnit,
+                AdNetwork.Admob => adSettings.AdmobRewardedInterstitialAdUnit,
+                _ => null
             };
         }
 
@@ -80,6 +83,7 @@ namespace VirtueSky.Ads
 
         public virtual void LoadRewardedInterstitial()
         {
+            if (RewardedInterstitialAdUnit() == null) return;
             if (!IsRewardedInterstitialReady()) RewardedInterstitialAdUnit().Load();
         }
 
@@ -92,7 +96,8 @@ namespace VirtueSky.Ads
             return adSettings.CurrentAdNetwork switch
             {
                 AdNetwork.Max => adSettings.MaxAppOpenAdUnit,
-                _ => adSettings.AdmobAppOpenAdUnit,
+                AdNetwork.Admob => adSettings.AdmobAppOpenAdUnit,
+                _ => null
             };
         }
 
@@ -103,6 +108,7 @@ namespace VirtueSky.Ads
 
         public virtual void LoadAppOpen()
         {
+            if (AppOpenAdUnit() == null) return;
             if (!IsAppOpenReady()) AppOpenAdUnit().Load();
         }
 
@@ -121,7 +127,8 @@ namespace VirtueSky.Ads
             return adSettings.CurrentAdNetwork switch
             {
                 AdNetwork.Max => adSettings.MaxBannerAdUnit,
-                _ => adSettings.AdmobBannerAdUnit,
+                AdNetwork.Admob => adSettings.AdmobBannerAdUnit,
+                _ => adSettings.IronSourceBannerAdUnit
             };
         }
 
