@@ -2,7 +2,7 @@
   "name": "com.wolf-package.unity-common",
   "displayName": "UnityCommon",
   "description": "Core singleton for building Unity games ",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "unity": "2022.3",
   "category": "virtuesky",
   "license": "MIT",
