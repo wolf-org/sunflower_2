@@ -1,3 +1,5 @@
+using VirtueSky.Core;
+
 namespace VirtueSky.Ads
 {
     public class MaxAdClient : AdClient
@@ -13,11 +15,18 @@ namespace VirtueSky.Ads
             adSettings.MaxRewardAdUnit.Init();
             adSettings.MaxAppOpenAdUnit.Init();
             adSettings.MaxRewardedInterstitialAdUnit.Init();
+            App.AddPauseCallback(OnAppStateChange);
             LoadInterstitial();
             LoadRewarded();
             LoadRewardedInterstitial();
             LoadAppOpen();
 #endif
         }
+#if VIRTUESKY_ADS && VIRTUESKY_MAX
+        private void OnAppStateChange(bool pauseStatus)
+        {
+            if (!pauseStatus && adSettings.MaxAppOpenAdUnit.autoShow && !AdStatic.isShowingAd) ShowAppOpen();
+        }
+#endif
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using VirtueSky.Misc;
 
 namespace VirtueSky.Ads
@@ -45,6 +46,14 @@ namespace VirtueSky.Ads
 #if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
             IronSource.Agent.showInterstitial();
 #endif
+        }
+
+        public override AdUnit Show()
+        {
+            ResetChainCallback();
+            if (!Application.isMobilePlatform || AdStatic.IsRemoveAd || !IsReady()) return this;
+            ShowImpl();
+            return this;
         }
 
         public override void Destroy()

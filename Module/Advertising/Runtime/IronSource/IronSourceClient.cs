@@ -1,3 +1,4 @@
+using VirtueSky.Core;
 using VirtueSky.Tracking;
 
 namespace VirtueSky.Ads
@@ -15,6 +16,7 @@ namespace VirtueSky.Ads
                 adSettings.IosAppKey = "8545d445";
             }
 #if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
+            App.AddPauseCallback(OnAppStateChange);
             IronSourceEvents.onSdkInitializationCompletedEvent += SdkInitializationCompletedEvent;
             IronSourceEvents.onImpressionDataReadyEvent += ImpressionDataReadyEvent;
             adSettings.IronSourceBannerAdUnit.Init();
@@ -36,6 +38,11 @@ namespace VirtueSky.Ads
                     impressionData.adUnit,
                     impressionData.placement, AdNetwork.IronSource.ToString());
             }
+        }
+
+        private void OnAppStateChange(bool pauseStatus)
+        {
+            IronSource.Agent.onApplicationPause(pauseStatus);
         }
 #endif
         void SdkInitializationCompletedEvent()

@@ -121,7 +121,7 @@ namespace VirtueSky.Core
 
         private void OnApplicationFocus(bool hasFocus)
         {
-            OnGamePause?.Invoke(hasFocus);
+            OnGameFocus?.Invoke(hasFocus);
         }
 
         private void OnApplicationPause(bool pauseStatus)
