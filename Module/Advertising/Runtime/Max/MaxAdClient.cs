@@ -6,7 +6,7 @@ namespace VirtueSky.Ads
     {
         public override void Initialize()
         {
-#if VIRTUESKY_ADS && VIRTUESKY_MAX
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             MaxSdk.SetSdkKey(adSettings.SdkKey);
             MaxSdk.InitializeSdk();
             MaxSdk.SetIsAgeRestrictedUser(adSettings.ApplovinEnableAgeRestrictedUser);
@@ -22,7 +22,7 @@ namespace VirtueSky.Ads
             LoadAppOpen();
 #endif
         }
-#if VIRTUESKY_ADS && VIRTUESKY_MAX
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
         private void OnAppStateChange(bool pauseStatus)
         {
             if (!pauseStatus && adSettings.MaxAppOpenAdUnit.autoShow && !AdStatic.isShowingAd) ShowAppOpen();
