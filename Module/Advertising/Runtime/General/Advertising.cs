@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
+#if VIRTUESKY_ADMOB
 using GoogleMobileAds.Api;
 using GoogleMobileAds.Ump.Api;
 #endif
