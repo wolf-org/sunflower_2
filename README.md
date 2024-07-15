@@ -23,9 +23,9 @@
 
 ### Add the line below to `Packages/manifest.json`
 
-for version `1.1.6`
+for version `1.1.7`
 ```csharp
-"com.wolf-package.unity-common":"https://github.com/wolf-package/unity-common.git#1.1.6",
+"com.wolf-package.unity-common":"https://github.com/wolf-package/unity-common.git#1.1.7",
 ```
 
 ## Includes modules
