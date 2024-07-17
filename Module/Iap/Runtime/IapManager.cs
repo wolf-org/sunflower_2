@@ -265,6 +265,12 @@ namespace VirtueSky.Iap
             return _controller.products.WithID(product.Id);
         }
 
+        private Product InternalGetProduct(string id)
+        {
+            if (_controller == null) return null;
+            return _controller.products.WithID(id);
+        }
+
         #endregion
 
         #region Public API
@@ -277,8 +283,8 @@ namespace VirtueSky.Iap
         public static bool IsPurchasedProduct(IapDataProduct product) => Instance.InternalIsPurchasedProduct(product);
         public static bool IsPurchasedProduct(string id) => Instance.InternalIsPurchasedProduct(id);
 
-        public static Product GetProduct(IapDataProduct product) =>
-            Instance.InternalGetProduct(product);
+        public static Product GetProduct(IapDataProduct product) => Instance.InternalGetProduct(product);
+        public static Product GetProduct(string id) => Instance.InternalGetProduct(id);
 
 
 #if UNITY_IOS

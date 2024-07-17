@@ -91,10 +91,10 @@ namespace VirtueSky.Iap
                 str += "\n";
 
                 str +=
-                    $"\n\t\tpublic static string LocalizedPrice{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}()";
+                    $"\n\t\tpublic static UnityEngine.Purchasing.Product GetProduct{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}()";
                 str += "\n\t\t{";
                 str +=
-                    $"\n\t\t\treturn IapManager.LocalizedPriceProduct(IapSettings.Instance.IapDataProducts[{i}]);";
+                    $"\n\t\t\treturn IapManager.GetProduct(IapSettings.Instance.IapDataProducts[{i}]);";
                 str += "\n\t\t}";
                 str += "\n";
             }
