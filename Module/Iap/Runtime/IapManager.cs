@@ -17,7 +17,6 @@ namespace VirtueSky.Iap
     {
         public static event Action<string> OnPurchaseSucceedEvent;
         public static event Action<string> OnPurchaseFailedEvent;
-        public static event Action<Product> OnIapTrackingRevenueEvent;
 
         private IStoreController _controller;
         private IExtensionProvider _extensionProvider;
@@ -136,7 +135,6 @@ namespace VirtueSky.Iap
         void PurchaseVerified(PurchaseEventArgs purchaseEvent)
         {
             AdStatic.OnChangePreventDisplayAppOpenEvent?.Invoke(false);
-            OnIapTrackingRevenueEvent?.Invoke(purchaseEvent.purchasedProduct);
             InternalPurchaseSuccess(purchaseEvent.purchasedProduct.definition.id);
         }
 
@@ -261,16 +259,10 @@ namespace VirtueSky.Iap
                    _controller.products.WithID(id).hasReceipt;
         }
 
-        private string InternalLocalizedPriceProduct(IapDataProduct product)
+        private Product InternalGetProduct(IapDataProduct product)
         {
-            if (_controller == null) return "";
-            return _controller.products.WithID(product.Id).metadata.localizedPriceString;
-        }
-
-        private string InternalLocalizedPriceProduct(string id)
-        {
-            if (_controller == null) return "";
-            return _controller.products.WithID(id).metadata.localizedPriceString;
+            if (_controller == null) return null;
+            return _controller.products.WithID(product.Id);
         }
 
         #endregion
@@ -285,10 +277,9 @@ namespace VirtueSky.Iap
         public static bool IsPurchasedProduct(IapDataProduct product) => Instance.InternalIsPurchasedProduct(product);
         public static bool IsPurchasedProduct(string id) => Instance.InternalIsPurchasedProduct(id);
 
-        public static string LocalizedPriceProduct(IapDataProduct product) =>
-            Instance.InternalLocalizedPriceProduct(product);
+        public static Product GetProduct(IapDataProduct product) =>
+            Instance.InternalGetProduct(product);
 
-        public static string LocalizedPriceProduct(string id) => Instance.InternalLocalizedPriceProduct(id);
 
 #if UNITY_IOS
         public static void RestorePurchase() => Instance.InternalRestorePurchase();
