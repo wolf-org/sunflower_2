@@ -80,6 +80,13 @@ namespace VirtueSky.Ads
             EditorGUILayout.PropertyField(_adLoadingInterval);
             EditorGUILayout.PropertyField(_adNetwork);
             GUILayout.Space(10);
+            EditorGUILayout.PropertyField(_enableGDPR);
+            if (_enableGDPR.boolValue)
+            {
+                EditorGUILayout.PropertyField(_enableGDPRTestMode);
+            }
+
+            GUILayout.Space(10);
             GuiLine(2);
             switch (_adNetwork.enumValueIndex)
             {
@@ -126,12 +133,6 @@ namespace VirtueSky.Ads
             EditorGUILayout.PropertyField(_admobRewardedInterstitialAdUnit);
             EditorGUILayout.PropertyField(_admobAppOpenAdUnit);
             EditorGUILayout.PropertyField(_admobEnableTestMode);
-            EditorGUILayout.PropertyField(_enableGDPR);
-            if (_enableGDPR.boolValue)
-            {
-                EditorGUILayout.PropertyField(_enableGDPRTestMode);
-            }
-
             EditorGUILayout.PropertyField(_admobDevicesTest);
             GUILayout.Space(10);
             GUI.enabled = false;
