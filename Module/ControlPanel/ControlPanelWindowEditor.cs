@@ -74,6 +74,7 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButtonChooseState("Audio", StatePanelControl.Audio);
             DrawButtonChooseState("Assets Finder", StatePanelControl.AssetsFinder);
             DrawButtonChooseState("Level Editor", StatePanelControl.LevelEditor, () => CPLevelEditorDrawer.OnEnable());
+            DrawButtonChooseState("Firebase", StatePanelControl.Firebase);
             DrawButtonChooseState("Game Service", StatePanelControl.GameService);
             DrawButtonChooseState("Hierarchy", StatePanelControl.Hierarchy);
             DrawButtonChooseState("Scripting Define Symbols", StatePanelControl.ScriptDefineSymbols);
@@ -100,6 +101,9 @@ namespace VirtueSky.ControlPanel.Editor
                     break;
                 case StatePanelControl.LevelEditor:
                     CPLevelEditorDrawer.OnDrawLevelEditor(position);
+                    break;
+                case StatePanelControl.Firebase:
+                    CPFirebaseDrawer.OnDrawFirebase(position);
                     break;
                 case StatePanelControl.ScriptDefineSymbols:
                     CPScriptingDefineSymbolsDrawer.OnDrawScriptingDefineSymbols();
@@ -164,6 +168,7 @@ namespace VirtueSky.ControlPanel.Editor
         InAppPurchase,
         AssetsFinder,
         Audio,
+        Firebase,
         LevelEditor,
         ScriptDefineSymbols,
         RegisterPackage,
