@@ -1,11 +1,42 @@
 using System;
 using UnityEngine;
+using VirtueSky.Core;
 using VirtueSky.DataStorage;
+using VirtueSky.Threading.Tasks;
 
 namespace VirtueSky.Ads
 {
     public static class AdStatic
     {
+#if VIRTUESKY_ADS
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void RuntimeBeforeSceneLoad()
+        {
+            AutoInitialize(CoreEnum.RuntimeAutoInitType.BeforeSceneLoad);
+        }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        private static void RuntimeAfterSceneLoad()
+        {
+            AutoInitialize(CoreEnum.RuntimeAutoInitType.AfterSceneLoad);
+        }
+
+        private static async void AutoInitialize(CoreEnum.RuntimeAutoInitType adsRuntimeAutoInitType)
+        {
+            if (AdSettings.Instance == null) return;
+            if (AdSettings.Instance.RuntimeAutoInitType != adsRuntimeAutoInitType) return;
+            if (AdSettings.Instance.RuntimeAutoInit)
+            {
+                await UniTask.WaitUntil(() => RuntimeInitialize.IsInitializedMonoGlobal);
+                var ads = new GameObject("Advertising");
+                ads.AddComponent<Advertising>();
+                UnityEngine.Object.DontDestroyOnLoad(ads);
+            }
+        }
+
+#endif
+
+
         public static Action<bool> OnChangePreventDisplayAppOpenEvent;
 
         public static bool IsRemoveAd

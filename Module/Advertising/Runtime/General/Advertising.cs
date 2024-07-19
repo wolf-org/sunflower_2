@@ -23,6 +23,7 @@ namespace VirtueSky.Ads
         private AdClient currentAdClient;
         private AdSettings adSettings;
 
+
         private void Start()
         {
             adSettings = AdSettings.Instance;
@@ -216,20 +217,6 @@ namespace VirtueSky.Ads
 #endif
 
         #endregion
-
-#if VIRTUESKY_ADS
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private static void AutoInitialize()
-        {
-            if (AdSettings.Instance == null) return;
-            if (AdSettings.Instance.RuntimeAutoInit)
-            {
-                var ads = new GameObject("Advertising");
-                ads.AddComponent<Advertising>();
-                DontDestroyOnLoad(ads);
-            }
-        }
-#endif
 
         #region Public API
 

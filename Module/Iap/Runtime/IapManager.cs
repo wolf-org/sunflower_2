@@ -216,17 +216,6 @@ namespace VirtueSky.Iap
             return ProductType.Consumable;
         }
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private static void AutoInitialize()
-        {
-            if (IapSettings.Instance == null) return;
-            if (IapSettings.Instance.RuntimeAutoInit)
-            {
-                var iapManager = new GameObject("IapManager");
-                iapManager.AddComponent<IapManager>();
-                DontDestroyOnLoad(iapManager);
-            }
-        }
 
         #region Internal API
 

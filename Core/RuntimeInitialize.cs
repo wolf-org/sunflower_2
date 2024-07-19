@@ -3,15 +3,19 @@ using VirtueSky.DataStorage;
 
 namespace VirtueSky.Core
 {
-    public class RuntimeInitialize
+    public struct RuntimeInitialize
     {
+        public static bool IsInitializedMonoGlobal { get; set; }
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void AutoInitialize()
         {
+            IsInitializedMonoGlobal = false;
             var app = new GameObject("MonoGlobal");
             App.InitMonoGlobalComponent(app.AddComponent<MonoGlobal>());
-            GameData.Init();
+            IsInitializedMonoGlobal = true;
             Object.DontDestroyOnLoad(app);
+            GameData.Init();
         }
     }
 }

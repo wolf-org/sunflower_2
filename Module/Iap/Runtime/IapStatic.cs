@@ -1,4 +1,7 @@
 using System;
+using UnityEngine;
+using VirtueSky.Core;
+using VirtueSky.Threading.Tasks;
 
 #if VIRTUESKY_IAP
 using UnityEngine.Purchasing;
@@ -9,6 +12,34 @@ namespace VirtueSky.Iap
 {
     public static class IapStatic
     {
+#if VIRTUESKY_IAP
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void RuntimeBeforeSceneLoad()
+        {
+            AutoInitialize(CoreEnum.RuntimeAutoInitType.BeforeSceneLoad);
+        }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        private static void RuntimeAfterSceneLoad()
+        {
+            AutoInitialize(CoreEnum.RuntimeAutoInitType.AfterSceneLoad);
+        }
+
+        private static async void AutoInitialize(CoreEnum.RuntimeAutoInitType iapRuntimeAutoInitType)
+        {
+            if (IapSettings.Instance == null) return;
+            if (IapSettings.Instance.RuntimeAutoInitType != iapRuntimeAutoInitType) return;
+            if (IapSettings.Instance.RuntimeAutoInit)
+            {
+                await UniTask.WaitUntil(() => RuntimeInitialize.IsInitializedMonoGlobal);
+                var iapManager = new GameObject("IapManager");
+                iapManager.AddComponent<IapManager>();
+                UnityEngine.Object.DontDestroyOnLoad(iapManager);
+            }
+        }
+#endif
+
+
         public static IapDataProduct OnCompleted(this IapDataProduct product, Action onComplete)
         {
             product.purchaseSuccessCallback = onComplete;
