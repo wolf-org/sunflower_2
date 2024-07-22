@@ -24,14 +24,12 @@ namespace VirtueSky.Ads
         private static async void AutoInitialize(CoreEnum.RuntimeAutoInitType adsRuntimeAutoInitType)
         {
             if (AdSettings.Instance == null) return;
+            if (!AdSettings.Instance.RuntimeAutoInit) return;
             if (AdSettings.Instance.RuntimeAutoInitType != adsRuntimeAutoInitType) return;
-            if (AdSettings.Instance.RuntimeAutoInit)
-            {
-                await UniTask.WaitUntil(() => RuntimeInitialize.IsInitializedMonoGlobal);
-                var ads = new GameObject("Advertising");
-                ads.AddComponent<Advertising>();
-                UnityEngine.Object.DontDestroyOnLoad(ads);
-            }
+            await UniTask.WaitUntil(() => RuntimeInitialize.IsInitializedMonoGlobal);
+            var ads = new GameObject("Advertising");
+            ads.AddComponent<Advertising>();
+            UnityEngine.Object.DontDestroyOnLoad(ads);
         }
 
 #endif
