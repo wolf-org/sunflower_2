@@ -129,7 +129,9 @@ namespace VirtueSky.Ads
 #if VIRTUESKY_ADMOB
         private void InitGDPR()
         {
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
+            InitAdClient();
+#else
             string deviceID = SystemInfo.deviceUniqueIdentifier;
             string deviceIDUpperCase = deviceID.ToUpper();
 
