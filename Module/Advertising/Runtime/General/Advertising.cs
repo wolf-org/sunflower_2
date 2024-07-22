@@ -22,10 +22,11 @@ namespace VirtueSky.Ads
 
         private AdClient currentAdClient;
         private AdSettings adSettings;
-
+        private bool isInitAdClient = false;
 
         private void Start()
         {
+            isInitAdClient = false;
             adSettings = AdSettings.Instance;
             AdStatic.OnChangePreventDisplayAppOpenEvent += OnChangePreventDisplayOpenAd;
             if (adSettings.EnableGDPR)
@@ -58,6 +59,7 @@ namespace VirtueSky.Ads
             currentAdClient.SetupAdSettings(adSettings);
             currentAdClient.Initialize();
             Debug.Log("currentAdClient: " + currentAdClient);
+            isInitAdClient = true;
             InitAutoLoadAds();
         }
 
@@ -225,6 +227,7 @@ namespace VirtueSky.Ads
         public static AdUnit RewardAd => Instance.currentAdClient.RewardAdUnit();
         public static AdUnit RewardedInterstitialAd => Instance.currentAdClient.RewardedInterstitialAdUnit();
         public static AdUnit AppOpenAd => Instance.currentAdClient.AppOpenAdUnit();
+        public static bool IsInitAdClient => Instance.isInitAdClient;
 
 #if VIRTUESKY_ADMOB
         public static void LoadAndShowGdpr() => Instance.LoadAndShowConsentForm();
