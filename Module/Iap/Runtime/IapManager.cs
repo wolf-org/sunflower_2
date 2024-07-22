@@ -6,15 +6,15 @@ using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
 using VirtueSky.Ads;
-using VirtueSky.Core;
 using VirtueSky.Inspector;
 using VirtueSky.Misc;
 
 namespace VirtueSky.Iap
 {
     [EditorIcon("icon_manager"), HideMonoScript]
-    public class IapManager : Singleton<IapManager>, IDetailedStoreListener
+    public class IapManager : MonoBehaviour, IDetailedStoreListener
     {
+        [SerializeField] private bool isDontDestroyOnLoad;
         public static event Action<string> OnPurchaseSucceedEvent;
         public static event Action<string> OnPurchaseFailedEvent;
 
@@ -22,6 +22,24 @@ namespace VirtueSky.Iap
         private IExtensionProvider _extensionProvider;
         private bool _IsInitialized { get; set; }
         private IapSettings iapSettings;
+        private static IapManager ins;
+
+        private void Awake()
+        {
+            if (isDontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(this.gameObject);
+            }
+
+            if (ins == null)
+            {
+                ins = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
 
         private void Start()
         {
@@ -264,22 +282,22 @@ namespace VirtueSky.Iap
 
         #region Public API
 
-        public static IapDataProduct PurchaseProduct(string id) => Instance.InternalPurchaseProduct(id);
+        public static IapDataProduct PurchaseProduct(string id) => ins.InternalPurchaseProduct(id);
 
         public static IapDataProduct PurchaseProduct(IapDataProduct product) =>
-            Instance.InternalPurchaseProduct(product);
+            ins.InternalPurchaseProduct(product);
 
-        public static bool IsPurchasedProduct(IapDataProduct product) => Instance.InternalIsPurchasedProduct(product);
-        public static bool IsPurchasedProduct(string id) => Instance.InternalIsPurchasedProduct(id);
+        public static bool IsPurchasedProduct(IapDataProduct product) => ins.InternalIsPurchasedProduct(product);
+        public static bool IsPurchasedProduct(string id) => ins.InternalIsPurchasedProduct(id);
 
-        public static Product GetProduct(IapDataProduct product) => Instance.InternalGetProduct(product);
-        public static Product GetProduct(string id) => Instance.InternalGetProduct(id);
+        public static Product GetProduct(IapDataProduct product) => ins.InternalGetProduct(product);
+        public static Product GetProduct(string id) => ins.InternalGetProduct(id);
 
 
 #if UNITY_IOS
-        public static void RestorePurchase() => Instance.InternalRestorePurchase();
+        public static void RestorePurchase() => ins.InternalRestorePurchase();
 #endif
-        public static bool IsInitialized => Instance._IsInitialized;
+        public static bool IsInitialized => ins._IsInitialized;
 
         #endregion
     }

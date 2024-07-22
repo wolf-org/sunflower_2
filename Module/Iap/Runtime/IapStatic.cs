@@ -25,12 +25,11 @@ namespace VirtueSky.Iap
             AutoInitialize(CoreEnum.RuntimeAutoInitType.AfterSceneLoad);
         }
 
-        private static async void AutoInitialize(CoreEnum.RuntimeAutoInitType iapRuntimeAutoInitType)
+        private static void AutoInitialize(CoreEnum.RuntimeAutoInitType iapRuntimeAutoInitType)
         {
             if (IapSettings.Instance == null) return;
             if (!IapSettings.Instance.RuntimeAutoInit) return;
             if (IapSettings.Instance.RuntimeAutoInitType != iapRuntimeAutoInitType) return;
-            await UniTask.WaitUntil(() => RuntimeInitialize.IsInitializedMonoGlobal);
             var iapManager = new GameObject("IapManager");
             iapManager.AddComponent<IapManager>();
             UnityEngine.Object.DontDestroyOnLoad(iapManager);
