@@ -20,8 +20,8 @@
 </p>
   
 ## How To Install
-
-### Add the line below to `Packages/manifest.json`
+### 1: Download the repo and drop it into folder `Assets`
+### 2: Add the line below to `Packages/manifest.json`
 
 for version `1.2.0`
 ```csharp
