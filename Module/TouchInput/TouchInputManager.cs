@@ -13,9 +13,6 @@ namespace VirtueSky.TouchInput
         public static event Action<Vector3> InputEventTouchEnd;
         public static event Action<Vector3> InputEventTouchCancel;
 
-        private static event Func<bool> GetPreventTouchEvent;
-        private static event Action<bool> SetPreventTouchEvent;
-
         [ShowIf(nameof(IsPlaying)), SerializeField]
         private bool preventTouch;
 
@@ -25,33 +22,25 @@ namespace VirtueSky.TouchInput
         private bool IsPlaying => Application.isPlaying;
         private bool _mouseDown;
         private bool _mouseUpdate;
+        private static TouchInputManager ins;
 
-        private void OnEnable()
+        private void Awake()
         {
-            GetPreventTouchEvent += GetPreventTouch;
-            SetPreventTouchEvent += SetPreventTouch;
+            if (ins == null)
+            {
+                ins = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
 
-        private void OnDisable()
-        {
-            GetPreventTouchEvent += GetPreventTouch;
-            SetPreventTouchEvent += SetPreventTouch;
-        }
-
-        private void SetPreventTouch(bool prevent)
-        {
-            preventTouch = prevent;
-        }
-
-        private bool GetPreventTouch()
-        {
-            return preventTouch;
-        }
 
         public static bool PreventTouch
         {
-            get => (bool)GetPreventTouchEvent?.Invoke();
-            set => SetPreventTouchEvent?.Invoke(value);
+            get => ins.preventTouch;
+            set => ins.preventTouch = value;
         }
 
         private void Update()
