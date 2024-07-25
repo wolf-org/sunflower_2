@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using VirtueSky.Core;
@@ -8,8 +9,9 @@ using VirtueSky.ObjectPooling;
 namespace VirtueSky.Audio
 {
     [EditorIcon("icon_sound_mixer"), HideMonoScript]
-    public class AudioManager : Singleton<AudioManager>
+    public class AudioManager : MonoBehaviour
     {
+        [SerializeField] private bool isDontDestroyOnLoad;
         [Space, SerializeField] private Transform audioHolder;
         [SerializeField] private SoundComponent soundComponentPrefab;
         private SoundComponent music;
@@ -17,9 +19,27 @@ namespace VirtueSky.Audio
         private readonly Dictionary<SoundCache, SoundComponent> dictSfxCache =
             new Dictionary<SoundCache, SoundComponent>();
 
+        private static AudioManager ins;
         private int key = 0;
         private const string KEY_MUSIC_VOLUME = "KEY_MUSIC_VOLUME";
         private const string KEY_SFX_VOLUME = "KEY_SFX_VOLUME";
+
+        private void Awake()
+        {
+            if (isDontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(this);
+            }
+
+            if (ins == null)
+            {
+                ins = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
 
         private float InternalMusicVolume
         {
@@ -209,27 +229,27 @@ namespace VirtueSky.Audio
 
         #region Public APi
 
-        public static SoundCache PlaySfx(SoundData soundData) => Instance.InternalPlaySfx(soundData);
-        public static void StopSfx(SoundCache soundCache) => Instance.InternalStopSfx(soundCache);
-        public static void PauseSfx(SoundCache soundCache) => Instance.InternalPauseSfx(soundCache);
-        public static void ResumeSfx(SoundCache soundCache) => Instance.InternalResumeSfx(soundCache);
-        public static void FinishSfx(SoundCache soundCache) => Instance.InternalFinishSfx(soundCache);
-        public static void StopAllSfx() => Instance.InternalStopAllSfx();
-        public static void PlayMusic(SoundData soundData) => Instance.InternalPlayMusic(soundData);
-        public static void StopMusic() => Instance.InternalStopMusic();
-        public static void PauseMusic() => Instance.InternalPauseMusic();
-        public static void ResumeMusic() => Instance.InternalResumeMusic();
+        public static SoundCache PlaySfx(SoundData soundData) => ins.InternalPlaySfx(soundData);
+        public static void StopSfx(SoundCache soundCache) => ins.InternalStopSfx(soundCache);
+        public static void PauseSfx(SoundCache soundCache) => ins.InternalPauseSfx(soundCache);
+        public static void ResumeSfx(SoundCache soundCache) => ins.InternalResumeSfx(soundCache);
+        public static void FinishSfx(SoundCache soundCache) => ins.InternalFinishSfx(soundCache);
+        public static void StopAllSfx() => ins.InternalStopAllSfx();
+        public static void PlayMusic(SoundData soundData) => ins.InternalPlayMusic(soundData);
+        public static void StopMusic() => ins.InternalStopMusic();
+        public static void PauseMusic() => ins.InternalPauseMusic();
+        public static void ResumeMusic() => ins.InternalResumeMusic();
 
         public static float SfxVolume
         {
-            get => Instance.InternalSfxVolume;
-            set => Instance.InternalSfxVolume = value;
+            get => ins.InternalSfxVolume;
+            set => ins.InternalSfxVolume = value;
         }
 
         public static float MusicVolume
         {
-            get => Instance.InternalMusicVolume;
-            set => Instance.InternalMusicVolume = value;
+            get => ins.InternalMusicVolume;
+            set => ins.InternalMusicVolume = value;
         }
 
         #endregion

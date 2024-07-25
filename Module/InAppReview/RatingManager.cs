@@ -14,24 +14,52 @@ using Google.Play.Review;
 namespace VirtueSky.Rating
 {
     [EditorIcon("icon_manager"), HideMonoScript]
-    public class RatingManager : Singleton<RatingManager>
+    public class RatingManager : MonoBehaviour
     {
+        [SerializeField] private bool dontDestroyOnLoad;
+        [Space, SerializeField] private bool autoInit;
+        private static RatingManager ins;
+        private bool InternalRatingInitialize { get; set; }
+
 #if UNITY_ANDROID && VIRTUESKY_RATING
         private ReviewManager _reviewManager;
         private PlayReviewInfo _playReviewInfo;
         private Coroutine _coroutine;
 #endif
-        private void Start()
+        private void Awake()
         {
-            InitInAppReview();
+            if (dontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
+
+            if (ins == null)
+            {
+                ins = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
 
-        private void InitInAppReview()
+        private void Start()
         {
+            InternalRatingInitialize = false;
+            if (autoInit)
+            {
+                InternalInitRateAndReview();
+            }
+        }
+
+        private void InternalInitRateAndReview()
+        {
+            if (InternalRatingInitialize) return;
             if (!Application.isMobilePlatform) return;
 #if UNITY_ANDROID && VIRTUESKY_RATING
             _coroutine = App.StartCoroutine(InitReview());
 #endif
+            InternalRatingInitialize = true;
         }
 
         private void InternalRateAndReview()
@@ -84,6 +112,8 @@ namespace VirtueSky.Rating
             Application.OpenURL($"https://play.google.com/store/apps/details?id={Application.identifier}");
         }
 
-        public static void RateAndReview() => Instance.InternalRateAndReview();
+        public static bool RatingInitialize => ins.InternalRatingInitialize;
+        public static void InitRateAndReview() => ins.InternalInitRateAndReview();
+        public static void RateAndReview() => ins.InternalRateAndReview();
     }
 }

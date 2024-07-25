@@ -23,22 +23,36 @@ using Firebase.RemoteConfig;
 namespace VirtueSky.RemoteConfigs
 {
     [EditorIcon("icon_controller"), HideMonoScript]
-    public class FirebaseRemoteConfigManager : Singleton<FirebaseRemoteConfigManager>
+    public class FirebaseRemoteConfigManager : MonoBehaviour
     {
-        [SerializeField] private TypeInitRemoteConfig typeInitRemoteConfig;
+        [SerializeField] private bool isDontDestroyOnLoad;
+        [Space, SerializeField] private TypeInitRemoteConfig typeInitRemoteConfig;
 #if VIRTUESKY_FIREBASE
         [Space, ReadOnly, SerializeField] private DependencyStatus dependencyStatus = DependencyStatus.UnavailableOther;
 #endif
         [SerializeField] private bool isSetupDefaultData = true;
         [Space(10), SerializeField] private List<FirebaseRemoteConfigData> listRemoteConfigData;
         private bool isFetchRemoteConfigCompleted = false;
+        private static FirebaseRemoteConfigManager ins;
+        public static List<FirebaseRemoteConfigData> ListRemoteConfigData => ins.listRemoteConfigData;
+        public static bool IsFetchRemoteConfigCompleted => ins.isFetchRemoteConfigCompleted;
 
-        public static List<FirebaseRemoteConfigData> ListRemoteConfigData => Instance.listRemoteConfigData;
-        public static bool IsFetchRemoteConfigCompleted => Instance.isFetchRemoteConfigCompleted;
-
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
+            if (isDontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(this);
+            }
+
+            if (ins == null)
+            {
+                ins = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+
             if (typeInitRemoteConfig == TypeInitRemoteConfig.InitOnAwake)
             {
                 Init();

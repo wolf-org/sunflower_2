@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -9,12 +10,30 @@ using VirtueSky.Inspector;
 namespace VirtueSky.Notifications
 {
     [EditorIcon("script_noti"), HideMonoScript]
-    public class NotificationManager : Singleton<NotificationManager>
+    public class NotificationManager : MonoBehaviour
     {
+        [SerializeField] private bool dontDestroyOnLoad;
         [Space, SerializeField] private bool autoSchedule = true;
         [SerializeField] private List<NotificationChannel> channels = new List<NotificationChannel>();
+        private static NotificationManager ins;
+        public static List<NotificationChannel> Channels => ins.channels;
 
-        public static List<NotificationChannel> Channels => Instance.channels;
+        private void Awake()
+        {
+            if (dontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
+
+            if (ins == null)
+            {
+                ins = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
 
         private void Start()
         {
