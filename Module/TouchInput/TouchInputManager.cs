@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using VirtueSky.Inspector;
 
 namespace VirtueSky.TouchInput
@@ -8,21 +7,11 @@ namespace VirtueSky.TouchInput
     [EditorIcon("icon_controller"), HideMonoScript]
     public class TouchInputManager : MonoBehaviour
     {
-        public static event Action<Touch> InputEventTouchBegin;
-        public static event Action<Touch> InputEventTouchMove;
-        public static event Action<Touch> InputEventTouchStationary;
-        public static event Action<Touch> InputEventTouchEnd;
-        public static event Action<Touch> InputEventTouchCancel;
-
-        public static event Action<Vector3> InputEventMouseDown;
-        public static event Action<Vector3> InputEventMouseUpdate;
-        public static event Action<Vector3> InputEventMouseUp;
-
-        [SerializeField, Tooltip("Use mouse in editor")]
-        private bool useMouse = false;
-
-        [SerializeField, Tooltip("Disable when touching UI")]
-        private bool ignoreUI = true;
+        public static event Action<Vector3> InputEventTouchBegin;
+        public static event Action<Vector3> InputEventTouchMove;
+        public static event Action<Vector3> InputEventTouchStationary;
+        public static event Action<Vector3> InputEventTouchEnd;
+        public static event Action<Vector3> InputEventTouchCancel;
 
         [ShowIf(nameof(IsPlaying)), SerializeField]
         private Vector3 touchPosition;
@@ -33,67 +22,51 @@ namespace VirtueSky.TouchInput
 
         private void Update()
         {
-            if (ignoreUI && EventSystem.current != null)
+#if UNITY_EDITOR
+            if (UnityEngine.Device.SystemInfo.deviceType != DeviceType.Desktop)
             {
-                if (Input.touchCount > 0 && EventSystem.current.currentSelectedGameObject == null)
-                {
-                    HandleTouch();
-                }
+                HandleTouch();
             }
             else
             {
-                if (Input.touchCount > 0)
-                {
-                    HandleTouch();
-                }
+                HandleMouse();
             }
-#if UNITY_EDITOR
-            if (useMouse)
-            {
-                if (ignoreUI && EventSystem.current != null)
-                {
-                    if (EventSystem.current.currentSelectedGameObject == null)
-                    {
-                        HandleMouse();
-                    }
-                }
-                else
-                {
-                    HandleMouse();
-                }
-            }
-
+#else
+            HandleTouch();
 #endif
         }
 
         void HandleTouch()
         {
-            Touch touch = Input.GetTouch(0);
-            switch (touch.phase)
+            if (Input.touchCount > 0)
             {
-                case TouchPhase.Began:
-                    InputEventTouchBegin?.Invoke(touch);
+                Touch touch = Input.GetTouch(0);
+                switch (touch.phase)
+                {
+                    case TouchPhase.Began:
+                        InputEventTouchBegin?.Invoke(touch.position);
 
-                    break;
-                case TouchPhase.Moved:
-                    InputEventTouchMove?.Invoke(touch);
+                        break;
+                    case TouchPhase.Moved:
+                        InputEventTouchMove?.Invoke(touch.position);
 
-                    break;
-                case TouchPhase.Stationary:
-                    InputEventTouchStationary?.Invoke(touch);
+                        break;
+                    case TouchPhase.Stationary:
+                        InputEventTouchStationary?.Invoke(touch.position);
 
-                    break;
-                case TouchPhase.Ended:
-                    InputEventTouchEnd?.Invoke(touch);
+                        break;
+                    case TouchPhase.Ended:
+                        InputEventTouchEnd?.Invoke(touch.position);
 
-                    break;
-                case TouchPhase.Canceled:
-                    InputEventTouchCancel?.Invoke(touch);
+                        break;
+                    case TouchPhase.Canceled:
+                        InputEventTouchCancel?.Invoke(touch.position);
 
-                    break;
+                        break;
+                }
+
+                touchPosition = touch.position;
             }
-
-            touchPosition = touch.position;
         }
 
         void HandleMouse()
@@ -104,7 +77,7 @@ namespace VirtueSky.TouchInput
                 {
                     _mouseDown = true;
                     _mouseUpdate = true;
-                    InputEventMouseDown?.Invoke(Input.mousePosition);
+                    InputEventTouchBegin?.Invoke(Input.mousePosition);
                     touchPosition = Input.mousePosition;
                 }
             }
@@ -112,13 +85,13 @@ namespace VirtueSky.TouchInput
             {
                 _mouseDown = false;
                 _mouseUpdate = false;
-                InputEventMouseUp?.Invoke(Input.mousePosition);
+                InputEventTouchEnd?.Invoke(Input.mousePosition);
                 touchPosition = Input.mousePosition;
             }
 
             if (_mouseDown && _mouseUpdate)
             {
-                InputEventMouseUpdate?.Invoke(Input.mousePosition);
+                InputEventTouchMove?.Invoke(Input.mousePosition);
                 touchPosition = Input.mousePosition;
             }
         }
