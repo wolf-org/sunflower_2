@@ -13,15 +13,50 @@ namespace VirtueSky.TouchInput
         public static event Action<Vector3> InputEventTouchEnd;
         public static event Action<Vector3> InputEventTouchCancel;
 
+        private static event Func<bool> GetPreventTouchEvent;
+        private static event Action<bool> SetPreventTouchEvent;
+
         [ShowIf(nameof(IsPlaying)), SerializeField]
+        private bool preventTouch;
+
+        [Space, ShowIf(nameof(IsPlaying)), SerializeField]
         private Vector3 touchPosition;
 
         private bool IsPlaying => Application.isPlaying;
         private bool _mouseDown;
         private bool _mouseUpdate;
 
+        private void OnEnable()
+        {
+            GetPreventTouchEvent += GetPreventTouch;
+            SetPreventTouchEvent += SetPreventTouch;
+        }
+
+        private void OnDisable()
+        {
+            GetPreventTouchEvent += GetPreventTouch;
+            SetPreventTouchEvent += SetPreventTouch;
+        }
+
+        private void SetPreventTouch(bool prevent)
+        {
+            preventTouch = prevent;
+        }
+
+        private bool GetPreventTouch()
+        {
+            return preventTouch;
+        }
+
+        public static bool PreventTouch
+        {
+            get => (bool)GetPreventTouchEvent?.Invoke();
+            set => SetPreventTouchEvent?.Invoke(value);
+        }
+
         private void Update()
         {
+            if (preventTouch) return;
 #if UNITY_EDITOR
             if (UnityEngine.Device.SystemInfo.deviceType != DeviceType.Desktop)
             {
