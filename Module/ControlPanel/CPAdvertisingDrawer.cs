@@ -108,7 +108,7 @@ namespace VirtueSky.ControlPanel.Editor
             if (GUILayout.Button("Install Max Sdk Plugin"))
             {
                 AssetDatabase.ImportPackage(
-                    FileExtension.GetPathInCurrentEnvironent(
+                    FileExtension.GetPathFileInCurrentEnvironment(
                         "Module/Utils/Editor/UnityPackage/max-sdk.unitypackage"), false);
             }
 
@@ -137,7 +137,7 @@ namespace VirtueSky.ControlPanel.Editor
             if (GUILayout.Button("Install Admob Sdk Plugin"))
             {
                 AssetDatabase.ImportPackage(
-                    FileExtension.GetPathInCurrentEnvironent(
+                    FileExtension.GetPathFileInCurrentEnvironment(
                         "Module/Utils/Editor/UnityPackage/google-mobile-ads.unitypackage"), false);
             }
 
@@ -166,7 +166,7 @@ namespace VirtueSky.ControlPanel.Editor
             if (GUILayout.Button("Install IronSource Sdk Plugin"))
             {
                 AssetDatabase.ImportPackage(
-                    FileExtension.GetPathInCurrentEnvironent(
+                    FileExtension.GetPathFileInCurrentEnvironment(
                         "Module/Utils/Editor/UnityPackage/is-sdk.unitypackage"), false);
             }
 
