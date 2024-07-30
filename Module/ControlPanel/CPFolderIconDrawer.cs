@@ -37,7 +37,7 @@ namespace VirtueSky.ControlPanel.Editor
                 if (GUILayout.Button("Create FolderIconSetting"))
                 {
                     _settings = CreateAsset.CreateAndGetScriptableAsset<FolderIconSettings>(
-                        "Assets/_Sunflower/Editor/FolderIcon");
+                        "Assets/_Root/Editor/FolderIcon");
                     Init();
                 }
             }
