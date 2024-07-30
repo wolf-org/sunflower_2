@@ -36,6 +36,7 @@ namespace VirtueSky.ControlPanel.Editor
             statePanelControl = StatePanelControl.About;
             CPAdvertisingDrawer.OnEnable();
             CPIapDrawer.OnEnable();
+            CPFolderIconDrawer.OnEnable();
         }
 
         private void OnDisable()
@@ -76,6 +77,7 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButtonChooseState("Level Editor", StatePanelControl.LevelEditor, () => CPLevelEditorDrawer.OnEnable());
             DrawButtonChooseState("Firebase", StatePanelControl.Firebase);
             DrawButtonChooseState("Game Service", StatePanelControl.GameService);
+            DrawButtonChooseState("Folder Icon", StatePanelControl.FolderIcon);
             DrawButtonChooseState("Hierarchy", StatePanelControl.Hierarchy);
             DrawButtonChooseState("Scripting Define Symbols", StatePanelControl.ScriptDefineSymbols);
             DrawButtonChooseState("Register Package", StatePanelControl.RegisterPackage);
@@ -110,6 +112,9 @@ namespace VirtueSky.ControlPanel.Editor
                     break;
                 case StatePanelControl.RegisterPackage:
                     CPRegisterPackageDrawer.OnDrawRegisterPackageByManifest(position);
+                    break;
+                case StatePanelControl.FolderIcon:
+                    CPFolderIconDrawer.OnDrawFolderIcon();
                     break;
                 case StatePanelControl.Hierarchy:
                     CPHierarchyDrawer.OnDrawQHierarchyEvent(position, this);
@@ -173,6 +178,7 @@ namespace VirtueSky.ControlPanel.Editor
         ScriptDefineSymbols,
         RegisterPackage,
         Hierarchy,
+        FolderIcon,
         GameService,
         Extensions,
         About,
