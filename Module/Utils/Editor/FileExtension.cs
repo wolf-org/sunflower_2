@@ -137,8 +137,8 @@ namespace VirtueSky.UtilsEditor
 
         public static string GetPathFolderInCurrentEnvironment(string fullRelativePath)
         {
-            var upmPath = $"Packages/com.virtuesky.sunflower/{fullRelativePath}";
-            var normalPath = $"Assets/Sunflower/{fullRelativePath}";
+            var upmPath = $"Packages/com.wolf-package.unity-common/{fullRelativePath}";
+            var normalPath = $"Assets/unity-common/{fullRelativePath}";
             return Directory.Exists(upmPath) ? upmPath : normalPath;
         }
 
