@@ -45,10 +45,12 @@ for version `1.2.3`
 ├── Mobile Notification
 ├── Object Pooling
 ├── Prime tween
+├── FolderIcons
 ├── Hierarchy
 ├── In app review
 ├── UniTask
 ├── SimpleJSON
+├── GameService (Sign in with apple id / google play games service)
 ├── Tracking Revenue (by Firebase analytic, Adjust or Appsflyer)
 ├── Vibration (Vibration native support for android & ios)
 ├── Misc (Extension support Transform, SafeArea, Play Animancer, Skeleton,...)
