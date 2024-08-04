@@ -23,9 +23,9 @@
 ### 1: Download the repo and drop it into folder `Assets`
 ### 2: Add the line below to `Packages/manifest.json`
 
-for version `1.2.6`
+for version `1.2.7`
 ```csharp
-"com.wolf-package.unity-common":"https://github.com/wolf-package/unity-common.git#1.2.6",
+"com.wolf-package.unity-common":"https://github.com/wolf-package/unity-common.git#1.2.7",
 ```
 
 ## Includes modules
