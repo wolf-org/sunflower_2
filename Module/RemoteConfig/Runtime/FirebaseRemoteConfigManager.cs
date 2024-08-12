@@ -36,6 +36,7 @@ namespace VirtueSky.RemoteConfigs
         private static FirebaseRemoteConfigManager ins;
         public static List<FirebaseRemoteConfigData> ListRemoteConfigData => ins.listRemoteConfigData;
         public static bool IsFetchRemoteConfigCompleted => ins.isFetchRemoteConfigCompleted;
+        public static bool FirebaseDependencyAvailable => ins.dependencyStatus == DependencyStatus.Available;
 
         private void Awake()
         {
@@ -84,6 +85,7 @@ namespace VirtueSky.RemoteConfigs
                 dependencyStatus = task.Result;
                 if (dependencyStatus == DependencyStatus.Available)
                 {
+                    var app = FirebaseApp.DefaultInstance;
 #if VIRTUESKY_FIREBASE_REMOTECONFIG
                     FetchDataAsync();
 #endif
