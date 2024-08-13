@@ -10,5 +10,22 @@
                 format, adNetwork);
             AppsFlyerTrackingRevenue.AppsFlyerTrackRevenueAd(value, network, unitId, format, adNetwork);
         }
+
+        public static void StartTrackingAdjust()
+        {
+#if VIRTUESKY_ADJUST
+            var adjust = new UnityEngine.GameObject("Adjust", typeof(com.adjust.sdk.Adjust));
+            com.adjust.sdk.Adjust.StartTracking(AdjustSetting.AppToken, AdjustSetting.AdjustEnvironment,
+                AdjustSetting.LogLevel);
+#endif
+        }
+
+        public static void StartTrackingAppsFlyer()
+        {
+#if VIRTUESKY_APPSFLYER
+            var appFlyerObject =
+                new UnityEngine.GameObject("AppsFlyerObject", typeof(VirtueSky.Tracking.AppsFlyerObject));
+#endif
+        }
     }
 }
