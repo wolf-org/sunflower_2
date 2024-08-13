@@ -10,10 +10,6 @@ namespace VirtueSky.ControlPanel.Editor
     public class ControlPanelWindowEditor : EditorWindow
     {
         private StatePanelControl statePanelControl;
-        private bool isFieldMax = false;
-        private bool isFielAdmob = false;
-        private string inputPackageFullNameAdd = "";
-        private string inputPackageFullNameRemove = "";
         private Vector2 scrollButton = Vector2.zero;
 
         [MenuItem("Unity-Common/Control Panel &1", false, priority = 1)]
@@ -37,6 +33,8 @@ namespace VirtueSky.ControlPanel.Editor
             CPAdvertisingDrawer.OnEnable();
             CPIapDrawer.OnEnable();
             CPFolderIconDrawer.OnEnable();
+            CPAdjustDrawer.OnEnable();
+            CPAppsFlyerDrawer.OnEnable();
         }
 
         private void OnDisable()
@@ -76,6 +74,8 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButtonChooseState("Assets Finder", StatePanelControl.AssetsFinder);
             DrawButtonChooseState("Level Editor", StatePanelControl.LevelEditor, () => CPLevelEditorDrawer.OnEnable());
             DrawButtonChooseState("Firebase", StatePanelControl.Firebase);
+            DrawButtonChooseState("Adjust", StatePanelControl.Adjust);
+            DrawButtonChooseState("AppsFlyer", StatePanelControl.AppsFlyer);
             DrawButtonChooseState("Game Service", StatePanelControl.GameService);
             DrawButtonChooseState("Folder Icon", StatePanelControl.FolderIcon);
             DrawButtonChooseState("Hierarchy", StatePanelControl.Hierarchy);
@@ -106,6 +106,12 @@ namespace VirtueSky.ControlPanel.Editor
                     break;
                 case StatePanelControl.Firebase:
                     CPFirebaseDrawer.OnDrawFirebase(position);
+                    break;
+                case StatePanelControl.Adjust:
+                    CPAdjustDrawer.OnDrawAdjust();
+                    break;
+                case StatePanelControl.AppsFlyer:
+                    CPAppsFlyerDrawer.OnDrawAppsFlyer();
                     break;
                 case StatePanelControl.ScriptDefineSymbols:
                     CPScriptingDefineSymbolsDrawer.OnDrawScriptingDefineSymbols();
@@ -174,6 +180,8 @@ namespace VirtueSky.ControlPanel.Editor
         AssetsFinder,
         Audio,
         Firebase,
+        Adjust,
+        AppsFlyer,
         LevelEditor,
         ScriptDefineSymbols,
         RegisterPackage,
