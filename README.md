@@ -39,7 +39,8 @@ for version `1.2.9`
 ├── Audio
 ├── Button (Custom UI Button)
 ├── Data
-├── Firebase (Remote config, Analytic)
+├── Firebase Remote config
+├── Tracking (Firebase Analytic, Adjust, AppsFlyer)
 ├── Tri-Inspector
 ├── Level Editor
 ├── Mobile Notification
