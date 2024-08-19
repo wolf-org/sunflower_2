@@ -8,7 +8,6 @@ using AppleAuth.Extensions;
 using AppleAuth.Interfaces;
 using AppleAuth.Native;
 #endif
-
 using UnityEngine;
 using VirtueSky.Inspector;
 
@@ -21,6 +20,7 @@ namespace VirtueSky.GameService
         public static event Action<string> ServerCodeEvent;
         public static event Action<string> AuthorizationCodeEvent;
         public static event Action<string> UserIdEvent;
+        public static event Action<string> NameEvent;
         public static event Action<StatusLogin> StatusLoginEvent;
         private static AppleAuthentication ins;
 
@@ -113,10 +113,13 @@ namespace VirtueSky.GameService
                         ServerCodeEvent?.Invoke(identityToken);
                         AuthorizationCodeEvent?.Invoke(authorizationCode);
                         UserIdEvent?.Invoke(userId);
+                        NameEvent?.Invoke(fullName.ToString());
                         StatusLoginEvent?.Invoke(StatusLogin.Successful);
                     }
                     else
                     {
+                        ServerCodeEvent?.Invoke("");
+                        UserIdEvent?.Invoke("");
                         StatusLoginEvent?.Invoke(StatusLogin.Failed);
                     }
                 },
@@ -124,6 +127,8 @@ namespace VirtueSky.GameService
                 {
                     // Something went wrong
                     var authorizationErrorCode = error.GetAuthorizationErrorCode();
+                    ServerCodeEvent?.Invoke("");
+                    UserIdEvent?.Invoke("");
                     StatusLoginEvent?.Invoke(StatusLogin.Failed);
                 });
 #endif
