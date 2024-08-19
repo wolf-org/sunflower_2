@@ -113,7 +113,7 @@ namespace VirtueSky.GameService
                         ServerCodeEvent?.Invoke(identityToken);
                         AuthorizationCodeEvent?.Invoke(authorizationCode);
                         UserIdEvent?.Invoke(userId);
-                        NameEvent?.Invoke(fullName.ToString());
+                        NameEvent?.Invoke($"{fullName.GivenName} {fullName.FamilyName}");
                         StatusLoginEvent?.Invoke(StatusLogin.Successful);
                     }
                     else
