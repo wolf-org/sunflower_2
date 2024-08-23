@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Notifications.iOS;
 using UnityEngine;
-using VirtueSky.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace VirtueSky.Notifications
 {
