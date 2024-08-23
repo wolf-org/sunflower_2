@@ -26,7 +26,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("ADJUST", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.Adjust, "Adjust");
             GUILayout.Space(10);
             CPUtility.DrawButtonInstallPackage("Install Adjust", "Remove Adjust",
                 ConstantPackage.PackageNameAdjust, ConstantPackage.MaxVersionAdjust);
@@ -37,13 +37,15 @@ namespace VirtueSky.ControlPanel.Editor
             EditorGUILayout.HelpBox(
                 $"Add scripting define symbols: {ConstantDefineSymbols.VIRTUESKY_ADJUST} for Adjust to use",
                 MessageType.Info);
+               GUILayout.Space(10);
 #endif
+            CPUtility.DrawHeader("Define symbols");
             GUILayout.Space(10);
-            GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADJUST);
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
-            GUILayout.Label("ADJUST SETTINGS", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            CPUtility.DrawHeader("Adjust Settings");
             GUILayout.Space(10);
             if (_setting == null)
             {

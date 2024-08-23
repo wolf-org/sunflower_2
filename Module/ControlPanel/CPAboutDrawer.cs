@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEditor;
 using UnityEngine;
+using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.ControlPanel.Editor
 {
@@ -10,7 +11,9 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("ABOUT", EditorStyles.boldLabel);
+            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical();
+            CPUtility.DrawHeaderIcon(StatePanelControl.About, "About");
             GUILayout.Space(10);
             GUILayout.TextArea("Name: Unity-Common", EditorStyles.boldLabel);
             GUILayout.TextArea(
@@ -25,17 +28,21 @@ namespace VirtueSky.ControlPanel.Editor
                 Application.OpenURL("https://github.com/wolf-package/unity-common");
             }
 
-            // if (GUILayout.Button("Document"))
-            // {
-            //     Application.OpenURL("https://github.com/VirtueSky/sunflower/wiki");
-            // }
+            if (GUILayout.Button("Document"))
+            {
+                Application.OpenURL("https://github.com/VirtueSky/sunflower/wiki");
+            }
+
+            GUILayout.Space(10);
+
+            GUILayout.EndVertical();
+            GUILayout.Box(EditorResources.IconVirtueSky, GUIStyle.none,
+                GUILayout.Width(180), GUILayout.Height(180));
+            GUILayout.EndHorizontal();
+
 
             GUILayout.Space(10);
             CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
-            // GUILayout.Space(20);
-            // GUILayout.Label("SETUP THEME", EditorStyles.boldLabel);
-            // GUILayout.Space(10);
-            // drawSetting?.Invoke();
             GUILayout.EndVertical();
         }
     }

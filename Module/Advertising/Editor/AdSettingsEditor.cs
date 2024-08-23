@@ -74,8 +74,8 @@ namespace VirtueSky.Ads
         {
             serializedObject.Update();
             Initialize();
-            EditorGUILayout.LabelField("ADS SETTING", EditorStyles.boldLabel);
-            GuiLine(2);
+            // EditorGUILayout.LabelField("ADS SETTING", EditorStyles.boldLabel);
+            //   GuiLine(2);
             GUILayout.Space(10);
             EditorGUILayout.PropertyField(_runtimeAutoInit);
             if (_runtimeAutoInit.boolValue)
@@ -95,7 +95,7 @@ namespace VirtueSky.Ads
             }
 
             GUILayout.Space(10);
-            GuiLine(2);
+
             switch (_adNetwork.enumValueIndex)
             {
                 case (int)AdNetwork.Max:
@@ -118,7 +118,8 @@ namespace VirtueSky.Ads
         void DrawMax()
         {
             GUILayout.Space(10);
-            EditorGUILayout.LabelField("APPLOVIN-MAX", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("AppLovin-Max", EditorStyles.boldLabel);
+            GuiLine();
             GUILayout.Space(5);
             EditorGUILayout.PropertyField(_sdkKey);
             GUILayout.Space(5);
@@ -133,7 +134,8 @@ namespace VirtueSky.Ads
         void DrawAdmob()
         {
             GUILayout.Space(10);
-            EditorGUILayout.LabelField("GOOGLE-ADMOB", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Google-Admob", EditorStyles.boldLabel);
+            GuiLine();
             GUILayout.Space(5);
             EditorGUILayout.PropertyField(_admobBannerAdUnit);
             EditorGUILayout.PropertyField(_admobInterstitialAdUnit);
@@ -156,7 +158,8 @@ namespace VirtueSky.Ads
         void DrawIronSource()
         {
             GUILayout.Space(10);
-            EditorGUILayout.LabelField("IRON-SOURCE", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("LevelPlay-IronSource", EditorStyles.boldLabel);
+            GuiLine();
             GUILayout.Space(5);
             EditorGUILayout.PropertyField(_androidAppKey);
             EditorGUILayout.PropertyField(_iOSAppKey);

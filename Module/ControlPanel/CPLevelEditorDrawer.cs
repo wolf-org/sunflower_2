@@ -19,7 +19,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("LEVEL EDITOR", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.LevelEditor, "Level Editor");
             GUILayout.Space(10);
             var scriptableSetting = Resources.Load<LevelSystemEditorSetting>(nameof(LevelSystemEditorSetting));
             if (scriptableSetting == null)
@@ -150,6 +150,7 @@ namespace VirtueSky.ControlPanel.Editor
 
         public static void OnEnable()
         {
+            if (!LevelSystemEditorSetting.IsExist()) return;
             RefreshPickObject();
             SceneView.duringSceneGui += OnSceneGUI;
         }

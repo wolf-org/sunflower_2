@@ -38,7 +38,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("IN APP PURCHASE", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.InAppPurchase, "In App Purchase");
             GUILayout.Space(10);
             scroll = EditorGUILayout.BeginScrollView(scroll);
 #if VIRTUESKY_IAP
@@ -69,57 +69,18 @@ namespace VirtueSky.ControlPanel.Editor
                 $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_IAP}\" to use IAP",
                 MessageType.Warning);
 #endif
-            GUILayout.Space(10);
-            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
-            CPUtility.GuiLine(2);
-            GUILayout.Space(10);
-
-//             if (GUILayout.Button("Create Iap Purchase Product Event"))
-//             {
-// #if VIRTUESKY_IAP
-//                 IapWindowEditor.CreateIapProductEvent();
-//
-// #else
-//                 Debug.LogError("Add scripting define symbols ( VIRTUESKY_IAP ) to use IAP");
-// #endif
-//             }
-//
-//             if (GUILayout.Button("Create Iap Is Purchase Product Event"))
-//             {
-// #if VIRTUESKY_IAP
-//                 IapWindowEditor.CreateIsPurchaseProductEvent();
-//
-// #else
-//                 Debug.LogError("Add scripting define symbols ( VIRTUESKY_IAP ) to use IAP");
-// #endif
-//             }
-//
-//             if (GUILayout.Button("Create Iap Tracking Revenue Event"))
-//             {
-// #if VIRTUESKY_IAP
-//                 IapWindowEditor.CreateIapTrackingRevenueEvent();
-//
-// #else
-//                 Debug.LogError("Add scripting define symbols ( VIRTUESKY_IAP ) to use IAP");
-// #endif
-//             }
 
             GUILayout.Space(10);
-            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
-            GUILayout.Label("INSTALL PACKAGE IN APP PURCHASE", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Install Sdk");
             GUILayout.Space(10);
             CPUtility.DrawButtonInstallPackage("Install In App Purchasing", "Remove In App Purchasing",
                 ConstantPackage.PackageNameInAppPurchase, ConstantPackage.MaxVersionInAppPurchase);
             GUILayout.Space(10);
-            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
-            GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Define Symbols");
             GUILayout.Space(10);
 
 #if !VIRTUESKY_IAP
@@ -135,7 +96,7 @@ namespace VirtueSky.ControlPanel.Editor
             //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
-            GUILayout.Label("PING IAP SETTING", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Ping Iap Setting");
             GUILayout.Space(10);
             if (GUILayout.Button("Ping"))
             {
