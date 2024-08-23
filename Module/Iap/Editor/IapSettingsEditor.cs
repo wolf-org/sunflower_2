@@ -31,8 +31,8 @@ namespace VirtueSky.Iap
         {
             serializedObject.Update();
             Init();
-            EditorGUILayout.LabelField("IAP SETTING", EditorStyles.boldLabel);
-            GuiLine(2);
+            // EditorGUILayout.LabelField("IAP SETTING", EditorStyles.boldLabel);
+            // GuiLine(2);
             GUILayout.Space(10);
             EditorGUILayout.PropertyField(_runtimeAutoInit);
             if (_runtimeAutoInit.boolValue)

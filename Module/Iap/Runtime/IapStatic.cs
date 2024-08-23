@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using VirtueSky.Core;
-using VirtueSky.Threading.Tasks;
 
 #if VIRTUESKY_IAP
 using UnityEngine.Purchasing;

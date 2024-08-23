@@ -13,7 +13,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("REGISTER SOME PACKAGE", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.RegisterPackage, "Register Package");
             GUILayout.Space(10);
             scrollPositionAddSomePackage =
                 EditorGUILayout.BeginScrollView(scrollPositionAddSomePackage, GUILayout.Height(150));
@@ -95,6 +95,8 @@ namespace VirtueSky.ControlPanel.Editor
                 ConstantPackage.PackageNameAppleSignIn, ConstantPackage.MaxVersionAppleSignIn);
             // CPUtility.DrawButtonInstallPackage("Install Animancer", "Remove Animancer",
             //     ConstantPackage.PackageNameAnimancer, ConstantPackage.MaxVersionAnimancer);
+            CPUtility.DrawButtonInstallPackage("Install UniTask", "Remove UniTask", ConstantPackage.PackageNameUniTask,
+                ConstantPackage.MaxVersionUniTask);
             CPUtility.DrawButtonInstallPackage("Install Mobile Notifications", "Remove Mobile Notifications",
                 ConstantPackage.PackageNameMobileNotification, ConstantPackage.MaxVersionMobileNotification);
             CPUtility.DrawButtonInstallPackage("Install Addressables", "Remove Addressables",

@@ -26,7 +26,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("APPSFLYER", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.AppsFlyer, "AppsFlyer");
             GUILayout.Space(10);
             CPUtility.DrawButtonInstallPackage("Install AppsFlyer", "Remove AppsFlyer",
                 ConstantPackage.PackageNameAppFlyer, ConstantPackage.MaxVersionAppFlyer);
@@ -39,13 +39,16 @@ namespace VirtueSky.ControlPanel.Editor
             EditorGUILayout.HelpBox(
                 $"Add scripting define symbols: {ConstantDefineSymbols.VIRTUESKY_APPSFLYER} for AppsFlyer to use",
                 MessageType.Info);
-#endif
             GUILayout.Space(10);
-            GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
+#endif
+
+            CPUtility.DrawHeader("Define Symbols");
+            GUILayout.Space(10);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_APPSFLYER);
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
-            GUILayout.Label("APPSFLYER SETTINGS", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            CPUtility.DrawHeader("AppsFlyer Settings");
             GUILayout.Space(10);
             if (_setting == null)
             {

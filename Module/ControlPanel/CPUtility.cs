@@ -32,7 +32,7 @@ namespace VirtueSky.ControlPanel.Editor
                 }
             }
 
-            GUI.backgroundColor = GameDataEditor.ColorContentWindowSunflower.ToColor();
+            GUI.backgroundColor = Color.white;
 
             GUILayout.Space(10);
             GUILayout.Toggle(isInstall, TextIsInstallPackage(isInstall));
@@ -58,7 +58,7 @@ namespace VirtueSky.ControlPanel.Editor
                 EditorScriptDefineSymbols.SwitchFlag(flagSymbols);
             }
 
-            GUI.backgroundColor = GameDataEditor.ColorContentWindowSunflower.ToColor();
+            GUI.backgroundColor = Color.white;
 
             GUILayout.Space(10);
             GUILayout.Toggle(isAddSymbols, TextIsEnable(isAddSymbols));
@@ -108,6 +108,49 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 draw?.Invoke();
             }
+        }
+
+        public static Texture2D GetIcon(StatePanelControl statePanelControl)
+        {
+            return statePanelControl switch
+            {
+                StatePanelControl.Advertising => EditorResources.IconAds,
+                StatePanelControl.InAppPurchase => EditorResources.IconIap,
+                StatePanelControl.Audio => EditorResources.IconAudio,
+                StatePanelControl.Adjust => EditorResources.IconAdjust,
+                StatePanelControl.AppsFlyer => EditorResources.IconAppsFlyer,
+                StatePanelControl.GameService => EditorResources.IconGameService,
+                StatePanelControl.Firebase => EditorResources.IconFirebase,
+                StatePanelControl.Hierarchy => EditorResources.IconHierarchy,
+                StatePanelControl.Extensions => EditorResources.IconExtension,
+                StatePanelControl.FolderIcon => EditorResources.IconFolder,
+                StatePanelControl.RegisterPackage => EditorResources.IconPackage,
+                StatePanelControl.About => EditorResources.IconAbout,
+                _ => EditorResources.IconUnity
+            };
+        }
+
+        public static void DrawHeaderIcon(StatePanelControl statePanelControl, string textHeader, int _fontSize = 17)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Box(CPUtility.GetIcon(statePanelControl), GUIStyle.none,
+                GUILayout.Width(32), GUILayout.Height(32));
+            GUILayout.Space(3);
+            GUIStyle headerStyle = new GUIStyle(EditorStyles.boldLabel)
+            {
+                fontSize = _fontSize
+            };
+            GUILayout.Label(textHeader, headerStyle, GUILayout.ExpandHeight(false), GUILayout.Height(31));
+            GUILayout.EndHorizontal();
+        }
+
+        public static void DrawHeader(string textHeader, int _fontSize = 16)
+        {
+            GUIStyle headerStyle = new GUIStyle(EditorStyles.boldLabel)
+            {
+                fontSize = _fontSize
+            };
+            GUILayout.Label(textHeader, headerStyle);
         }
     }
 }

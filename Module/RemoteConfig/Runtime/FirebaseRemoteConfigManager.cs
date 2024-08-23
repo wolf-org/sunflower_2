@@ -36,7 +36,18 @@ namespace VirtueSky.RemoteConfigs
         private static FirebaseRemoteConfigManager ins;
         public static List<FirebaseRemoteConfigData> ListRemoteConfigData => ins.listRemoteConfigData;
         public static bool IsFetchRemoteConfigCompleted => ins.isFetchRemoteConfigCompleted;
-        public static bool FirebaseDependencyAvailable => ins.dependencyStatus == DependencyStatus.Available;
+
+        public static bool FirebaseDependencyAvailable
+        {
+            get
+            {
+#if VIRTUESKY_FIREBASE
+                 return ins.dependencyStatus == DependencyStatus.Available;
+#else
+                return false;
+#endif
+            }
+        }
 
         private void Awake()
         {

@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using VirtueSky.Core;
 using VirtueSky.DataStorage;
-using VirtueSky.Threading.Tasks;
 
 namespace VirtueSky.Ads
 {

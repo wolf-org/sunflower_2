@@ -33,7 +33,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("ADVERTISING", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.Advertising, "Advertising");
             GUILayout.Space(10);
             scroll = EditorGUILayout.BeginScrollView(scroll);
             if (_adSetting == null)
@@ -75,7 +75,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
-            GUILayout.Label("PING ADS SETTING", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Ping Ads Settings");
             GUILayout.Space(10);
             if (GUILayout.Button("Ping"))
             {
@@ -101,7 +101,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
-            GUILayout.Label("INSTALL MAX SDK", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Install Max Sdk");
             GUILayout.Space(10);
             if (GUILayout.Button("Install Max Sdk Plugin"))
             {
@@ -113,7 +113,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
-            GUILayout.Label("ADD SYMBOLS", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Define symbols");
             GUILayout.Space(10);
 #if !VIRTUESKY_ADS || !VIRTUESKY_APPLOVIN
             EditorGUILayout.HelpBox(
@@ -130,7 +130,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
-            GUILayout.Label("INSTALL ADMOB SDK", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Install Admob Sdk");
             GUILayout.Space(10);
             if (GUILayout.Button("Install Admob Sdk Plugin"))
             {
@@ -142,7 +142,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
-            GUILayout.Label("ADD SYMBOLS", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Define symbols");
             GUILayout.Space(10);
 #if !VIRTUESKY_ADS || !VIRTUESKY_ADMOB
             EditorGUILayout.HelpBox(
@@ -159,7 +159,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
-            GUILayout.Label("INSTALL IRON-SOURCE SDK", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Install IronSource Sdk");
             GUILayout.Space(10);
             if (GUILayout.Button("Install IronSource Sdk Plugin"))
             {
@@ -171,7 +171,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
-            GUILayout.Label("ADD SYMBOLS", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Define symbols");
             GUILayout.Space(10);
 #if !VIRTUESKY_ADS || !VIRTUESKY_IRONSOURCE
             EditorGUILayout.HelpBox(
