@@ -49,7 +49,6 @@ for version `1.3.1`
 ├── FolderIcons
 ├── Hierarchy
 ├── In app review
-├── UniTask
 ├── SimpleJSON
 ├── GameService (Sign in with apple id / google play games service)
 ├── Tracking Revenue (by Firebase analytic, Adjust or Appsflyer)
