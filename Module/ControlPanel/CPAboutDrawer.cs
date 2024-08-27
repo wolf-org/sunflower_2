@@ -15,7 +15,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.BeginVertical();
             CPUtility.DrawHeaderIcon(StatePanelControl.About, "About");
             GUILayout.Space(10);
-            GUILayout.TextArea("Name: Unity-Common", EditorStyles.boldLabel);
+            GUILayout.TextArea("Name: Sunflower2", EditorStyles.boldLabel);
             GUILayout.TextArea(
                 "Core singleton for building Unity games",
                 EditorStyles.boldLabel);

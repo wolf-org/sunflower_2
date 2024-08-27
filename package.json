@@ -1,6 +1,6 @@
 {
   "name": "com.wolf-org.sunflower2",
-  "displayName": "UnityCommon",
+  "displayName": "Sunflower2",
   "description": "Core singleton for building Unity games ",
   "version": "1.3.2",
   "unity": "2022.3",

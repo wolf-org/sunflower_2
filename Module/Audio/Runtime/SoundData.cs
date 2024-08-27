@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace VirtueSky.Audio
 {
-    [CreateAssetMenu(menuName = "Unity-Common/Audio/Sound Data", fileName = "sound_data")]
+    [CreateAssetMenu(menuName = "Sunflower2/Audio/Sound Data", fileName = "sound_data")]
     [EditorIcon("scriptable_audioclip")]
     public class SoundData : ScriptableObject
     {
@@ -15,8 +15,7 @@ namespace VirtueSky.Audio
 
         public SoundType soundType;
 
-        [Space, Header("Fade Volume - Only Music"), Tooltip("Only Music Background")]
-        [ShowIf(nameof(soundType), SoundType.Music)]
+        [Space, Header("Fade Volume - Only Music"), Tooltip("Only Music Background")] [ShowIf(nameof(soundType), SoundType.Music)]
         public bool isMusicFadeVolume = false;
 
         [ShowIf(nameof(ConditionFadeMusic), true)]
