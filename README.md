@@ -23,9 +23,9 @@
 ### 1: Download the repo and drop it into folder `Assets`
 ### 2: Add the line below to `Packages/manifest.json`
 
-for version `1.3.2`
+for version `1.3.3`
 ```csharp
-"com.wolf-org.sunflower2":"https://github.com/wolf-org/sunflower_2.git#1.3.2",
+"com.wolf-org.sunflower2":"https://github.com/wolf-org/sunflower_2.git#1.3.3",
 ```
 
 ## Includes modules
