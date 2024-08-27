@@ -9,7 +9,7 @@ namespace VirtueSky.DataStorage
 #if UNITY_EDITOR
     public class DataWindowEditor : EditorWindow
     {
-        [MenuItem("Unity-Common/Clear All Data", priority = 501)]
+        [MenuItem("Sunflower2/Clear All Data", priority = 501)]
         public static void ClearAllData()
         {
             GameData.DeleteAll();
@@ -18,14 +18,14 @@ namespace VirtueSky.DataStorage
             Debug.Log($"<color=Green>Clear all data succeed</color>");
         }
 
-        [MenuItem("Unity-Common/Save Data", priority = 504)]
+        [MenuItem("Sunflower2/Save Data", priority = 504)]
         public static void SaveData()
         {
             GameData.Save();
             Debug.Log($"<color=Green>Save data succeed</color>");
         }
 
-        [MenuItem("Unity-Common/Clear Path Data", priority = 502)]
+        [MenuItem("Sunflower2/Clear Path Data", priority = 502)]
         public static void ClearDataPath()
         {
             GameData.DeleteAll();
@@ -34,7 +34,7 @@ namespace VirtueSky.DataStorage
         }
 
 
-        [MenuItem("Unity-Common/Open Path Data", priority = 503)]
+        [MenuItem("Sunflower2/Open Path Data", priority = 503)]
         public static void OpenPathData()
         {
             string path = GameData.GetPersistentDataPath();

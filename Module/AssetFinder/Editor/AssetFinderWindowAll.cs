@@ -16,7 +16,7 @@ namespace VirtueSky.AssetFinder.Editor
     // optimize lag duplicate khi use
     public class AssetFinderWindowAll : AssetFinderWindowBase, IHasCustomMenu
     {
-        [MenuItem("Unity-Common/Asset Finder/Show Window %#k", priority = 101)]
+        [MenuItem("Sunflower2/Asset Finder/Show Window %#k", priority = 101)]
         public static void ShowWindow()
         {
             var _window = CreateInstance<AssetFinderWindowAll>();
@@ -25,7 +25,7 @@ namespace VirtueSky.AssetFinder.Editor
             _window.Show();
         }
 
-        [MenuItem("Unity-Common/Asset Finder/ Delete Cache", priority = 102)]
+        [MenuItem("Sunflower2/Asset Finder/ Delete Cache", priority = 102)]
         public static void DeleteFinderCache()
         {
             AssetFinderCache.DeleteCache();

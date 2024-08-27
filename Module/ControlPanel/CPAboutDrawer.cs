@@ -15,7 +15,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.BeginVertical();
             CPUtility.DrawHeaderIcon(StatePanelControl.About, "About");
             GUILayout.Space(10);
-            GUILayout.TextArea("Name: Unity-Common", EditorStyles.boldLabel);
+            GUILayout.TextArea("Name: Sunflower2", EditorStyles.boldLabel);
             GUILayout.TextArea(
                 "Core singleton for building Unity games",
                 EditorStyles.boldLabel);
@@ -25,12 +25,12 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             if (GUILayout.Button("Open GitHub Repository"))
             {
-                Application.OpenURL("https://github.com/wolf-package/unity-common");
+                Application.OpenURL("https://github.com/wolf-org/sunflower_2");
             }
 
             if (GUILayout.Button("Document"))
             {
-                Application.OpenURL("https://github.com/VirtueSky/sunflower/wiki");
+                Application.OpenURL("https://github.com/wolf-org/sunflower_2/wiki");
             }
 
             GUILayout.Space(10);

@@ -12,7 +12,7 @@ namespace VirtueSky.ControlPanel.Editor
         private StatePanelControl statePanelControl;
         private Vector2 scrollButton = Vector2.zero;
 
-        [MenuItem("Unity-Common/Magic Panel &1", false, priority = 1)]
+        [MenuItem("Sunflower2/Magic Panel &1", false, priority = 1)]
         public static void ShowPanelControlWindow()
         {
             ControlPanelWindowEditor window =
