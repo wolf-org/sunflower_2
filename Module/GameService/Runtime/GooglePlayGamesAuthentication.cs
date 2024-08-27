@@ -10,51 +10,29 @@ using VirtueSky.Inspector;
 namespace VirtueSky.GameService
 {
     [EditorIcon("icon_authentication")]
-    public class GooglePlayGamesAuthentication : MonoBehaviour
+    public class GooglePlayGamesAuthentication : ServiceAuthentication
     {
         [SerializeField] private bool dontDestroyOnLoad;
-        public static event Action<string> ServerCodeEvent;
-        public static event Action<string> NameEvent;
-        public static event Action<StatusLogin> StatusLoginEvent;
-        private static GooglePlayGamesAuthentication ins;
+        
+        private static event Action OnGetNewServerCodeEvent;
 
-        private void Awake()
+        protected override void OnEnable()
         {
-            if (dontDestroyOnLoad)
-            {
-                DontDestroyOnLoad(gameObject);
-            }
-
-            if (ins == null)
-            {
-                ins = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            base.OnEnable();
+            OnGetNewServerCodeEvent += InternalGetNewServerCode;
         }
 
-        private void Start()
+        protected override void OnDisable()
         {
-            Init();
-        }
-
-        private void Init()
-        {
-#if UNITY_ANDROID && VIRTUESKY_GPGS
-            PlayGamesPlatform.Activate();
-#endif
+            base.OnDisable();
+            OnGetNewServerCodeEvent -= InternalGetNewServerCode;
         }
 
         private async void InternalGetNewServerCode()
         {
 #if UNITY_ANDROID && VIRTUESKY_GPGS
             if (!PlayGamesPlatform.Instance.IsAuthenticated()) return;
-            (string serverCode, StatusLogin statusLogin) = await Excute();
-            ServerCodeEvent?.Invoke(serverCode);
-            StatusLoginEvent?.Invoke(statusLogin);
-
+            (serverCode, statusLogin) = await Excute();
             Task<(string, StatusLogin)> Excute()
             {
                 var taskSource = new TaskCompletionSource<(string, StatusLogin)>();
@@ -66,7 +44,14 @@ namespace VirtueSky.GameService
         }
 
 
-        private void InternalLogin()
+        protected override void InternalInit()
+        {
+#if UNITY_ANDROID && VIRTUESKY_GPGS
+            PlayGamesPlatform.Activate();
+#endif
+        }
+
+        protected override void InternalLogin()
         {
 #if UNITY_ANDROID && VIRTUESKY_GPGS
             PlayGamesPlatform.Instance.Authenticate((success) =>
@@ -78,9 +63,9 @@ namespace VirtueSky.GameService
                         code =>
                         {
                             Debug.Log("Authorization code: " + code);
-                            ServerCodeEvent?.Invoke(code);
-                            NameEvent?.Invoke(PlayGamesPlatform.Instance.GetUserDisplayName());
-                            StatusLoginEvent?.Invoke(StatusLogin.Successful);
+                            serverCode = code;
+                            nameAuth = PlayGamesPlatform.Instance.GetUserDisplayName();
+                            statusLogin = StatusLogin.Successful;
                         });
                 }
                 else
@@ -93,16 +78,16 @@ namespace VirtueSky.GameService
                                 code =>
                                 {
                                     Debug.Log("Authorization code: " + code);
-                                    ServerCodeEvent?.Invoke(code);
-                                    NameEvent?.Invoke(PlayGamesPlatform.Instance.GetUserDisplayName());
-                                    StatusLoginEvent?.Invoke(StatusLogin.Successful);
+                                    serverCode = code;
+                                    nameAuth = PlayGamesPlatform.Instance.GetUserDisplayName();
+                                    statusLogin = StatusLogin.Successful;
                                 });
                         }
                         else
                         {
                             Debug.Log("Login Failed");
-                            ServerCodeEvent?.Invoke("");
-                            StatusLoginEvent?.Invoke(StatusLogin.Failed);
+                            serverCode = "";
+                            statusLogin = StatusLogin.Failed;
                         }
                     });
                 }
@@ -112,9 +97,7 @@ namespace VirtueSky.GameService
 
         #region Api
 
-        public static void Login() => ins.InternalLogin();
-
-        public static void GetNewServerCode() => ins.InternalGetNewServerCode();
+        public static void GetNewServerCode() => OnGetNewServerCodeEvent?.Invoke();
 
         public static bool IsSignIn()
         {

@@ -14,42 +14,40 @@ using VirtueSky.Inspector;
 namespace VirtueSky.GameService
 {
     [EditorIcon("icon_authentication")]
-    public class AppleAuthentication : MonoBehaviour
+    public class AppleAuthentication : ServiceAuthentication
     {
         [SerializeField] private bool dontDestroyOnLoad;
-        public static event Action<string> ServerCodeEvent;
-        public static event Action<string> AuthorizationCodeEvent;
-        public static event Action<string> UserIdEvent;
-        public static event Action<string> NameEvent;
-        public static event Action<StatusLogin> StatusLoginEvent;
-        private static AppleAuthentication ins;
+
+        private static event Func<string> GetAuthorCodeEvent;
+        private static event Func<string> GetUserIdEvent;
+
+        private string _authorizationCode;
+        private string _userId;
+
+
+        private string InternalGetAuthorCode() => _authorizationCode;
+        private string InternalGetUserId() => _userId;
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            GetAuthorCodeEvent += InternalGetAuthorCode;
+            GetUserIdEvent += InternalGetUserId;
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            GetAuthorCodeEvent -= InternalGetAuthorCode;
+            GetUserIdEvent -= InternalGetUserId;
+        }
 
 #if UNITY_IOS && VIRTUESKY_APPLE_AUTH
         private IAppleAuthManager _iAppleAuthManager;
 #endif
-        private void Awake()
-        {
-            if (dontDestroyOnLoad)
-            {
-                DontDestroyOnLoad(gameObject);
-            }
 
-            if (ins == null)
-            {
-                ins = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
 
-        private void Start()
-        {
-            Init();
-        }
-
-        private void Init()
+        protected override void InternalInit()
         {
 #if UNITY_IOS && VIRTUESKY_APPLE_AUTH
             if (AppleAuthManager.IsCurrentPlatformSupported)
@@ -74,7 +72,7 @@ namespace VirtueSky.GameService
 #endif
         }
 
-        private void InternalLogin()
+        protected override void InternalLogin()
         {
 #if UNITY_IOS && VIRTUESKY_APPLE_AUTH
             var loginArgs =
@@ -110,33 +108,34 @@ namespace VirtueSky.GameService
                             appleIdCredential.AuthorizationCode.Length);
 
                         // And now you have all the information to create/login a user in your system
-                        ServerCodeEvent?.Invoke(identityToken);
-                        AuthorizationCodeEvent?.Invoke(authorizationCode);
-                        UserIdEvent?.Invoke(userId);
-                        NameEvent?.Invoke($"{fullName.GivenName} {fullName.FamilyName}");
-                        StatusLoginEvent?.Invoke(StatusLogin.Successful);
+                        serverCode = identityToken;
+                        _authorizationCode = authorizationCode;
+                        _userId = userId;
+                        nameAuth = $"{fullName.GivenName} {fullName.FamilyName}";
+                        statusLogin = StatusLogin.Successful;
                     }
                     else
                     {
-                        ServerCodeEvent?.Invoke("");
-                        UserIdEvent?.Invoke("");
-                        StatusLoginEvent?.Invoke(StatusLogin.Failed);
+                        serverCode = "";
+                        _userId = "";
+                        statusLogin = StatusLogin.Failed;
                     }
                 },
                 error =>
                 {
                     // Something went wrong
                     var authorizationErrorCode = error.GetAuthorizationErrorCode();
-                    ServerCodeEvent?.Invoke("");
-                    UserIdEvent?.Invoke("");
-                    StatusLoginEvent?.Invoke(StatusLogin.Failed);
+                    serverCode = "";
+                    _userId = "";
+                    statusLogin = StatusLogin.Failed;
                 });
 #endif
         }
 
         #region Api
 
-        public static void Login() => ins.InternalLogin();
+        public static string GetAuthorizationCode() => GetAuthorCodeEvent?.Invoke();
+        public static string GetUserId() => GetUserIdEvent?.Invoke();
 
         #endregion
     }
