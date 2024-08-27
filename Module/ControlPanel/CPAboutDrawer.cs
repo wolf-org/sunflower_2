@@ -25,12 +25,12 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             if (GUILayout.Button("Open GitHub Repository"))
             {
-                Application.OpenURL("https://github.com/wolf-package/unity-common");
+                Application.OpenURL("https://github.com/wolf-org/sunflower_2");
             }
 
             if (GUILayout.Button("Document"))
             {
-                Application.OpenURL("https://github.com/VirtueSky/sunflower/wiki");
+                Application.OpenURL("https://github.com/wolf-org/sunflower_2/wiki");
             }
 
             GUILayout.Space(10);
