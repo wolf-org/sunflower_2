@@ -9,6 +9,7 @@ namespace VirtueSky.ControlPanel.Editor
     {
         private static AdjustSetting _setting;
         private static UnityEditor.Editor _editor;
+        private static Vector2 scroll = Vector2.zero;
 
         public static void OnEnable()
         {
@@ -28,6 +29,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.BeginVertical();
             CPUtility.DrawHeaderIcon(StatePanelControl.Adjust, "Adjust");
             GUILayout.Space(10);
+            scroll = EditorGUILayout.BeginScrollView(scroll);
             CPUtility.DrawButtonInstallPackage("Install Adjust", "Remove Adjust",
                 ConstantPackage.PackageNameAdjust, ConstantPackage.MaxVersionAdjust);
             GUILayout.Space(10);
@@ -71,6 +73,18 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.Space(10);
+            CPUtility.GuiLine(2);
+            GUILayout.Space(10);
+            CPUtility.DrawHeader("Adjust Tracking");
+            GUILayout.Space(10);
+
+            if (GUILayout.Button("Create Scriptable Tracking Adjust"))
+            {
+                CreateAsset.CreateScriptableAssetsOnlyName<ScriptableTrackingAdjust>($"{FileExtension.DefaultRootPath}/Tracking_Adjust", "tracking_adjust");
+            }
+
+            GUILayout.Space(10);
+            EditorGUILayout.EndScrollView();
             GUILayout.EndVertical();
         }
     }

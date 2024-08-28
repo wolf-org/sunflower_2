@@ -9,6 +9,8 @@ namespace VirtueSky.ControlPanel.Editor
     {
         private static AppsFlyerSetting _setting;
         private static UnityEditor.Editor _editor;
+        private static Vector2 scroll = Vector2.zero;
+        private static readonly string pathScriptableTracking = $"{FileExtension.DefaultRootPath}/Tracking_AppsFlyer";
 
         public static void OnEnable()
         {
@@ -28,6 +30,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.BeginVertical();
             CPUtility.DrawHeaderIcon(StatePanelControl.AppsFlyer, "AppsFlyer");
             GUILayout.Space(10);
+            scroll = EditorGUILayout.BeginScrollView(scroll);
             CPUtility.DrawButtonInstallPackage("Install AppsFlyer", "Remove AppsFlyer",
                 ConstantPackage.PackageNameAppFlyer, ConstantPackage.MaxVersionAppFlyer);
             CPUtility.DrawButtonInstallPackage("Install AppsFlyer Revenue Generic", "Remove AppsFlyer Revenue Generic",
@@ -77,6 +80,47 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.Space(10);
+            CPUtility.GuiLine(2);
+            GUILayout.Space(10);
+            CPUtility.DrawHeader("AppsFlyer Tracking");
+            GUILayout.Space(10);
+            if (GUILayout.Button("Create Scriptable Tracking AppsFlyer No Param"))
+            {
+                CreateAsset.CreateScriptableAssetsOnlyName<ScriptableTrackingAppsFlyerNoParam>(pathScriptableTracking, "tracking_appsflyer_no_param");
+            }
+
+            if (GUILayout.Button("Create Scriptable Tracking AppsFlyer 1 Param"))
+            {
+                CreateAsset.CreateScriptableAssetsOnlyName<ScriptableTrackingAppsFlyerOneParam>(pathScriptableTracking, "tracking_appsflyer_1_param");
+            }
+
+            if (GUILayout.Button("Create Scriptable Tracking AppsFlyer 2 Param"))
+            {
+                CreateAsset.CreateScriptableAssetsOnlyName<ScriptableTrackingAppsFlyerTwoParam>(pathScriptableTracking, "tracking_appsflyer_2_param");
+            }
+
+            if (GUILayout.Button("Create Scriptable Tracking AppsFlyer 3 Param"))
+            {
+                CreateAsset.CreateScriptableAssetsOnlyName<ScriptableTrackingAppsFlyerThreeParam>(pathScriptableTracking, "tracking_appsflyer_3_param");
+            }
+
+            if (GUILayout.Button("Create Scriptable Tracking AppsFlyer 4 Param"))
+            {
+                CreateAsset.CreateScriptableAssetsOnlyName<ScriptableTrackingAppsFlyerFourParam>(pathScriptableTracking, "tracking_appsflyer_5_param");
+            }
+
+            if (GUILayout.Button("Create Scriptable Tracking AppsFlyer 5 Param"))
+            {
+                CreateAsset.CreateScriptableAssetsOnlyName<ScriptableTrackingAppsFlyerFiveParam>(pathScriptableTracking, "tracking_appsflyer_5_param");
+            }
+
+            if (GUILayout.Button("Create Scriptable Tracking AppsFlyer Has Param"))
+            {
+                CreateAsset.CreateScriptableAssetsOnlyName<ScriptableTrackingAppsFlyerHasParam>(pathScriptableTracking, "tracking_appsflyer_has_param");
+            }
+
+            GUILayout.Space(10);
+            EditorGUILayout.EndScrollView();
             GUILayout.EndVertical();
         }
     }

@@ -11,6 +11,13 @@
             AppsFlyerTrackingRevenue.AppsFlyerTrackRevenueAd(value, network, unitId, format, adNetwork);
         }
 
+        public static void TrackEventATTResult(int status)
+        {
+#if VIRTUESKY_FIREBASE_ANALYTIC
+            Firebase.Analytics.FirebaseAnalytics.LogEvent("app_tracking_transparency", "status", status);
+#endif
+        }
+
         public static void StartTrackingAdjust()
         {
 #if VIRTUESKY_ADJUST

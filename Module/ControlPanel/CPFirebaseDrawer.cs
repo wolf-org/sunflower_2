@@ -3,6 +3,7 @@ using System.IO;
 using UnityEditor;
 using UnityEditor.Android;
 using UnityEngine;
+using VirtueSky.Tracking;
 using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.ControlPanel.Editor
@@ -14,6 +15,7 @@ namespace VirtueSky.ControlPanel.Editor
         private static Vector2 scroll = Vector2.zero;
         private static bool isCustomPackageName;
         private static string packageName;
+        private static readonly string pathScriptableTracking = $"{FileExtension.DefaultRootPath}/Tracking_Firebase";
 
         public static void OnDrawFirebase(Rect position)
         {
@@ -42,6 +44,7 @@ namespace VirtueSky.ControlPanel.Editor
 #endif
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_FIREBASE_ANALYTIC);
             GUILayout.Space(10);
+            DrawTracking();
 #if UNITY_ANDROID
             CPUtility.GuiLine(2);
             DrawDebugView();
@@ -50,6 +53,51 @@ namespace VirtueSky.ControlPanel.Editor
 
             EditorGUILayout.EndScrollView();
             GUILayout.EndVertical();
+        }
+
+        static void DrawTracking()
+        {
+            CPUtility.GuiLine(2);
+            GUILayout.Space(10);
+            CPUtility.DrawHeader("Firebase Tracking");
+            GUILayout.Space(10);
+
+            if (GUILayout.Button("Create Scriptable Tracking Firebase No Param"))
+            {
+                CreateAsset.CreateScriptableAssetsOnlyName<ScriptableTrackingFirebaseNoParam>(pathScriptableTracking, "tracking_firebase_no_param");
+            }
+
+            if (GUILayout.Button("Create Scriptable Tracking Firebase 1 Param"))
+            {
+                CreateAsset.CreateScriptableAssetsOnlyName<ScriptableTrackingFirebaseOneParam>(pathScriptableTracking, "tracking_firebase_1_param");
+            }
+
+            if (GUILayout.Button("Create Scriptable Tracking Firebase 2 Param"))
+            {
+                CreateAsset.CreateScriptableAssetsOnlyName<ScriptableTrackingFirebaseTwoParam>(pathScriptableTracking, "tracking_firebase_2_param");
+            }
+
+            if (GUILayout.Button("Create Scriptable Tracking Firebase 3 Param"))
+            {
+                CreateAsset.CreateScriptableAssetsOnlyName<ScriptableTrackingFirebaseThreeParam>(pathScriptableTracking, "tracking_firebase_3_param");
+            }
+
+            if (GUILayout.Button("Create Scriptable Tracking Firebase 4 Param"))
+            {
+                CreateAsset.CreateScriptableAssetsOnlyName<ScriptableTrackingFirebaseFourParam>(pathScriptableTracking, "tracking_firebase_4_param");
+            }
+
+            if (GUILayout.Button("Create Scriptable Tracking Firebase 5 Param"))
+            {
+                CreateAsset.CreateScriptableAssetsOnlyName<ScriptableTrackingFirebaseFiveParam>(pathScriptableTracking, "tracking_firebase_5_param");
+            }
+
+            if (GUILayout.Button("Create Scriptable Tracking Firebase 6 Param"))
+            {
+                CreateAsset.CreateScriptableAssetsOnlyName<ScriptableTrackingFirebaseSixParam>(pathScriptableTracking, "tracking_firebase_6_param");
+            }
+
+            GUILayout.Space(10);
         }
 
         static void DrawInstall(Rect position)

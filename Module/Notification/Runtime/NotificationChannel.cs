@@ -7,8 +7,10 @@ using VirtueSky.Misc;
 
 namespace VirtueSky.Notifications
 {
-    [Serializable]
-    public class NotificationChannel
+    [CreateAssetMenu(fileName = "notification_channel_data.asset",
+        menuName = "Sunflower2/Notification Channel")]
+    [EditorIcon("scriptable_notification")]
+    public class NotificationChannel : ScriptableObject
     {
         [SerializeField] private string identifier;
 

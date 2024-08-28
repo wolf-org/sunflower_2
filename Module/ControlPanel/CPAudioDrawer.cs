@@ -1,6 +1,6 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using VirtueSky.Audio;
+
 
 namespace VirtueSky.ControlPanel.Editor
 {
@@ -17,6 +17,7 @@ namespace VirtueSky.ControlPanel.Editor
                 AudioWindowEditor.CreateSoundData();
             }
 
+            GUILayout.Space(10);
             GUILayout.EndVertical();
         }
     }
