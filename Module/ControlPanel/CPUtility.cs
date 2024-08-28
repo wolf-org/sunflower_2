@@ -124,6 +124,7 @@ namespace VirtueSky.ControlPanel.Editor
                 StatePanelControl.Hierarchy => EditorResources.IconHierarchy,
                 StatePanelControl.Extensions => EditorResources.IconExtension,
                 StatePanelControl.FolderIcon => EditorResources.IconFolder,
+                StatePanelControl.Notification => EditorResources.IconNotification,
                 StatePanelControl.RegisterPackage => EditorResources.IconPackage,
                 StatePanelControl.About => EditorResources.IconAbout,
                 _ => EditorResources.IconUnity

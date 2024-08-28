@@ -10,28 +10,17 @@ using VirtueSky.Inspector;
 namespace VirtueSky.Notifications
 {
     [EditorIcon("script_noti"), HideMonoScript]
-    public class NotificationManager : MonoBehaviour
+    public class NotificationPrepare : MonoBehaviour
     {
         [SerializeField] private bool dontDestroyOnLoad;
         [Space, SerializeField] private bool autoSchedule = true;
         [SerializeField] private List<NotificationChannel> channels = new List<NotificationChannel>();
-        private static NotificationManager ins;
-        public static List<NotificationChannel> Channels => ins.channels;
 
         private void Awake()
         {
             if (dontDestroyOnLoad)
             {
                 DontDestroyOnLoad(gameObject);
-            }
-
-            if (ins == null)
-            {
-                ins = this;
-            }
-            else
-            {
-                Destroy(gameObject);
             }
         }
 

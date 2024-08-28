@@ -1,8 +1,5 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
-using VirtueSky.DataStorage;
-using VirtueSky.Inspector;
 
 
 namespace VirtueSky.ControlPanel.Editor
@@ -77,6 +74,7 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButtonChooseState("AppsFlyer", StatePanelControl.AppsFlyer);
             DrawButtonChooseState("Assets Finder", StatePanelControl.AssetsFinder);
             DrawButtonChooseState("Level Editor", StatePanelControl.LevelEditor);
+            DrawButtonChooseState("Notifications", StatePanelControl.Notification);
             DrawButtonChooseState("Game Service", StatePanelControl.GameService);
             DrawButtonChooseState("Folder Icon", StatePanelControl.FolderIcon);
             DrawButtonChooseState("Hierarchy", StatePanelControl.Hierarchy);
@@ -129,6 +127,9 @@ namespace VirtueSky.ControlPanel.Editor
                 case StatePanelControl.GameService:
                     CPGameServiceDrawer.OnDrawGameService();
                     break;
+                case StatePanelControl.Notification:
+                    CPNotificationDrawer.DrawNotification();
+                    break;
                 case StatePanelControl.Extensions:
                     CPExtensionsDrawer.OnDrawExtensions(position);
                     break;
@@ -171,6 +172,7 @@ namespace VirtueSky.ControlPanel.Editor
         Hierarchy,
         FolderIcon,
         GameService,
+        Notification,
         Extensions,
         About,
     }
