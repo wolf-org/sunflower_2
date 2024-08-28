@@ -12,8 +12,6 @@ namespace VirtueSky.GameService
     [EditorIcon("icon_authentication")]
     public class GooglePlayGamesAuthentication : ServiceAuthentication
     {
-        [SerializeField] private bool dontDestroyOnLoad;
-        
         private static event Action OnGetNewServerCodeEvent;
 
         protected override void OnEnable()

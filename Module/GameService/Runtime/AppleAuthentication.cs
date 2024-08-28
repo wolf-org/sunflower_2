@@ -16,8 +16,6 @@ namespace VirtueSky.GameService
     [EditorIcon("icon_authentication")]
     public class AppleAuthentication : ServiceAuthentication
     {
-        [SerializeField] private bool dontDestroyOnLoad;
-
         private static event Func<string> GetAuthorCodeEvent;
         private static event Func<string> GetUserIdEvent;
 
