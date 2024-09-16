@@ -24,7 +24,6 @@ namespace VirtueSky.Ads
         #region Max
 
         [TextArea, SerializeField] private string sdkKey;
-        [SerializeField] private bool applovinEnableAgeRestrictedUser;
         [SerializeField] private MaxBannerAdUnit maxBannerAdUnit;
         [SerializeField] private MaxInterstitialAdUnit maxInterstitialAdUnit;
         [SerializeField] private MaxRewardAdUnit maxRewardAdUnit;
@@ -32,7 +31,7 @@ namespace VirtueSky.Ads
         [SerializeField] private MaxAppOpenAdUnit maxAppOpenAdUnit;
 
         public string SdkKey => Instance.sdkKey;
-        public bool ApplovinEnableAgeRestrictedUser => Instance.applovinEnableAgeRestrictedUser;
+
         public MaxBannerAdUnit MaxBannerAdUnit => Instance.maxBannerAdUnit;
         public MaxInterstitialAdUnit MaxInterstitialAdUnit => Instance.maxInterstitialAdUnit;
         public MaxRewardAdUnit MaxRewardAdUnit => Instance.maxRewardAdUnit;
