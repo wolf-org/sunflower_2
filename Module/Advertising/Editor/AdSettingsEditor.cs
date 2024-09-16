@@ -14,7 +14,6 @@ namespace VirtueSky.Ads
         private SerializedProperty _adNetwork;
 
         private SerializedProperty _sdkKey;
-        private SerializedProperty _applovinEnableAgeRestrictedUser;
         private SerializedProperty _maxBannerAdUnit;
         private SerializedProperty _maxInterstitialAdUnit;
         private SerializedProperty _maxRewardAdUnit;
@@ -47,7 +46,6 @@ namespace VirtueSky.Ads
             _adLoadingInterval = serializedObject.FindProperty("adLoadingInterval");
             _adNetwork = serializedObject.FindProperty("adNetwork");
             _sdkKey = serializedObject.FindProperty("sdkKey");
-            _applovinEnableAgeRestrictedUser = serializedObject.FindProperty("applovinEnableAgeRestrictedUser");
             _maxBannerAdUnit = serializedObject.FindProperty("maxBannerAdUnit");
             _maxInterstitialAdUnit = serializedObject.FindProperty("maxInterstitialAdUnit");
             _maxRewardAdUnit = serializedObject.FindProperty("maxRewardAdUnit");
@@ -123,7 +121,6 @@ namespace VirtueSky.Ads
             GUILayout.Space(5);
             EditorGUILayout.PropertyField(_sdkKey);
             GUILayout.Space(5);
-            EditorGUILayout.PropertyField(_applovinEnableAgeRestrictedUser);
             EditorGUILayout.PropertyField(_maxBannerAdUnit);
             EditorGUILayout.PropertyField(_maxInterstitialAdUnit);
             EditorGUILayout.PropertyField(_maxRewardAdUnit);
