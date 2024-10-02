@@ -1,6 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
+#if UNITY_IOS
+using Unity.Advertisement.IosSupport;
+#endif
+
 #if VIRTUESKY_ADMOB
 using GoogleMobileAds.Api;
 using GoogleMobileAds.Ump.Api;
@@ -51,7 +56,20 @@ namespace VirtueSky.Ads
             if (adSettings.EnableGDPR)
             {
 #if VIRTUESKY_ADMOB
+#if UNITY_IOS
+                if (ATTrackingStatusBinding.GetAuthorizationTrackingStatus() ==
+                    ATTrackingStatusBinding.AuthorizationTrackingStatus.AUTHORIZED)
+                {
+                    InitGDPR();
+                }
+                else
+                {
+                    InitAdClient();
+                }
+#else
                 InitGDPR();
+#endif
+
 #endif
             }
             else
