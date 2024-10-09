@@ -31,7 +31,7 @@ for version `1.3.7`
 ## Includes modules
 
 ```bash
-├── Core (Update only called once in Monobehaviour,...)
+├── Core (Update only called once in Monobehaviour, Delay...)
 ├── ATT_IOS
 ├── Advertising (Support for Max, Admob and IronSource)
 ├── In App Purchase (IAP)
