@@ -7,7 +7,7 @@ namespace VirtueSky.ControlPanel.Editor
 {
     public class CPAdjustDrawer
     {
-        private static AdjustSetting _setting;
+        private static AdjustConfig config;
         private static UnityEditor.Editor _editor;
         private static Vector2 scroll = Vector2.zero;
 
@@ -19,8 +19,8 @@ namespace VirtueSky.ControlPanel.Editor
         private static void Init()
         {
             if (_editor != null) _editor = null;
-            _setting = CreateAsset.GetScriptableAsset<AdjustSetting>();
-            _editor = UnityEditor.Editor.CreateEditor(_setting);
+            config = CreateAsset.GetScriptableAsset<AdjustConfig>();
+            _editor = UnityEditor.Editor.CreateEditor(config);
         }
 
         public static void OnDrawAdjust()
@@ -47,14 +47,14 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
-            CPUtility.DrawHeader("Adjust Settings");
+            CPUtility.DrawHeader("Adjust Config");
             GUILayout.Space(10);
-            if (_setting == null)
+            if (config == null)
             {
-                if (GUILayout.Button("Create AdjustSettings"))
+                if (GUILayout.Button("Create AdjustConfig"))
                 {
-                    _setting =
-                        CreateAsset.CreateAndGetScriptableAsset<AdjustSetting>(isPingAsset: false);
+                    config =
+                        CreateAsset.CreateAndGetScriptableAsset<AdjustConfig>(isPingAsset: false);
                     Init();
                 }
             }
