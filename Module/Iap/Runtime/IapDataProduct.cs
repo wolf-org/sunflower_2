@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace VirtueSky.Iap
 {
@@ -11,6 +12,9 @@ namespace VirtueSky.Iap
         public string iOSId;
 #endif
         public IapProductType iapProductType;
+
+        [Tooltip("Config price for UI setup or tracking")]
+        public float price;
 
         [NonSerialized] public Action purchaseSuccessCallback;
         [NonSerialized] public Action purchaseFailedCallback;
