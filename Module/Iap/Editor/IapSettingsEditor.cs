@@ -73,37 +73,24 @@ namespace VirtueSky.Iap
             var productImplPath = $"{pathDefaultScript}/IapProduct.cs";
             var str = "namespace VirtueSky.Iap\n{";
             str += "\n\tpublic struct IapProduct\n\t{";
-
+            str += "\n";
             var iapDataProducts = _iapSettings.IapDataProducts;
             for (int i = 0; i < _iapSettings.IapDataProducts.Count; i++)
             {
                 var itemName = iapDataProducts[i].Id.Split('.').Last();
-
+                str += $"// {itemName.ToUpper()}";
                 str += $"\n\t\tpublic const string ID_{itemName.ToUpper()} = \"{iapDataProducts[i].Id}\";";
 
                 str +=
-                    $"\n\t\tpublic static IapDataProduct Purchase{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}()";
-                str += "\n\t\t{";
-                str +=
-                    $"\n\t\t\treturn IapManager.PurchaseProduct(IapSettings.Instance.IapDataProducts[{i}]);";
-                str += "\n\t\t}";
-                str += "\n";
+                    $"\n\t\tpublic static IapDataProduct Purchase{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}() => IapManager.PurchaseProduct(IapSettings.Instance.IapDataProducts[{i}]);";
 
                 str +=
-                    $"\n\t\tpublic static bool IsPurchased{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}()";
-                str += "\n\t\t{";
-                str +=
-                    $"\n\t\t\treturn IapManager.IsPurchasedProduct(IapSettings.Instance.IapDataProducts[{i}]);";
-                str += "\n\t\t}";
-
-                str += "\n";
+                    $"\n\t\tpublic static bool IsPurchased{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}() => IapManager.IsPurchasedProduct(IapSettings.Instance.IapDataProducts[{i}]);";
 
                 str +=
-                    $"\n\t\tpublic static UnityEngine.Purchasing.Product GetProduct{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}()";
-                str += "\n\t\t{";
-                str +=
-                    $"\n\t\t\treturn IapManager.GetProduct(IapSettings.Instance.IapDataProducts[{i}]);";
-                str += "\n\t\t}";
+                    $"\n\t\tpublic static UnityEngine.Purchasing.Product GetProduct{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}() => IapManager.GetProduct(IapSettings.Instance.IapDataProducts[{i}]);";
+
+                str += $"\n\t\tpublic static float PriceConfig{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}() => IapSettings.Instance.IapDataProducts[{i}].price;";
                 str += "\n";
             }
 
