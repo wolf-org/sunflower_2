@@ -32,10 +32,11 @@ namespace VirtueSky.Ads
 
         private SerializedProperty _androidAppKey;
         private SerializedProperty _iOSAppKey;
+
         private SerializedProperty _useTestAppKey;
-        private SerializedProperty _ironSourceBannerAdUnit;
-        private SerializedProperty _ironSourceInterstitialAdUnit;
-        private SerializedProperty _ironSourceRewardAdUnit;
+        // private SerializedProperty _ironSourceBannerAdUnit;
+        // private SerializedProperty _ironSourceInterstitialAdUnit;
+        // private SerializedProperty _ironSourceRewardAdUnit;
 
         void Initialize()
         {
@@ -63,9 +64,9 @@ namespace VirtueSky.Ads
             _androidAppKey = serializedObject.FindProperty("androidAppKey");
             _iOSAppKey = serializedObject.FindProperty("iOSAppKey");
             _useTestAppKey = serializedObject.FindProperty("useTestAppKey");
-            _ironSourceBannerAdUnit = serializedObject.FindProperty("ironSourceBannerAdUnit");
-            _ironSourceInterstitialAdUnit = serializedObject.FindProperty("ironSourceInterstitialAdUnit");
-            _ironSourceRewardAdUnit = serializedObject.FindProperty("ironSourceRewardAdUnit");
+            // _ironSourceBannerAdUnit = serializedObject.FindProperty("ironSourceBannerAdUnit");
+            // _ironSourceInterstitialAdUnit = serializedObject.FindProperty("ironSourceInterstitialAdUnit");
+            // _ironSourceRewardAdUnit = serializedObject.FindProperty("ironSourceRewardAdUnit");
         }
 
         public override void OnInspectorGUI()
@@ -161,9 +162,9 @@ namespace VirtueSky.Ads
             EditorGUILayout.PropertyField(_androidAppKey);
             EditorGUILayout.PropertyField(_iOSAppKey);
             EditorGUILayout.PropertyField(_useTestAppKey);
-            EditorGUILayout.PropertyField(_ironSourceBannerAdUnit);
-            EditorGUILayout.PropertyField(_ironSourceInterstitialAdUnit);
-            EditorGUILayout.PropertyField(_ironSourceRewardAdUnit);
+            // EditorGUILayout.PropertyField(_ironSourceBannerAdUnit);
+            // EditorGUILayout.PropertyField(_ironSourceInterstitialAdUnit);
+            // EditorGUILayout.PropertyField(_ironSourceRewardAdUnit);
         }
 
         void GuiLine(int i_height = 1)
