@@ -12,6 +12,7 @@ using GoogleMobileAds.Ump.Api;
 #endif
 using UnityEngine;
 using VirtueSky.Inspector;
+using VirtueSky.Misc;
 
 namespace VirtueSky.Ads
 {
@@ -95,7 +96,7 @@ namespace VirtueSky.Ads
 
             currentAdClient.SetupAdSettings(adSettings);
             currentAdClient.Initialize();
-            Debug.Log("currentAdClient: " + currentAdClient);
+            Debug.Log($"currentAdClient: {currentAdClient}".SetColor(Color.cyan));
             isInitAdClient = true;
             InitAutoLoadAds();
         }

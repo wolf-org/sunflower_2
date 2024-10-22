@@ -7,6 +7,7 @@ using Firebase.RemoteConfig;
 using UnityEngine;
 using VirtueSky.DataStorage;
 using VirtueSky.Inspector;
+using VirtueSky.Misc;
 
 namespace VirtueSky.RemoteConfigs
 {
@@ -62,7 +63,7 @@ namespace VirtueSky.RemoteConfigs
                     }
 
                     resultValueString = GameData.Get<string>(key);
-                    Debug.Log($"<color=Green>{key}: {resultValueString}</color>");
+                    Debug.Log($"{key}: {resultValueString}".SetColor(Color.green));
                     break;
                 case TypeRemoteConfigData.BooleanData:
                     if (result.Source == ValueSource.RemoteValue)
@@ -71,7 +72,7 @@ namespace VirtueSky.RemoteConfigs
                     }
 
                     resultValueBool = GameData.Get<bool>(key);
-                    Debug.Log($"<color=Green>{key}: {resultValueBool}</color>");
+                    Debug.Log($"{key}: {resultValueBool}".SetColor(Color.green));
                     break;
                 case TypeRemoteConfigData.IntData:
                     if (result.Source == ValueSource.RemoteValue)
@@ -80,7 +81,7 @@ namespace VirtueSky.RemoteConfigs
                     }
 
                     resultValueInt = GameData.Get<int>(key);
-                    Debug.Log($"<color=Green>{key}: {resultValueInt}</color>");
+                    Debug.Log($"{key}: {resultValueInt}".SetColor(Color.green));
                     break;
             }
         }
