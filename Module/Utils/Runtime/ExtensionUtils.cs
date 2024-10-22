@@ -149,12 +149,12 @@ namespace VirtueSky.Utils
         //     return transform.DORotateQuaternion(Quaternion.LookRotation(dir), duration);
         // }
 
-        public static Vector2 position2D(this Transform transform)
+        public static Vector2 Position2D(this Transform transform)
         {
             return transform.position;
         }
 
-        public static Vector2 localPosition2D(this Transform transform)
+        public static Vector2 LocalPosition2D(this Transform transform)
         {
             return transform.localPosition;
         }

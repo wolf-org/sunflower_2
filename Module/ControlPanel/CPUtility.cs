@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using VirtueSky.DataStorage;
 using VirtueSky.Inspector;
+using VirtueSky.Utils;
 using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.ControlPanel.Editor
@@ -126,6 +127,7 @@ namespace VirtueSky.ControlPanel.Editor
                 StatePanelControl.FolderIcon => EditorResources.IconFolder,
                 StatePanelControl.Notification => EditorResources.IconNotification,
                 StatePanelControl.RegisterPackage => EditorResources.IconPackage,
+                StatePanelControl.Localization => EditorResources.IconLocale,
                 StatePanelControl.About => EditorResources.IconAbout,
                 _ => EditorResources.IconUnity
             };

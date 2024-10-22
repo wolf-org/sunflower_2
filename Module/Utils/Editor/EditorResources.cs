@@ -66,6 +66,8 @@ namespace VirtueSky.UtilsEditor
         public static Texture2D IconAbout =>
             FileExtension.FindAssetWithPath<Texture2D>("icon_about.png", RELATIVE_PATH);
 
+        public static Texture2D IconLocale => FileExtension.FindAssetWithPath<Texture2D>("icon_locale.png", RELATIVE_PATH);
+
         public static Texture2D IconNotification => FileExtension.FindAssetWithPath<Texture2D>("script_noti.png", RELATIVE_PATH);
 
         public static Texture2D IconVirtueSky =>
