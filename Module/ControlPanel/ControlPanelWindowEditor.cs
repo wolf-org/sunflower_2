@@ -33,6 +33,7 @@ namespace VirtueSky.ControlPanel.Editor
             CPAdjustDrawer.OnEnable();
             CPAppsFlyerDrawer.OnEnable();
             CPLevelEditorDrawer.OnEnable();
+            CPLocalizationDrawer.OnEnable();
         }
 
         private void OnDisable()
@@ -74,6 +75,7 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButtonChooseState("AppsFlyer", StatePanelControl.AppsFlyer);
             DrawButtonChooseState("Assets Finder", StatePanelControl.AssetsFinder);
             DrawButtonChooseState("Level Editor", StatePanelControl.LevelEditor);
+            DrawButtonChooseState("Localization", StatePanelControl.Localization);
             DrawButtonChooseState("Notifications", StatePanelControl.Notification);
             DrawButtonChooseState("Game Service", StatePanelControl.GameService);
             DrawButtonChooseState("Folder Icon", StatePanelControl.FolderIcon);
@@ -130,6 +132,9 @@ namespace VirtueSky.ControlPanel.Editor
                 case StatePanelControl.Notification:
                     CPNotificationDrawer.DrawNotification();
                     break;
+                case StatePanelControl.Localization:
+                    CPLocalizationDrawer.OnDrawLocalization(position);
+                    break;
                 case StatePanelControl.Extensions:
                     CPExtensionsDrawer.OnDrawExtensions(position);
                     break;
@@ -174,6 +179,7 @@ namespace VirtueSky.ControlPanel.Editor
         GameService,
         Notification,
         Extensions,
+        Localization,
         About,
     }
 }
