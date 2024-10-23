@@ -18,7 +18,6 @@ namespace VirtueSky.Rating
     {
         [SerializeField] private bool dontDestroyOnLoad;
         [Space, SerializeField] private bool autoInit;
-        private static InAppReviewManager ins;
         private bool isInternalRatingInitialize { get; set; }
 
 #if UNITY_ANDROID && VIRTUESKY_RATING
@@ -26,21 +25,31 @@ namespace VirtueSky.Rating
         private PlayReviewInfo _playReviewInfo;
         private Coroutine _coroutine;
 #endif
+
+        private static event Func<bool> OnGetIsInitializeEvent;
+        private static event Action OnInitRateAndReviewEvent;
+        private static event Action OnRateAndReviewEvent;
+
         private void Awake()
         {
             if (dontDestroyOnLoad)
             {
                 DontDestroyOnLoad(gameObject);
             }
+        }
 
-            if (ins == null)
-            {
-                ins = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+        private void OnEnable()
+        {
+            OnGetIsInitializeEvent += InternalGetRatingInitialize;
+            OnInitRateAndReviewEvent += InternalInitRateAndReview;
+            OnRateAndReviewEvent += InternalRateAndReview;
+        }
+
+        private void OnDisable()
+        {
+            OnGetIsInitializeEvent -= InternalGetRatingInitialize;
+            OnInitRateAndReviewEvent -= InternalInitRateAndReview;
+            OnRateAndReviewEvent -= InternalRateAndReview;
         }
 
         private void Start()
@@ -51,6 +60,8 @@ namespace VirtueSky.Rating
                 InternalInitRateAndReview();
             }
         }
+
+        private bool InternalGetRatingInitialize() => isInternalRatingInitialize;
 
         private void InternalInitRateAndReview()
         {
@@ -112,8 +123,9 @@ namespace VirtueSky.Rating
             Application.OpenURL($"https://play.google.com/store/apps/details?id={Application.identifier}");
         }
 
-        public static bool IsInitialize => ins.isInternalRatingInitialize;
-        public static void InitRateAndReview() => ins.InternalInitRateAndReview();
-        public static void RateAndReview() => ins.InternalRateAndReview();
+
+        public static bool IsInitialize => (bool)OnGetIsInitializeEvent?.Invoke();
+        public static void InitRateAndReview() => OnInitRateAndReviewEvent?.Invoke();
+        public static void RateAndReview() => OnRateAndReviewEvent?.Invoke();
     }
 }
