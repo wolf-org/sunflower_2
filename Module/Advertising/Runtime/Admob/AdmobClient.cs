@@ -25,17 +25,17 @@ namespace VirtueSky.Ads
             {
                 App.RunOnMainThread(() =>
                 {
-                    if (!adSettings.AdmobEnableTestMode) return;
+                    if (!AdSettings.AdmobEnableTestMode) return;
                     var configuration = new RequestConfiguration
-                        { TestDeviceIds = adSettings.AdmobDevicesTest };
+                        { TestDeviceIds = AdSettings.AdmobDevicesTest };
                     MobileAds.SetRequestConfiguration(configuration);
                 });
             });
-            adSettings.AdmobBannerAdUnit.Init();
-            adSettings.AdmobInterstitialAdUnit.Init();
-            adSettings.AdmobRewardAdUnit.Init();
-            adSettings.AdmobRewardedInterstitialAdUnit.Init();
-            adSettings.AdmobAppOpenAdUnit.Init();
+            AdSettings.AdmobBannerAdUnit.Init();
+            AdSettings.AdmobInterstitialAdUnit.Init();
+            AdSettings.AdmobRewardAdUnit.Init();
+            AdSettings.AdmobRewardedInterstitialAdUnit.Init();
+            AdSettings.AdmobAppOpenAdUnit.Init();
             RegisterAppStateChange();
             LoadInterstitial();
             LoadRewarded();
@@ -53,10 +53,10 @@ namespace VirtueSky.Ads
 
         void OnAppStateChanged(GoogleMobileAds.Common.AppState state)
         {
-            if (state == GoogleMobileAds.Common.AppState.Foreground && adSettings.AdmobAppOpenAdUnit.autoShow &&
+            if (state == GoogleMobileAds.Common.AppState.Foreground && AdSettings.AdmobAppOpenAdUnit.autoShow &&
                 !AdStatic.isShowingAd)
             {
-                if (adSettings.CurrentAdNetwork == AdNetwork.Admob) ShowAppOpen();
+                if (AdSettings.CurrentAdNetwork == AdNetwork.Admob) ShowAppOpen();
             }
         }
 #endif

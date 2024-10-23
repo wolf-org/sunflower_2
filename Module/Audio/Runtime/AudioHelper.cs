@@ -7,6 +7,11 @@ namespace VirtueSky.Audio
         public static void PauseSfx(this SoundCache soundCache) => AudioManager.PauseSfx(soundCache);
         public static void ResumeSfx(this SoundCache soundCache) => AudioManager.ResumeSfx(soundCache);
         public static void FinishSfx(this SoundCache soundCache) => AudioManager.FinishSfx(soundCache);
+        public static void StopAllSfx() => AudioManager.StopAllSfx();
+
         public static void PlayMusic(this SoundData soundData) => AudioManager.PlayMusic(soundData);
+        public static void StopMusic() => AudioManager.StopMusic();
+        public static void PauseMusic() => AudioManager.PauseMusic();
+        public static void ResumeMusic() => AudioManager.ResumeMusic();
     }
 }

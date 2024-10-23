@@ -22,25 +22,29 @@ namespace VirtueSky.TouchInput
         private bool IsPlaying => Application.isPlaying;
         private bool _mouseDown;
         private bool _mouseUpdate;
-        private static TouchInputManager ins;
 
-        private void Awake()
+        private static event Func<bool> OnGetPreventTouchEvent;
+        private static event Action<bool> OnSetPreventTouchEvent;
+
+        private bool GetPreventTouch() => preventTouch;
+        private void SetPreventTouch(bool isPrevent) => preventTouch = isPrevent;
+
+        private void OnEnable()
         {
-            if (ins == null)
-            {
-                ins = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            OnGetPreventTouchEvent += GetPreventTouch;
+            OnSetPreventTouchEvent += SetPreventTouch;
         }
 
+        private void OnDisable()
+        {
+            OnGetPreventTouchEvent -= GetPreventTouch;
+            OnSetPreventTouchEvent -= SetPreventTouch;
+        }
 
         public static bool PreventTouch
         {
-            get => ins.preventTouch;
-            set => ins.preventTouch = value;
+            get => (bool)OnGetPreventTouchEvent?.Invoke();
+            set => OnSetPreventTouchEvent?.Invoke(value);
         }
 
         private void Update()

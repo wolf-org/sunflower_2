@@ -19,7 +19,6 @@ namespace VirtueSky.Ads
     [EditorIcon("icon_manager"), HideMonoScript]
     public class Advertising : MonoBehaviour
     {
-        [SerializeField] private bool isDontDestroyOnLoad;
         private IEnumerator autoLoadAdCoroutine;
         private float _lastTimeLoadInterstitialAdTimestamp = DEFAULT_TIMESTAMP;
         private float _lastTimeLoadRewardedTimestamp = DEFAULT_TIMESTAMP;
@@ -28,33 +27,51 @@ namespace VirtueSky.Ads
         private const float DEFAULT_TIMESTAMP = -1000;
 
         private AdClient currentAdClient;
-        private AdSettings adSettings;
         private bool isInitAdClient = false;
-        private static Advertising ins;
 
-        private void Awake()
+        private static event Func<AdUnit> OnGetBannerAdEvent;
+        private static event Func<AdUnit> OnGetInterAdEvent;
+        private static event Func<AdUnit> OnGetRewardAdEvent;
+        private static event Func<AdUnit> OnGetRewardInterEvent;
+        private static event Func<AdUnit> OnGetAppOpenAdEvent;
+        private static event Func<bool> OnInitAdClientEvent;
+        private static event Action OnLoadAndShowGdprEvent;
+        private static event Action OnShowGdprAgainEvent;
+
+
+        private void OnEnable()
         {
-            if (isDontDestroyOnLoad)
-            {
-                DontDestroyOnLoad(this.gameObject);
-            }
+            OnGetBannerAdEvent += GetBannerAdUnit;
+            OnGetInterAdEvent += GetInterAdUnit;
+            OnGetRewardAdEvent += GetRewardAdUnit;
+            OnGetRewardInterEvent += GetRewardInterAdUnit;
+            OnGetAppOpenAdEvent += GetAppOpenAdUnit;
+            OnInitAdClientEvent += InternalIsInitAdClient;
+#if VIRTUESKY_ADMOB
+            OnLoadAndShowGdprEvent += LoadAndShowConsentForm;
+            OnShowGdprAgainEvent += ShowPrivacyOptionsForm;
+#endif
+        }
 
-            if (ins == null)
-            {
-                ins = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+        private void OnDisable()
+        {
+            OnGetBannerAdEvent -= GetBannerAdUnit;
+            OnGetInterAdEvent -= GetInterAdUnit;
+            OnGetRewardAdEvent -= GetRewardAdUnit;
+            OnGetRewardInterEvent -= GetRewardInterAdUnit;
+            OnGetAppOpenAdEvent -= GetAppOpenAdUnit;
+            OnInitAdClientEvent -= InternalIsInitAdClient;
+#if VIRTUESKY_ADMOB
+            OnLoadAndShowGdprEvent -= LoadAndShowConsentForm;
+            OnShowGdprAgainEvent -= ShowPrivacyOptionsForm;
+#endif
         }
 
         private void Start()
         {
             isInitAdClient = false;
-            adSettings = AdSettings.Instance;
             AdStatic.OnChangePreventDisplayAppOpenEvent += OnChangePreventDisplayOpenAd;
-            if (adSettings.EnableGDPR)
+            if (AdSettings.EnableGDPR)
             {
 #if VIRTUESKY_ADMOB
 #if UNITY_IOS
@@ -81,7 +98,7 @@ namespace VirtueSky.Ads
 
         void InitAdClient()
         {
-            switch (adSettings.CurrentAdNetwork)
+            switch (AdSettings.CurrentAdNetwork)
             {
                 case AdNetwork.Max:
                     currentAdClient = new MaxAdClient();
@@ -94,7 +111,6 @@ namespace VirtueSky.Ads
                     break;
             }
 
-            currentAdClient.SetupAdSettings(adSettings);
             currentAdClient.Initialize();
             Debug.Log($"currentAdClient: {currentAdClient}".SetColor(Color.cyan));
             isInitAdClient = true;
@@ -117,7 +133,7 @@ namespace VirtueSky.Ads
                 AutoLoadRewardAds();
                 AutoLoadRewardInterAds();
                 AutoLoadAppOpenAds();
-                yield return new WaitForSeconds(adSettings.AdCheckingInterval);
+                yield return new WaitForSeconds(AdSettings.AdCheckingInterval);
             }
         }
 
@@ -131,7 +147,7 @@ namespace VirtueSky.Ads
         void AutoLoadInterAds()
         {
             if (Time.realtimeSinceStartup - _lastTimeLoadInterstitialAdTimestamp <
-                adSettings.AdLoadingInterval) return;
+                AdSettings.AdLoadingInterval) return;
             currentAdClient.LoadInterstitial();
             _lastTimeLoadInterstitialAdTimestamp = Time.realtimeSinceStartup;
         }
@@ -139,7 +155,7 @@ namespace VirtueSky.Ads
         void AutoLoadRewardAds()
         {
             if (Time.realtimeSinceStartup - _lastTimeLoadRewardedTimestamp <
-                adSettings.AdLoadingInterval) return;
+                AdSettings.AdLoadingInterval) return;
             currentAdClient.LoadRewarded();
             _lastTimeLoadRewardedTimestamp = Time.realtimeSinceStartup;
         }
@@ -147,7 +163,7 @@ namespace VirtueSky.Ads
         void AutoLoadRewardInterAds()
         {
             if (Time.realtimeSinceStartup - _lastTimeLoadRewardedInterstitialTimestamp <
-                adSettings.AdLoadingInterval) return;
+                AdSettings.AdLoadingInterval) return;
             currentAdClient.LoadRewardedInterstitial();
             _lastTimeLoadRewardedInterstitialTimestamp = Time.realtimeSinceStartup;
         }
@@ -155,7 +171,7 @@ namespace VirtueSky.Ads
         void AutoLoadAppOpenAds()
         {
             if (Time.realtimeSinceStartup - _lastTimeLoadAppOpenTimestamp <
-                adSettings.AdLoadingInterval) return;
+                AdSettings.AdLoadingInterval) return;
             currentAdClient.LoadAppOpen();
             _lastTimeLoadAppOpenTimestamp = Time.realtimeSinceStartup;
         }
@@ -260,18 +276,29 @@ namespace VirtueSky.Ads
 
         #endregion
 
+        #region Internal API
+
+        private AdUnit GetBannerAdUnit() => currentAdClient.BannerAdUnit();
+        private AdUnit GetInterAdUnit() => currentAdClient.InterstitialAdUnit();
+        private AdUnit GetRewardAdUnit() => currentAdClient.RewardAdUnit();
+        private AdUnit GetRewardInterAdUnit() => currentAdClient.RewardedInterstitialAdUnit();
+        private AdUnit GetAppOpenAdUnit() => currentAdClient.AppOpenAdUnit();
+        private bool InternalIsInitAdClient() => isInitAdClient;
+
+        #endregion
+
         #region Public API
 
-        public static AdUnit BannerAd => ins.currentAdClient.BannerAdUnit();
-        public static AdUnit InterstitialAd => ins.currentAdClient.InterstitialAdUnit();
-        public static AdUnit RewardAd => ins.currentAdClient.RewardAdUnit();
-        public static AdUnit RewardedInterstitialAd => ins.currentAdClient.RewardedInterstitialAdUnit();
-        public static AdUnit AppOpenAd => ins.currentAdClient.AppOpenAdUnit();
-        public static bool IsInitAdClient => ins.isInitAdClient;
+        public static AdUnit BannerAd => OnGetBannerAdEvent?.Invoke();
+        public static AdUnit InterstitialAd => OnGetInterAdEvent?.Invoke();
+        public static AdUnit RewardAd => OnGetRewardAdEvent?.Invoke();
+        public static AdUnit RewardedInterstitialAd => OnGetRewardInterEvent?.Invoke();
+        public static AdUnit AppOpenAd => OnGetAppOpenAdEvent?.Invoke();
+        public static bool IsInitAdClient => (bool)OnInitAdClientEvent?.Invoke();
 
 #if VIRTUESKY_ADMOB
-        public static void LoadAndShowGdpr() => ins.LoadAndShowConsentForm();
-        public static void ShowAgainGdpr() => ins.ShowPrivacyOptionsForm();
+        public static void LoadAndShowGdpr() => OnLoadAndShowGdprEvent?.Invoke();
+        public static void ShowAgainGdpr() => OnShowGdprAgainEvent?.Invoke();
 #endif
 
         #endregion

@@ -7,13 +7,13 @@ namespace VirtueSky.Ads
         public override void Initialize()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
-            MaxSdk.SetSdkKey(adSettings.SdkKey);
+            MaxSdk.SetSdkKey(AdSettings.SdkKey);
             MaxSdk.InitializeSdk();
-            adSettings.MaxBannerAdUnit.Init();
-            adSettings.MaxInterstitialAdUnit.Init();
-            adSettings.MaxRewardAdUnit.Init();
-            adSettings.MaxAppOpenAdUnit.Init();
-            adSettings.MaxRewardedInterstitialAdUnit.Init();
+            AdSettings.MaxBannerAdUnit.Init();
+            AdSettings.MaxInterstitialAdUnit.Init();
+            AdSettings.MaxRewardAdUnit.Init();
+            AdSettings.MaxAppOpenAdUnit.Init();
+            AdSettings.MaxRewardedInterstitialAdUnit.Init();
             App.AddPauseCallback(OnAppStateChange);
             LoadInterstitial();
             LoadRewarded();
@@ -24,7 +24,7 @@ namespace VirtueSky.Ads
 #if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
         private void OnAppStateChange(bool pauseStatus)
         {
-            if (!pauseStatus && adSettings.MaxAppOpenAdUnit.autoShow && !AdStatic.isShowingAd) ShowAppOpen();
+            if (!pauseStatus && AdSettings.MaxAppOpenAdUnit.autoShow && !AdStatic.isShowingAd) ShowAppOpen();
         }
 #endif
     }

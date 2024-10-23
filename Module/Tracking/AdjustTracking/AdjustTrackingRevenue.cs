@@ -7,11 +7,11 @@ namespace VirtueSky.Tracking
     public struct AdjustTrackingRevenue
     {
         public static void AdjustTrackRevenue(double value, string network, string unitId,
-            string placement, string adNetwork)
+            string placement, string currentAdSettingNetwork)
         {
 #if VIRTUESKY_ADJUST
             var source = "";
-            switch (adNetwork.ToLower())
+            switch (currentAdSettingNetwork.ToLower())
             {
                 case "admob":
                     source = "admob_sdk";

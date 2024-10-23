@@ -35,21 +35,35 @@ namespace VirtueSky.RemoteConfigs
         [SerializeField] private bool isSetupDefaultData = true;
         [Space(10), SerializeField] private List<FirebaseRemoteConfigData> listRemoteConfigData;
         private bool isFetchRemoteConfigCompleted = false;
-        private static FirebaseRemoteConfigManager ins;
-        public static List<FirebaseRemoteConfigData> ListRemoteConfigData => ins.listRemoteConfigData;
-        public static bool IsFetchRemoteConfigCompleted => ins.isFetchRemoteConfigCompleted;
+
+
+        private static event Func<bool> OnIsFetchRemoteConfigCompletedEvent;
+        private static event Func<bool> OnIsFirebaseDependencyAvailableEvent;
+        private static event Func<List<FirebaseRemoteConfigData>> OnGetListRemoteConfigEvent;
+#if VIRTUESKY_FIREBASE
+        private bool InternalIsFirebaseDependencyAvailable() => dependencyStatus == DependencyStatus.Available;
+#endif
+        private bool InternalIsFetchRemoteConfigCompleted() => isFetchRemoteConfigCompleted;
+        private List<FirebaseRemoteConfigData> InternalGetListRemoteConfig() => listRemoteConfigData;
+
+        #region public api
+
+        public static List<FirebaseRemoteConfigData> ListRemoteConfigData => OnGetListRemoteConfigEvent?.Invoke();
+        public static bool IsFetchRemoteConfigCompleted => (bool)OnIsFetchRemoteConfigCompletedEvent?.Invoke();
 
         public static bool FirebaseDependencyAvailable
         {
             get
             {
 #if VIRTUESKY_FIREBASE
-                return ins.dependencyStatus == DependencyStatus.Available;
+                return (bool)OnIsFirebaseDependencyAvailableEvent?.Invoke();
 #else
                 return false;
 #endif
             }
         }
+
+        #endregion
 
         private void Awake()
         {
@@ -58,14 +72,11 @@ namespace VirtueSky.RemoteConfigs
                 DontDestroyOnLoad(this);
             }
 
-            if (ins == null)
-            {
-                ins = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            OnIsFetchRemoteConfigCompletedEvent += InternalIsFetchRemoteConfigCompleted;
+#if VIRTUESKY_FIREBASE
+            OnIsFirebaseDependencyAvailableEvent += InternalIsFirebaseDependencyAvailable;
+#endif
+            OnGetListRemoteConfigEvent += InternalGetListRemoteConfig;
 
             if (typeInitRemoteConfig == TypeInitRemoteConfig.InitOnAwake)
             {
@@ -79,6 +90,15 @@ namespace VirtueSky.RemoteConfigs
             {
                 Init();
             }
+        }
+
+        private void OnDestroy()
+        {
+            OnIsFetchRemoteConfigCompletedEvent -= InternalIsFetchRemoteConfigCompleted;
+#if VIRTUESKY_FIREBASE
+            OnIsFirebaseDependencyAvailableEvent -= InternalIsFirebaseDependencyAvailable;
+#endif
+            OnGetListRemoteConfigEvent -= InternalGetListRemoteConfig;
         }
 
         private void Init()
@@ -158,12 +178,12 @@ namespace VirtueSky.RemoteConfigs
             var productImplPath = $"{pathDefaultScript}/RemoteData.cs";
             var str = "namespace VirtueSky.RemoteConfigs\n{";
             str += "\n\tpublic struct RemoteData\n\t{";
-
+            str += "\n";
             var listRmcData = listRemoteConfigData;
             for (int i = 0; i < listRmcData.Count; i++)
             {
                 var rmcKey = listRmcData[i].key;
-
+                str += $"// {rmcKey.ToUpper()}";
                 str += $"\n\t\tpublic const string KEY_{rmcKey.ToUpper()} = \"{rmcKey}\";";
 
                 switch (listRmcData[i].typeRemoteConfigData)
@@ -187,6 +207,8 @@ namespace VirtueSky.RemoteConfigs
                             $"\n\t\tpublic static int {rmcKey.ToUpper()} => VirtueSky.DataStorage.GameData.Get(KEY_{rmcKey.ToUpper()}, DEFAULT_{rmcKey.ToUpper()});";
                         break;
                 }
+
+                str += "\n";
             }
 
             str += "\n\t}";
