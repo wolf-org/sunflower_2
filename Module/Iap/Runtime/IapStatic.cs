@@ -27,8 +27,8 @@ namespace VirtueSky.Iap
         private static void AutoInitialize(CoreEnum.RuntimeAutoInitType iapRuntimeAutoInitType)
         {
             if (IapSettings.Instance == null) return;
-            if (!IapSettings.Instance.RuntimeAutoInit) return;
-            if (IapSettings.Instance.RuntimeAutoInitType != iapRuntimeAutoInitType) return;
+            if (!IapSettings.RuntimeAutoInit) return;
+            if (IapSettings.RuntimeAutoInitType != iapRuntimeAutoInitType) return;
             var iapManager = new GameObject("IapManager");
             iapManager.AddComponent<IapManager>();
             UnityEngine.Object.DontDestroyOnLoad(iapManager);

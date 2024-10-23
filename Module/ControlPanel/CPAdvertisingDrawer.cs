@@ -58,7 +58,7 @@ namespace VirtueSky.ControlPanel.Editor
                 }
 
 
-                switch (_adSetting.CurrentAdNetwork)
+                switch (AdSettings.CurrentAdNetwork)
                 {
                     case AdNetwork.Max:
                         DrawMaxField(position);

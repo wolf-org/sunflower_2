@@ -10,20 +10,20 @@ namespace VirtueSky.Ads
         public override void Initialize()
         {
             SdkInitializationCompleted = false;
-            if (adSettings.UseTestAppKey)
+            if (AdSettings.UseTestAppKey)
             {
-                adSettings.AndroidAppKey = "85460dcd";
-                adSettings.IosAppKey = "8545d445";
+                AdSettings.AndroidAppKey = "85460dcd";
+                AdSettings.IosAppKey = "8545d445";
             }
 #if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
             App.AddPauseCallback(OnAppStateChange);
             IronSourceEvents.onSdkInitializationCompletedEvent += SdkInitializationCompletedEvent;
             IronSourceEvents.onImpressionDataReadyEvent += ImpressionDataReadyEvent;
-            adSettings.IronSourceBannerAdUnit.Init();
-            adSettings.IronSourceInterstitialAdUnit.Init();
-            adSettings.IronSourceRewardAdUnit.Init();
+            AdSettings.IronSourceBannerAdUnit.Init();
+            AdSettings.IronSourceInterstitialAdUnit.Init();
+            AdSettings.IronSourceRewardAdUnit.Init();
             IronSource.Agent.validateIntegration();
-            IronSource.Agent.init(adSettings.AppKey, IronSourceAdUnits.REWARDED_VIDEO, IronSourceAdUnits.INTERSTITIAL,
+            IronSource.Agent.init(AdSettings.AppKey, IronSourceAdUnits.REWARDED_VIDEO, IronSourceAdUnits.INTERSTITIAL,
                 IronSourceAdUnits.BANNER);
 #endif
             LoadInterstitial();

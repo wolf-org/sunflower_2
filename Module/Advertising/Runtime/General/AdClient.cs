@@ -2,13 +2,6 @@ namespace VirtueSky.Ads
 {
     public abstract class AdClient
     {
-        protected AdSettings adSettings;
-
-        public void SetupAdSettings(AdSettings _adSettings)
-        {
-            this.adSettings = _adSettings;
-        }
-
         private bool statusAppOpenFirstIgnore;
 
 
@@ -18,11 +11,11 @@ namespace VirtueSky.Ads
 
         public AdUnit InterstitialAdUnit()
         {
-            return adSettings.CurrentAdNetwork switch
+            return AdSettings.CurrentAdNetwork switch
             {
-                AdNetwork.Max => adSettings.MaxInterstitialAdUnit,
-                AdNetwork.Admob => adSettings.AdmobInterstitialAdUnit,
-                _ => adSettings.IronSourceInterstitialAdUnit,
+                AdNetwork.Max => AdSettings.MaxInterstitialAdUnit,
+                AdNetwork.Admob => AdSettings.AdmobInterstitialAdUnit,
+                _ => AdSettings.IronSourceInterstitialAdUnit,
             };
         }
 
@@ -43,11 +36,11 @@ namespace VirtueSky.Ads
 
         public AdUnit RewardAdUnit()
         {
-            return adSettings.CurrentAdNetwork switch
+            return AdSettings.CurrentAdNetwork switch
             {
-                AdNetwork.Max => adSettings.MaxRewardAdUnit,
-                AdNetwork.Admob => adSettings.AdmobRewardAdUnit,
-                _ => adSettings.IronSourceRewardAdUnit,
+                AdNetwork.Max => AdSettings.MaxRewardAdUnit,
+                AdNetwork.Admob => AdSettings.AdmobRewardAdUnit,
+                _ => AdSettings.IronSourceRewardAdUnit,
             };
         }
 
@@ -68,10 +61,10 @@ namespace VirtueSky.Ads
 
         public AdUnit RewardedInterstitialAdUnit()
         {
-            return adSettings.CurrentAdNetwork switch
+            return AdSettings.CurrentAdNetwork switch
             {
-                AdNetwork.Max => adSettings.MaxRewardedInterstitialAdUnit,
-                AdNetwork.Admob => adSettings.AdmobRewardedInterstitialAdUnit,
+                AdNetwork.Max => AdSettings.MaxRewardedInterstitialAdUnit,
+                AdNetwork.Admob => AdSettings.AdmobRewardedInterstitialAdUnit,
                 _ => null
             };
         }
@@ -93,10 +86,10 @@ namespace VirtueSky.Ads
 
         public AdUnit AppOpenAdUnit()
         {
-            return adSettings.CurrentAdNetwork switch
+            return AdSettings.CurrentAdNetwork switch
             {
-                AdNetwork.Max => adSettings.MaxAppOpenAdUnit,
-                AdNetwork.Admob => adSettings.AdmobAppOpenAdUnit,
+                AdNetwork.Max => AdSettings.MaxAppOpenAdUnit,
+                AdNetwork.Admob => AdSettings.AdmobAppOpenAdUnit,
                 _ => null
             };
         }
@@ -124,11 +117,11 @@ namespace VirtueSky.Ads
 
         public AdUnit BannerAdUnit()
         {
-            return adSettings.CurrentAdNetwork switch
+            return AdSettings.CurrentAdNetwork switch
             {
-                AdNetwork.Max => adSettings.MaxBannerAdUnit,
-                AdNetwork.Admob => adSettings.AdmobBannerAdUnit,
-                _ => adSettings.IronSourceBannerAdUnit
+                AdNetwork.Max => AdSettings.MaxBannerAdUnit,
+                AdNetwork.Admob => AdSettings.AdmobBannerAdUnit,
+                _ => AdSettings.IronSourceBannerAdUnit
             };
         }
 

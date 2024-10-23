@@ -17,12 +17,12 @@ namespace VirtueSky.Iap
         [SerializeField, TextArea] private string googlePlayStoreKey;
         public string GooglePlayStoreKey => googlePlayStoreKey;
 #endif
-        public bool RuntimeAutoInit => runtimeAutoInit;
-        public CoreEnum.RuntimeAutoInitType RuntimeAutoInitType => runtimeAutoInitType;
-        public List<IapDataProduct> IapDataProducts => iapDataProducts;
-        public bool IsValidatePurchase => isValidatePurchase;
+        public static bool RuntimeAutoInit => Instance.runtimeAutoInit;
+        public static CoreEnum.RuntimeAutoInitType RuntimeAutoInitType => Instance.runtimeAutoInitType;
+        public static List<IapDataProduct> IapDataProducts => Instance.iapDataProducts;
+        public static bool IsValidatePurchase => Instance.isValidatePurchase;
 
-        public IapDataProduct GetIapProduct(string id)
+        public static IapDataProduct GetIapProduct(string id)
         {
             foreach (var product in IapDataProducts)
             {

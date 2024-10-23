@@ -21,29 +21,46 @@ namespace VirtueSky.Iap
         private IStoreController _controller;
         private IExtensionProvider _extensionProvider;
         private bool _IsInitialized { get; set; }
-        private IapSettings iapSettings;
-        private static IapManager ins;
 
-        private void Awake()
+        private static event Func<string, IapDataProduct> OnPurchaseProductByIdEvent;
+        private static event Func<IapDataProduct, IapDataProduct> OnPurchaseProductByIapDataEvent;
+        private static event Func<string, bool> OnIsPurchaseByIdEvent;
+        private static event Func<IapDataProduct, bool> OnIsPurchaseByIapDataEvent;
+        private static event Func<IapDataProduct, Product> OnGetProductByIapDataEvent;
+        private static event Func<string, Product> OnGetProductByIdEvent;
+        private static event Action OnRestoreEvent;
+        private static event Func<bool> OnIsInitializedEvent;
+
+        private void OnEnable()
         {
-            if (isDontDestroyOnLoad)
-            {
-                DontDestroyOnLoad(this.gameObject);
-            }
+            OnPurchaseProductByIdEvent += InternalPurchaseProductById;
+            OnPurchaseProductByIapDataEvent += InternalPurchaseProductByIapData;
+            OnIsPurchaseByIdEvent += InternalIsPurchasedProductById;
+            OnIsPurchaseByIapDataEvent += InternalIsPurchasedProductByIapData;
+            OnGetProductByIapDataEvent += InternalGetProductByIapData;
+            OnGetProductByIdEvent += InternalGetProductById;
+#if UNITY_IOS
+            OnRestoreEvent += InternalRestorePurchase;
+#endif
+            OnIsInitializedEvent += InternalIsInitialize;
+        }
 
-            if (ins == null)
-            {
-                ins = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+        private void OnDisable()
+        {
+            OnPurchaseProductByIdEvent -= InternalPurchaseProductById;
+            OnPurchaseProductByIapDataEvent -= InternalPurchaseProductByIapData;
+            OnIsPurchaseByIdEvent -= InternalIsPurchasedProductById;
+            OnIsPurchaseByIapDataEvent -= InternalIsPurchasedProductByIapData;
+            OnGetProductByIapDataEvent -= InternalGetProductByIapData;
+            OnGetProductByIdEvent -= InternalGetProductById;
+#if UNITY_IOS
+            OnRestoreEvent -= InternalRestorePurchase;
+#endif
+            OnIsInitializedEvent -= InternalIsInitialize;
         }
 
         private void Start()
         {
-            iapSettings = IapSettings.Instance;
             Init();
         }
 
@@ -77,7 +94,7 @@ namespace VirtueSky.Iap
 
         private void RequestProductData(ConfigurationBuilder builder)
         {
-            foreach (var p in iapSettings.IapDataProducts)
+            foreach (var p in IapSettings.IapDataProducts)
             {
                 builder.AddProduct(p.Id, ConvertProductType(p.iapProductType));
             }
@@ -86,7 +103,7 @@ namespace VirtueSky.Iap
         private void InternalPurchaseFailed(string id)
         {
             AdStatic.OnChangePreventDisplayAppOpenEvent?.Invoke(false);
-            foreach (var product in iapSettings.IapDataProducts)
+            foreach (var product in IapSettings.IapDataProducts)
             {
                 if (product.Id != id) continue;
                 OnPurchaseFailedEvent?.Invoke(product.Id);
@@ -119,7 +136,7 @@ namespace VirtueSky.Iap
 
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
         {
-            if (iapSettings.IsValidatePurchase)
+            if (IapSettings.IsValidatePurchase)
             {
                 bool validatedPurchase = true;
 #if (UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX) && !UNITY_EDITOR
@@ -158,7 +175,7 @@ namespace VirtueSky.Iap
 
         void InternalPurchaseSuccess(string id)
         {
-            foreach (var product in iapSettings.IapDataProducts)
+            foreach (var product in IapSettings.IapDataProducts)
             {
                 if (product.Id != id) continue;
                 OnPurchaseSucceedEvent?.Invoke(product.Id);
@@ -237,67 +254,69 @@ namespace VirtueSky.Iap
 
         #region Internal API
 
-        private IapDataProduct InternalPurchaseProduct(string id)
+        private IapDataProduct InternalPurchaseProductById(string id)
         {
             AdStatic.OnChangePreventDisplayAppOpenEvent?.Invoke(true);
-            var product = iapSettings.GetIapProduct(id);
+            var product = IapSettings.GetIapProduct(id);
             PurchaseProductInternal(product);
             return product;
         }
 
-        private IapDataProduct InternalPurchaseProduct(IapDataProduct product)
+        private IapDataProduct InternalPurchaseProductByIapData(IapDataProduct product)
         {
             AdStatic.OnChangePreventDisplayAppOpenEvent?.Invoke(true);
             PurchaseProductInternal(product);
             return product;
         }
 
-        private bool InternalIsPurchasedProduct(IapDataProduct product)
+        private bool InternalIsPurchasedProductByIapData(IapDataProduct product)
         {
             if (_controller == null) return false;
             return ConvertProductType(product.iapProductType) == ProductType.NonConsumable &&
                    _controller.products.WithID(product.Id).hasReceipt;
         }
 
-        private bool InternalIsPurchasedProduct(string id)
+        private bool InternalIsPurchasedProductById(string id)
         {
             if (_controller == null) return false;
-            return ConvertProductType(iapSettings.GetIapProduct(id).iapProductType) == ProductType.NonConsumable &&
+            return ConvertProductType(IapSettings.GetIapProduct(id).iapProductType) == ProductType.NonConsumable &&
                    _controller.products.WithID(id).hasReceipt;
         }
 
-        private Product InternalGetProduct(IapDataProduct product)
+        private Product InternalGetProductByIapData(IapDataProduct product)
         {
             if (_controller == null) return null;
             return _controller.products.WithID(product.Id);
         }
 
-        private Product InternalGetProduct(string id)
+        private Product InternalGetProductById(string id)
         {
             if (_controller == null) return null;
             return _controller.products.WithID(id);
         }
 
+        private bool InternalIsInitialize() => _IsInitialized;
+
         #endregion
 
         #region Public API
 
-        public static IapDataProduct PurchaseProduct(string id) => ins.InternalPurchaseProduct(id);
+        public static IapDataProduct PurchaseProduct(string id) => OnPurchaseProductByIdEvent?.Invoke(id);
 
-        public static IapDataProduct PurchaseProduct(IapDataProduct product) =>
-            ins.InternalPurchaseProduct(product);
+        public static IapDataProduct PurchaseProduct(IapDataProduct product) => OnPurchaseProductByIapDataEvent?.Invoke(product);
 
-        public static bool IsPurchasedProduct(IapDataProduct product) => ins.InternalIsPurchasedProduct(product);
-        public static bool IsPurchasedProduct(string id) => ins.InternalIsPurchasedProduct(id);
+        public static bool IsPurchasedProduct(IapDataProduct product) => (bool)OnIsPurchaseByIapDataEvent?.Invoke(product);
+        public static bool IsPurchasedProduct(string id) => (bool)OnIsPurchaseByIdEvent?.Invoke(id);
 
-        public static Product GetProduct(IapDataProduct product) => ins.InternalGetProduct(product);
-        public static Product GetProduct(string id) => ins.InternalGetProduct(id);
+        public static Product GetProduct(IapDataProduct product) => OnGetProductByIapDataEvent?.Invoke(product);
+        public static Product GetProduct(string id) => OnGetProductByIdEvent?.Invoke(id);
 
 
 #if UNITY_IOS
-        public static void RestorePurchase() => ins.InternalRestorePurchase();
+        public static void RestorePurchase() => OnRestoreEvent?.Invoke();
+
 #endif
-        public static bool IsInitialized => ins._IsInitialized;
+        public static bool IsInitialized => (bool)OnIsInitializedEvent?.Invoke();
 
         #endregion
     }

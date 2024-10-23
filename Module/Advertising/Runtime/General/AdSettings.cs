@@ -30,16 +30,16 @@ namespace VirtueSky.Ads
         [SerializeField] private MaxRewardedInterstitialAdUnit maxRewardedInterstitialAdUnit;
         [SerializeField] private MaxAppOpenAdUnit maxAppOpenAdUnit;
 
-        public string SdkKey => Instance.sdkKey;
+        public static string SdkKey => Instance.sdkKey;
 
-        public MaxBannerAdUnit MaxBannerAdUnit => Instance.maxBannerAdUnit;
-        public MaxInterstitialAdUnit MaxInterstitialAdUnit => Instance.maxInterstitialAdUnit;
-        public MaxRewardAdUnit MaxRewardAdUnit => Instance.maxRewardAdUnit;
+        public static MaxBannerAdUnit MaxBannerAdUnit => Instance.maxBannerAdUnit;
+        public static MaxInterstitialAdUnit MaxInterstitialAdUnit => Instance.maxInterstitialAdUnit;
+        public static MaxRewardAdUnit MaxRewardAdUnit => Instance.maxRewardAdUnit;
 
-        public MaxRewardedInterstitialAdUnit MaxRewardedInterstitialAdUnit =>
+        public static MaxRewardedInterstitialAdUnit MaxRewardedInterstitialAdUnit =>
             Instance.maxRewardedInterstitialAdUnit;
 
-        public MaxAppOpenAdUnit MaxAppOpenAdUnit => Instance.maxAppOpenAdUnit;
+        public static MaxAppOpenAdUnit MaxAppOpenAdUnit => Instance.maxAppOpenAdUnit;
 
         #endregion
 
@@ -54,13 +54,13 @@ namespace VirtueSky.Ads
         [SerializeField] private List<string> admobDevicesTest;
 
 
-        public AdmobBannerAdUnit AdmobBannerAdUnit => admobBannerAdUnit;
-        public AdmobInterstitialAdUnit AdmobInterstitialAdUnit => admobInterstitialAdUnit;
-        public AdmobRewardAdUnit AdmobRewardAdUnit => admobRewardAdUnit;
-        public AdmobRewardedInterstitialAdUnit AdmobRewardedInterstitialAdUnit => admobRewardedInterstitialAdUnit;
-        public AdmobAppOpenAdUnit AdmobAppOpenAdUnit => admobAppOpenAdUnit;
-        public bool AdmobEnableTestMode => admobEnableTestMode;
-        public List<string> AdmobDevicesTest => admobDevicesTest;
+        public static AdmobBannerAdUnit AdmobBannerAdUnit => Instance.admobBannerAdUnit;
+        public static AdmobInterstitialAdUnit AdmobInterstitialAdUnit => Instance.admobInterstitialAdUnit;
+        public static AdmobRewardAdUnit AdmobRewardAdUnit => Instance.admobRewardAdUnit;
+        public static AdmobRewardedInterstitialAdUnit AdmobRewardedInterstitialAdUnit => Instance.admobRewardedInterstitialAdUnit;
+        public static AdmobAppOpenAdUnit AdmobAppOpenAdUnit => Instance.admobAppOpenAdUnit;
+        public static bool AdmobEnableTestMode => Instance.admobEnableTestMode;
+        public static List<string> AdmobDevicesTest => Instance.admobDevicesTest;
 
         #endregion
 
@@ -73,26 +73,26 @@ namespace VirtueSky.Ads
         [SerializeField] private IronSourceInterstitialAdUnit ironSourceInterstitialAdUnit;
         [SerializeField] private IronSourceRewardAdUnit ironSourceRewardAdUnit;
 
-        public string AndroidAppKey
+        public static string AndroidAppKey
         {
-            get => androidAppKey;
-            set => androidAppKey = value;
+            get => Instance.androidAppKey;
+            set => Instance.androidAppKey = value;
         }
 
-        public string IosAppKey
+        public static string IosAppKey
         {
-            get => iOSAppKey;
-            set => iOSAppKey = value;
+            get => Instance.iOSAppKey;
+            set => Instance.iOSAppKey = value;
         }
 
-        public string AppKey
+        public static string AppKey
         {
             get
             {
 #if UNITY_ANDROID
-                return androidAppKey;
+                return Instance.androidAppKey;
 #elif UNITY_IOS
-                return iOSAppKey;
+                return Instance.iOSAppKey;
 #else
                 return string.Empty;
 #endif
@@ -100,33 +100,33 @@ namespace VirtueSky.Ads
             set
             {
 #if UNITY_ANDROID
-                androidAppKey = value;
+                Instance.androidAppKey = value;
 #elif UNITY_IOS
-                iOSAppKey = value;
+                Instance.iOSAppKey = value;
 #endif
             }
         }
 
-        public bool UseTestAppKey => useTestAppKey;
-        public IronSourceBannerAdUnit IronSourceBannerAdUnit => ironSourceBannerAdUnit;
-        public IronSourceInterstitialAdUnit IronSourceInterstitialAdUnit => ironSourceInterstitialAdUnit;
-        public IronSourceRewardAdUnit IronSourceRewardAdUnit => ironSourceRewardAdUnit;
+        public static bool UseTestAppKey => Instance.useTestAppKey;
+        public static IronSourceBannerAdUnit IronSourceBannerAdUnit => Instance.ironSourceBannerAdUnit;
+        public static IronSourceInterstitialAdUnit IronSourceInterstitialAdUnit => Instance.ironSourceInterstitialAdUnit;
+        public static IronSourceRewardAdUnit IronSourceRewardAdUnit => Instance.ironSourceRewardAdUnit;
 
         #endregion
 
-        public bool RuntimeAutoInit => runtimeAutoInit;
-        public CoreEnum.RuntimeAutoInitType RuntimeAutoInitType => runtimeAutoInitType;
-        public float AdCheckingInterval => adCheckingInterval;
-        public float AdLoadingInterval => adLoadingInterval;
+        public static bool RuntimeAutoInit => Instance.runtimeAutoInit;
+        public static CoreEnum.RuntimeAutoInitType RuntimeAutoInitType => Instance.runtimeAutoInitType;
+        public static float AdCheckingInterval => Instance.adCheckingInterval;
+        public static float AdLoadingInterval => Instance.adLoadingInterval;
 
-        public AdNetwork CurrentAdNetwork
+        public static AdNetwork CurrentAdNetwork
         {
-            get => adNetwork;
-            set => adNetwork = value;
+            get => Instance.adNetwork;
+            set => Instance.adNetwork = value;
         }
 
-        public bool EnableGDPR => enableGDPR;
-        public bool EnableGDPRTestMode => enableGDPRTestMode;
+        public static bool EnableGDPR => Instance.enableGDPR;
+        public static bool EnableGDPRTestMode => Instance.enableGDPRTestMode;
     }
 
     public enum AdNetwork

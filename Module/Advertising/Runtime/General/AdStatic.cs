@@ -23,8 +23,8 @@ namespace VirtueSky.Ads
         private static void AutoInitialize(CoreEnum.RuntimeAutoInitType adsRuntimeAutoInitType)
         {
             if (AdSettings.Instance == null) return;
-            if (!AdSettings.Instance.RuntimeAutoInit) return;
-            if (AdSettings.Instance.RuntimeAutoInitType != adsRuntimeAutoInitType) return;
+            if (!AdSettings.RuntimeAutoInit) return;
+            if (AdSettings.RuntimeAutoInitType != adsRuntimeAutoInitType) return;
             var ads = new GameObject("Advertising");
             ads.AddComponent<Advertising>();
             UnityEngine.Object.DontDestroyOnLoad(ads);
