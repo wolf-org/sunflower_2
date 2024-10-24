@@ -191,7 +191,7 @@ namespace VirtueSky.Ads
 
             Debug.Log("TestDeviceHashedId = " + deviceIDUpperCase);
             var request = new ConsentRequestParameters { TagForUnderAgeOfConsent = false };
-            if (adSettings.EnableGDPRTestMode)
+            if (AdSettings.EnableGDPRTestMode)
             {
                 List<string> listDeviceIdTestMode = new List<string>();
                 listDeviceIdTestMode.Add(deviceIDUpperCase);
