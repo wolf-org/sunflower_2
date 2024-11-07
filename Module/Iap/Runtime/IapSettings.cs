@@ -11,7 +11,7 @@ namespace VirtueSky.Iap
     {
         [SerializeField] private bool runtimeAutoInit = true;
         [SerializeField] private CoreEnum.RuntimeAutoInitType runtimeAutoInitType;
-        [SerializeField] private List<IapDataProduct> iapDataProducts = new List<IapDataProduct>();
+        [SerializeField] private IapDataProduct[] iapDataProducts;
         [SerializeField] private bool isValidatePurchase = true;
 #if UNITY_EDITOR
         [SerializeField, TextArea] private string googlePlayStoreKey;
@@ -19,7 +19,7 @@ namespace VirtueSky.Iap
 #endif
         public static bool RuntimeAutoInit => Instance.runtimeAutoInit;
         public static CoreEnum.RuntimeAutoInitType RuntimeAutoInitType => Instance.runtimeAutoInitType;
-        public static List<IapDataProduct> IapDataProducts => Instance.iapDataProducts;
+        public static IapDataProduct[] IapDataProducts => Instance.iapDataProducts;
         public static bool IsValidatePurchase => Instance.isValidatePurchase;
 
         public static IapDataProduct GetIapProduct(string id)
