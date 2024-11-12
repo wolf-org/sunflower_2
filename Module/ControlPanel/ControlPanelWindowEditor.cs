@@ -80,6 +80,7 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButtonChooseState("Game Service", StatePanelControl.GameService);
             DrawButtonChooseState("Folder Icon", StatePanelControl.FolderIcon);
             DrawButtonChooseState("Hierarchy", StatePanelControl.Hierarchy);
+            DrawButtonChooseState("In App Review", StatePanelControl.InAppReview);
             DrawButtonChooseState("Scripting Define Symbols", StatePanelControl.ScriptDefineSymbols);
             DrawButtonChooseState("Register Package", StatePanelControl.RegisterPackage);
             DrawButtonChooseState("Extensions", StatePanelControl.Extensions);
@@ -132,6 +133,9 @@ namespace VirtueSky.ControlPanel.Editor
                 case StatePanelControl.Notification:
                     CPNotificationDrawer.DrawNotification();
                     break;
+                case StatePanelControl.InAppReview:
+                    CPInAppReviewDrawer.OnDraw(position);
+                    break;
                 case StatePanelControl.Localization:
                     CPLocalizationDrawer.OnDrawLocalization(position);
                     break;
@@ -180,6 +184,7 @@ namespace VirtueSky.ControlPanel.Editor
         Notification,
         Extensions,
         Localization,
+        InAppReview,
         About,
     }
 }
