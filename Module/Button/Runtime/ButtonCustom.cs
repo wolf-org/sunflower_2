@@ -1,9 +1,12 @@
 using PrimeTween;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
+using VirtueSky.Audio;
 using VirtueSky.Core;
 using VirtueSky.Inspector;
 using VirtueSky.Misc;
+using VirtueSky.Utils;
 using Button = UnityEngine.UI.Button;
 
 
@@ -12,14 +15,23 @@ namespace VirtueSky.UIButton
     [EditorIcon("icon_button")]
     public class ButtonCustom : Button
     {
-        [SerializeField] private bool isHandleEventClickButton = true;
-        [SerializeField] private bool isMotion = true;
+        [HeaderLine("Motion", false, CustomColor.Aquamarine, CustomColor.Bright)] [SerializeField]
+        private bool invokeClickButton = true;
+
+        [HeaderLine("Motion", false, CustomColor.Aquamarine, CustomColor.Bright)] [SerializeField]
+        private bool isMotion = true;
+
         [SerializeField] private Ease easingTypes = Ease.OutQuint;
 
         [SerializeField] private float scale = 0.9f;
         [SerializeField] private bool isShrugOver;
         [SerializeField] private float timeShrug = .2f;
         [SerializeField] private float strength = .2f;
+
+        [HeaderLine("Sound FX", false, CustomColor.Aquamarine, CustomColor.Bright)] [SerializeField]
+        private bool useSoundFx;
+
+        [SerializeField] private SoundData soundClickButton;
 
         Vector3 originScale = Vector3.one;
         private bool canShrug = true;
@@ -42,9 +54,14 @@ namespace VirtueSky.UIButton
         {
             base.OnPointerDown(eventData);
             DoScale();
-            if (isHandleEventClickButton)
+            if (invokeClickButton)
             {
-                GlobalStatic.OnClickButtonEvent?.Invoke();
+                ButtonStatic.OnClickButtonEvent?.Invoke();
+            }
+
+            if (useSoundFx)
+            {
+                soundClickButton.PlaySfx();
             }
         }
 

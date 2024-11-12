@@ -75,7 +75,7 @@ namespace VirtueSky.Iap
             str += "\n\tpublic struct IapProduct\n\t{";
             str += "\n";
             var iapDataProducts = IapSettings.IapDataProducts;
-            for (int i = 0; i < IapSettings.IapDataProducts.Count; i++)
+            for (int i = 0; i < iapDataProducts.Length; i++)
             {
                 var itemName = iapDataProducts[i].Id.Split('.').Last();
                 str += $"// {itemName.ToUpper()}";

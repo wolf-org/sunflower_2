@@ -23,16 +23,18 @@ namespace VirtueSky.Component
             currentScale = transform.localScale;
         }
 
-        public void OnEnable()
+        public override void OnEnable()
         {
+            base.OnEnable();
             if (playOnAwake)
             {
                 Play();
             }
         }
 
-        private void OnDisable()
+        public override void OnDisable()
         {
+            base.OnDisable();
             tween.Stop();
         }
 

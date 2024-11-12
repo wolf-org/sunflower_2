@@ -70,6 +70,9 @@ namespace VirtueSky.UtilsEditor
 
         public static Texture2D IconNotification => FileExtension.FindAssetWithPath<Texture2D>("script_noti.png", RELATIVE_PATH);
 
+        public static Texture2D IconInAppReview =>
+            FileExtension.FindAssetWithPath<Texture2D>("icon_in_app_review.png", RELATIVE_PATH);
+
         public static Texture2D IconVirtueSky =>
             FileExtension.FindAssetWithPath<Texture2D>("virtuesky-removebg.png", RELATIVE_PATH);
     }
