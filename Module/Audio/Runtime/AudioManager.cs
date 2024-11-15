@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using VirtueSky.Core;
 using VirtueSky.DataStorage;
@@ -16,8 +17,7 @@ namespace VirtueSky.Audio
         [SerializeField] private SoundComponent soundComponentPrefab;
         private SoundComponent music;
 
-        private readonly Dictionary<SoundCache, SoundComponent> dictSfxCache =
-            new Dictionary<SoundCache, SoundComponent>();
+        [ReadOnly, SerializeField] private List<SoundComponent> listCacheSfx = new List<SoundComponent>();
 
         private int key = 0;
         private const string KEY_MUSIC_VOLUME = "KEY_MUSIC_VOLUME";
@@ -91,7 +91,8 @@ namespace VirtueSky.Audio
             sfxComponent.PlayAudioClip(soundData.GetAudioClip(), soundData.loop, soundData.volume * SfxVolume);
             if (!soundData.loop) sfxComponent.OnCompleted += OnFinishPlayingAudio;
             SoundCache soundCache = GetSoundCache(soundData);
-            dictSfxCache.Add(soundCache, sfxComponent);
+            sfxComponent.Key = key;
+            listCacheSfx.Add(sfxComponent);
             return soundCache;
         }
 
@@ -101,10 +102,6 @@ namespace VirtueSky.Audio
             var soundComponent = GetSoundComponent(soundCache);
             if (soundComponent == null) return;
             StopAndCleanAudioComponent(soundComponent);
-            if (dictSfxCache.ContainsKey(soundCache))
-            {
-                dictSfxCache.Remove(soundCache);
-            }
         }
 
 
@@ -133,12 +130,14 @@ namespace VirtueSky.Audio
 
         private void InternalStopAllSfx()
         {
-            foreach (var cache in dictSfxCache)
+            var listTemp = listCacheSfx.ToList();
+            for (int i = 0; i < listTemp.Count; i++)
             {
-                StopAndCleanAudioComponent(cache.Value);
+                StopAndCleanAudioComponent(listTemp[i]);
             }
 
-            dictSfxCache.Clear();
+            listCacheSfx.Clear();
+            listTemp.Clear();
             key = 0;
         }
 
@@ -199,9 +198,9 @@ namespace VirtueSky.Audio
 
         private void OnSfxVolumeChanged(float volume)
         {
-            foreach (var cache in dictSfxCache)
+            for (var i = 0; i < listCacheSfx.Count; i++)
             {
-                cache.Value.Volume = volume;
+                listCacheSfx[i].Volume = volume;
             }
         }
 
@@ -229,13 +228,10 @@ namespace VirtueSky.Audio
 
         SoundComponent GetSoundComponent(SoundCache soundCache)
         {
-            if (!dictSfxCache.ContainsKey(soundCache)) return null;
-            foreach (var cache in dictSfxCache)
+            if (soundCache == null) return null;
+            for (var i = 0; i < listCacheSfx.Count; i++)
             {
-                if (cache.Key == soundCache)
-                {
-                    return cache.Value;
-                }
+                if (soundCache.key == listCacheSfx[i].Key) return listCacheSfx[i];
             }
 
             return null;
