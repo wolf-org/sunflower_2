@@ -23,9 +23,9 @@
 ### 1: Download the repo and drop it into folder `Assets`
 ### 2: Add the line below to `Packages/manifest.json`
 
-for version `1.4.5`
+for version `1.4.6`
 ```csharp
-"com.wolf-org.sunflower2":"https://github.com/wolf-org/sunflower_2.git#1.4.5",
+"com.wolf-org.sunflower2":"https://github.com/wolf-org/sunflower_2.git#1.4.6",
 ```
 
 ## Includes modules
@@ -46,6 +46,7 @@ for version `1.4.5`
 ├── Mobile Notification
 ├── Object Pooling
 ├── Prime tween
+├── Localization
 ├── FolderIcons
 ├── Hierarchy
 ├── In app review
