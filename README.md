@@ -25,7 +25,7 @@
 
 for version `1.4.6`
 ```csharp
-"com.wolf-org.sunflower2":"https://github.com/wolf-org/sunflower_2.git#1.4.6",
+"com.wolf-org.sunflower2":"https://github.com/unity-package/sunflower_2.git#1.4.6",
 ```
 
 ## Includes modules
