@@ -92,21 +92,7 @@ namespace VirtueSky.Component
 
             offsetTrans = currentTrans.position - targetTrans.position;
         }
-
-        public void SetTarget(Transform t)
-        {
-            targetTrans = t;
-        }
-
-        public void SetDirectionFollowTarget(DirectionFollowTarget d)
-        {
-            directionFollowTarget = d;
-        }
-
-        public void SetTypeFollowTarget(TypeFollowTarget t)
-        {
-            typeFollowTarget = t;
-        }
+        
 
         public override void LateTick()
         {
