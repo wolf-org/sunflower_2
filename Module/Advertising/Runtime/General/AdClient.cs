@@ -126,5 +126,26 @@ namespace VirtueSky.Ads
         }
 
         #endregion
+
+        #region Native Overlay Ad
+
+        // Native overlay only for admob
+        public AdUnit NativeOverlayAdUnit()
+        {
+            return AdSettings.AdmobNativeOverlayAdUnit;
+        }
+
+        protected virtual bool IsNativeOverlayAdReady()
+        {
+            return NativeOverlayAdUnit().IsReady();
+        }
+
+        public virtual void LoadNativeOverlayAd()
+        {
+            if (NativeOverlayAdUnit() == null) return;
+            if (!IsNativeOverlayAdReady()) NativeOverlayAdUnit().Load();
+        }
+
+        #endregion
     }
 }

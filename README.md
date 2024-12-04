@@ -23,9 +23,9 @@
 ### 1: Download the repo and drop it into folder `Assets`
 ### 2: Add the line below to `Packages/manifest.json`
 
-for version `1.4.6`
+for version `1.4.7`
 ```csharp
-"com.wolf-org.sunflower2":"https://github.com/unity-package/sunflower_2.git#1.4.6",
+"com.wolf-org.sunflower2":"https://github.com/unity-package/sunflower_2.git#1.4.7",
 ```
 
 ## Includes modules
