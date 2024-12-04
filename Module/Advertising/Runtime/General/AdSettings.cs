@@ -50,6 +50,7 @@ namespace VirtueSky.Ads
         [SerializeField] private AdmobRewardAdUnit admobRewardAdUnit;
         [SerializeField] private AdmobRewardedInterstitialAdUnit admobRewardedInterstitialAdUnit;
         [SerializeField] private AdmobAppOpenAdUnit admobAppOpenAdUnit;
+        [SerializeField] private AdmobNativeOverlayAdUnit admobNativeOverlayAdUnit;
         [SerializeField] private bool admobEnableTestMode;
         [SerializeField] private List<string> admobDevicesTest;
 
@@ -59,6 +60,7 @@ namespace VirtueSky.Ads
         public static AdmobRewardAdUnit AdmobRewardAdUnit => Instance.admobRewardAdUnit;
         public static AdmobRewardedInterstitialAdUnit AdmobRewardedInterstitialAdUnit => Instance.admobRewardedInterstitialAdUnit;
         public static AdmobAppOpenAdUnit AdmobAppOpenAdUnit => Instance.admobAppOpenAdUnit;
+        public static AdmobNativeOverlayAdUnit AdmobNativeOverlayAdUnit => Instance.admobNativeOverlayAdUnit;
         public static bool AdmobEnableTestMode => Instance.admobEnableTestMode;
         public static List<string> AdmobDevicesTest => Instance.admobDevicesTest;
 
@@ -136,7 +138,7 @@ namespace VirtueSky.Ads
         IronSource
     }
 
-    public enum BannerPosition
+    public enum AdsPosition
     {
         Top = 1,
         Bottom = 0,
@@ -144,9 +146,10 @@ namespace VirtueSky.Ads
         TopRight = 3,
         BottomLeft = 4,
         BottomRight = 5,
+        Center = 6
     }
 
-    public enum BannerSize
+    public enum AdsSize
     {
         Banner = 0, // 320x50
         Adaptive = 5, // full width

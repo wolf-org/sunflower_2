@@ -7,8 +7,8 @@ namespace VirtueSky.Ads
     [Serializable]
     public class IronSourceBannerAdUnit : AdUnit
     {
-        public BannerSize size;
-        public BannerPosition position;
+        public AdsSize size;
+        public AdsPosition position;
         private bool _isBannerDestroyed = true;
         private bool _isBannerShowing;
         private bool _previousBannerShowStatus;
@@ -31,7 +31,7 @@ namespace VirtueSky.Ads
 #if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
             if (AdStatic.IsRemoveAd) return;
             var bannerSize = ConvertBannerSize();
-            if (size == BannerSize.Adaptive) bannerSize.SetAdaptive(true);
+            if (size == AdsSize.Adaptive) bannerSize.SetAdaptive(true);
             if (_isBannerDestroyed)
             {
                 IronSource.Agent.loadBanner(bannerSize, ConvertBannerPosition());
@@ -110,10 +110,10 @@ namespace VirtueSky.Ads
         {
             switch (size)
             {
-                case BannerSize.Banner: return IronSourceBannerSize.BANNER;
-                case BannerSize.Adaptive: return IronSourceBannerSize.BANNER;
-                case BannerSize.MediumRectangle: return IronSourceBannerSize.RECTANGLE;
-                case BannerSize.Leaderboard: return IronSourceBannerSize.LARGE;
+                case AdsSize.Banner: return IronSourceBannerSize.BANNER;
+                case AdsSize.Adaptive: return IronSourceBannerSize.BANNER;
+                case AdsSize.MediumRectangle: return IronSourceBannerSize.RECTANGLE;
+                case AdsSize.Leaderboard: return IronSourceBannerSize.LARGE;
                 default: return IronSourceBannerSize.BANNER;
             }
         }
@@ -122,8 +122,8 @@ namespace VirtueSky.Ads
         {
             switch (position)
             {
-                case BannerPosition.Bottom: return IronSourceBannerPosition.BOTTOM;
-                case BannerPosition.Top: return IronSourceBannerPosition.TOP;
+                case AdsPosition.Bottom: return IronSourceBannerPosition.BOTTOM;
+                case AdsPosition.Top: return IronSourceBannerPosition.TOP;
                 default: return IronSourceBannerPosition.BOTTOM;
             }
         }

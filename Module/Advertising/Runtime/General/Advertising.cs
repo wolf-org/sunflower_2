@@ -34,6 +34,7 @@ namespace VirtueSky.Ads
         private static event Func<AdUnit> OnGetRewardAdEvent;
         private static event Func<AdUnit> OnGetRewardInterEvent;
         private static event Func<AdUnit> OnGetAppOpenAdEvent;
+        private static event Func<AdUnit> OnGetNativeOverlayEvent;
         private static event Func<bool> OnInitAdClientEvent;
         private static event Action OnLoadAndShowGdprEvent;
         private static event Action OnShowGdprAgainEvent;
@@ -46,6 +47,7 @@ namespace VirtueSky.Ads
             OnGetRewardAdEvent += GetRewardAdUnit;
             OnGetRewardInterEvent += GetRewardInterAdUnit;
             OnGetAppOpenAdEvent += GetAppOpenAdUnit;
+            OnGetNativeOverlayEvent += GetNativeOverlayAdUnit;
             OnInitAdClientEvent += InternalIsInitAdClient;
 #if VIRTUESKY_ADMOB
             OnLoadAndShowGdprEvent += LoadAndShowConsentForm;
@@ -60,6 +62,7 @@ namespace VirtueSky.Ads
             OnGetRewardAdEvent -= GetRewardAdUnit;
             OnGetRewardInterEvent -= GetRewardInterAdUnit;
             OnGetAppOpenAdEvent -= GetAppOpenAdUnit;
+            OnGetNativeOverlayEvent -= GetNativeOverlayAdUnit;
             OnInitAdClientEvent -= InternalIsInitAdClient;
 #if VIRTUESKY_ADMOB
             OnLoadAndShowGdprEvent -= LoadAndShowConsentForm;
@@ -283,6 +286,7 @@ namespace VirtueSky.Ads
         private AdUnit GetRewardAdUnit() => currentAdClient.RewardAdUnit();
         private AdUnit GetRewardInterAdUnit() => currentAdClient.RewardedInterstitialAdUnit();
         private AdUnit GetAppOpenAdUnit() => currentAdClient.AppOpenAdUnit();
+        private AdUnit GetNativeOverlayAdUnit() => currentAdClient.NativeOverlayAdUnit();
         private bool InternalIsInitAdClient() => isInitAdClient;
 
         #endregion
@@ -294,6 +298,7 @@ namespace VirtueSky.Ads
         public static AdUnit RewardAd => OnGetRewardAdEvent?.Invoke();
         public static AdUnit RewardedInterstitialAd => OnGetRewardInterEvent?.Invoke();
         public static AdUnit AppOpenAd => OnGetAppOpenAdEvent?.Invoke();
+        public static AdUnit NativeOverlayAd => OnGetNativeOverlayEvent?.Invoke();
         public static bool IsInitAdClient => (bool)OnInitAdClientEvent?.Invoke();
 
 #if VIRTUESKY_ADMOB

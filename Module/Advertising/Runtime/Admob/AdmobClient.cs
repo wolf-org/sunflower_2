@@ -36,14 +36,23 @@ namespace VirtueSky.Ads
             AdSettings.AdmobRewardAdUnit.Init();
             AdSettings.AdmobRewardedInterstitialAdUnit.Init();
             AdSettings.AdmobAppOpenAdUnit.Init();
+            AdSettings.AdmobNativeOverlayAdUnit.Init();
             RegisterAppStateChange();
             LoadInterstitial();
             LoadRewarded();
             LoadRewardedInterstitial();
             LoadAppOpen();
+            LoadNativeOverlay();
 #endif
         }
 
+        void LoadNativeOverlay()
+        {
+            if (!AdSettings.AdmobNativeOverlayAdUnit.IsReady())
+            {
+                AdSettings.AdmobNativeOverlayAdUnit.Load();
+            }
+        }
 
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
         public void RegisterAppStateChange()
