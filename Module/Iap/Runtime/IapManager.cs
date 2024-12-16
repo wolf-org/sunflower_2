@@ -1,11 +1,11 @@
 #if VIRTUESKY_IAP
 using System;
-using Unity.Services.Core;
-using Unity.Services.Core.Environments;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
 using VirtueSky.Ads;
+using VirtueSky.Core;
 using VirtueSky.Inspector;
 using VirtueSky.Misc;
 
@@ -20,7 +20,7 @@ namespace VirtueSky.Iap
 
         private IStoreController _controller;
         private IExtensionProvider _extensionProvider;
-        private bool _IsInitialized { get; set; }
+        public static bool IsInitialized { get; private set; }
 
         private static event Func<string, IapDataProduct> OnPurchaseProductByIdEvent;
         private static event Func<IapDataProduct, IapDataProduct> OnPurchaseProductByIapDataEvent;
@@ -28,8 +28,16 @@ namespace VirtueSky.Iap
         private static event Func<IapDataProduct, bool> OnIsPurchaseByIapDataEvent;
         private static event Func<IapDataProduct, Product> OnGetProductByIapDataEvent;
         private static event Func<string, Product> OnGetProductByIdEvent;
+        private static event Func<IapDataProduct, SubscriptionInfo> OnGetSubscriptionInfo;
         private static event Action OnRestoreEvent;
-        private static event Func<bool> OnIsInitializedEvent;
+
+        private void Awake()
+        {
+            if (isDontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(this.gameObject);
+            }
+        }
 
         private void OnEnable()
         {
@@ -39,10 +47,10 @@ namespace VirtueSky.Iap
             OnIsPurchaseByIapDataEvent += InternalIsPurchasedProductByIapData;
             OnGetProductByIapDataEvent += InternalGetProductByIapData;
             OnGetProductByIdEvent += InternalGetProductById;
+            OnGetSubscriptionInfo += InternalGetSubscriptionInfo;
 #if UNITY_IOS
             OnRestoreEvent += InternalRestorePurchase;
 #endif
-            OnIsInitializedEvent += InternalIsInitialize;
         }
 
         private void OnDisable()
@@ -53,10 +61,10 @@ namespace VirtueSky.Iap
             OnIsPurchaseByIapDataEvent -= InternalIsPurchasedProductByIapData;
             OnGetProductByIapDataEvent -= InternalGetProductByIapData;
             OnGetProductByIdEvent -= InternalGetProductById;
+            OnGetSubscriptionInfo -= InternalGetSubscriptionInfo;
 #if UNITY_IOS
             OnRestoreEvent -= InternalRestorePurchase;
 #endif
-            OnIsInitializedEvent -= InternalIsInitialize;
         }
 
         private void Start()
@@ -66,50 +74,16 @@ namespace VirtueSky.Iap
 
         private async void Init()
         {
-            var options = new InitializationOptions().SetEnvironmentName("production");
-            await UnityServices.InitializeAsync(options);
-            InitImpl();
-        }
-
-        void InitImpl()
-        {
-            if (_IsInitialized) return;
+            if (IsInitialized) return;
+            await UniTask.WaitUntil(() => UnityServiceInitialization.IsUnityServiceReady);
             var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
             RequestProductData(builder);
             builder.Configure<IGooglePlayConfiguration>();
-
             UnityPurchasing.Initialize(this, builder);
-            _IsInitialized = true;
         }
 
 
-        private void PurchaseProductInternal(IapDataProduct product)
-        {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _controller?.InitiatePurchase(product.Id);
-#elif UNITY_EDITOR
-            InternalPurchaseSuccess(product.Id);
-#endif
-        }
-
-        private void RequestProductData(ConfigurationBuilder builder)
-        {
-            foreach (var p in IapSettings.IapDataProducts)
-            {
-                builder.AddProduct(p.Id, ConvertProductType(p.iapProductType));
-            }
-        }
-
-        private void InternalPurchaseFailed(string id)
-        {
-            AdStatic.OnChangePreventDisplayAppOpenEvent?.Invoke(false);
-            foreach (var product in IapSettings.IapDataProducts)
-            {
-                if (product.Id != id) continue;
-                OnPurchaseFailedEvent?.Invoke(product.Id);
-                Common.CallActionAndClean(ref product.purchaseFailedCallback);
-            }
-        }
+        #region Implement
 
         public void OnInitializeFailed(InitializationFailureReason error)
         {
@@ -167,6 +141,54 @@ namespace VirtueSky.Iap
             return PurchaseProcessingResult.Complete;
         }
 
+        public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
+        {
+            _controller = controller;
+            _extensionProvider = extensions;
+            IsInitialized = true;
+        }
+
+        public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
+        {
+            InternalPurchaseFailed(product.definition.id);
+        }
+
+
+        public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
+        {
+            InternalPurchaseFailed(product.definition.id);
+        }
+
+        #endregion
+
+        private void PurchaseProductInternal(IapDataProduct product)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _controller?.InitiatePurchase(product.Id);
+#elif UNITY_EDITOR
+            InternalPurchaseSuccess(product.Id);
+#endif
+        }
+
+        private void RequestProductData(ConfigurationBuilder builder)
+        {
+            foreach (var p in IapSettings.IapDataProducts)
+            {
+                builder.AddProduct(p.Id, ConvertProductType(p.iapProductType));
+            }
+        }
+
+        private void InternalPurchaseFailed(string id)
+        {
+            AdStatic.OnChangePreventDisplayAppOpenEvent?.Invoke(false);
+            foreach (var product in IapSettings.IapDataProducts)
+            {
+                if (product.Id != id) continue;
+                OnPurchaseFailedEvent?.Invoke(product.Id);
+                Common.CallActionAndClean(ref product.purchaseFailedCallback);
+            }
+        }
+
         void PurchaseVerified(PurchaseEventArgs purchaseEvent)
         {
             AdStatic.OnChangePreventDisplayAppOpenEvent?.Invoke(false);
@@ -183,29 +205,6 @@ namespace VirtueSky.Iap
             }
         }
 
-        public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
-        {
-            InternalPurchaseFailed(product.definition.id);
-        }
-
-        public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
-        {
-            _controller = controller;
-            _extensionProvider = extensions;
-
-// #if UNITY_ANDROID && !UNITY_EDITOR
-//             foreach (var product in _controller.products.all)
-//             {
-//                 if (product != null && !string.IsNullOrEmpty(product.transactionID))
-//                     _controller.ConfirmPendingPurchase(product);
-//             }
-// #endif
-        }
-
-        public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
-        {
-            InternalPurchaseFailed(product.definition.id);
-        }
 
 #if UNITY_IOS
         private void InternalRestorePurchase()
@@ -272,15 +271,15 @@ namespace VirtueSky.Iap
         private bool InternalIsPurchasedProductByIapData(IapDataProduct product)
         {
             if (_controller == null) return false;
-            return ConvertProductType(product.iapProductType) == ProductType.NonConsumable &&
+            return ConvertProductType(product.iapProductType) is ProductType.NonConsumable or ProductType.Subscription &&
                    _controller.products.WithID(product.Id).hasReceipt;
         }
 
         private bool InternalIsPurchasedProductById(string id)
         {
             if (_controller == null) return false;
-            return ConvertProductType(IapSettings.GetIapProduct(id).iapProductType) == ProductType.NonConsumable &&
-                   _controller.products.WithID(id).hasReceipt;
+            return ConvertProductType(IapSettings.GetIapProduct(id).iapProductType) is ProductType.NonConsumable or ProductType.Subscription && _controller.products.WithID(id)
+                .hasReceipt;
         }
 
         private Product InternalGetProductByIapData(IapDataProduct product)
@@ -295,7 +294,12 @@ namespace VirtueSky.Iap
             return _controller.products.WithID(id);
         }
 
-        private bool InternalIsInitialize() => _IsInitialized;
+        private SubscriptionInfo InternalGetSubscriptionInfo(IapDataProduct product)
+        {
+            if (_controller == null || ConvertProductType(product.iapProductType) != ProductType.Subscription || !_controller.products.WithID(product.Id).hasReceipt) return null;
+            var subscriptionManager = new SubscriptionManager(InternalGetProductByIapData(product), null);
+            return subscriptionManager.getSubscriptionInfo();
+        }
 
         #endregion
 
@@ -310,13 +314,12 @@ namespace VirtueSky.Iap
 
         public static Product GetProduct(IapDataProduct product) => OnGetProductByIapDataEvent?.Invoke(product);
         public static Product GetProduct(string id) => OnGetProductByIdEvent?.Invoke(id);
-
+        public static SubscriptionInfo GetSubscriptionInfo(IapDataProduct product) => OnGetSubscriptionInfo?.Invoke(product);
 
 #if UNITY_IOS
         public static void RestorePurchase() => OnRestoreEvent?.Invoke();
 
 #endif
-        public static bool IsInitialized => (bool)OnIsInitializedEvent?.Invoke();
 
         #endregion
     }

@@ -72,7 +72,6 @@ internal class CodeGenerator : ScriptableObject {
     }
 
     const string generatorBeginLabel = "// CODE GENERATOR BEGIN";
-    const string textMeshProScriptingDefine = "#if TEXT_MESH_PRO_INSTALLED || (UNITY_6000_0_OR_NEWER && UNITY_UGUI_INSTALLED)";
 
     [ContextMenu(nameof(generateTweenComponent))]
     void generateTweenComponent() {
@@ -106,10 +105,8 @@ internal class CodeGenerator : ScriptableObject {
                     switch (dependency) {
                         case Dependency.PRIME_TWEEN_EXPERIMENTAL:
                         case Dependency.UI_ELEMENTS_MODULE_INSTALLED:
-                            str += $"                    #if {dependency}\n";
-                            break;
                         case Dependency.TEXT_MESH_PRO_INSTALLED:
-                            str += $"                    {textMeshProScriptingDefine}\n";
+                            str += $"                    #if {dependency}\n";
                             break;
                         default:
                             str += $"                    #if !UNITY_2019_1_OR_NEWER || {dependency}\n";
@@ -275,10 +272,8 @@ internal static class Utils {
                     switch (dependency) {
                         case Dependency.PRIME_TWEEN_EXPERIMENTAL:
                         case Dependency.UI_ELEMENTS_MODULE_INSTALLED:
-                            utilsText += $"            #if {dependency}\n";
-                            break;
                         case Dependency.TEXT_MESH_PRO_INSTALLED:
-                            utilsText += $"            {textMeshProScriptingDefine}\n";
+                            utilsText += $"            #if {dependency}\n";
                             break;
                         default:
                             utilsText += $"            #if !UNITY_2019_1_OR_NEWER || {dependency}\n";
@@ -391,10 +386,8 @@ internal static class Utils {
             switch (dependency) {
                 case Dependency.PRIME_TWEEN_EXPERIMENTAL:
                 case Dependency.UI_ELEMENTS_MODULE_INSTALLED:
-                    result += $"\n        #if {dependency}";
-                    break;
                 case Dependency.TEXT_MESH_PRO_INSTALLED:
-                    result += $"\n        {textMeshProScriptingDefine}";
+                    result += $"\n        #if {dependency}";
                     break;
                 default:
                     result += $"\n        #if !UNITY_2019_1_OR_NEWER || {dependency}";

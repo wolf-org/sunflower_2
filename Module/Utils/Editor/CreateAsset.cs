@@ -77,11 +77,11 @@ namespace VirtueSky.UtilsEditor
         public static T CreateAndGetScriptableAsset<T>(string path = "", string assetName = "", bool isPingAsset = true)
             where T : ScriptableObject
         {
-            var so = AssetUtils.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
+            var so = FileExtension.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
             if (so == null)
             {
                 CreateScriptableAssets<T>(path, assetName, isPingAsset);
-                so = AssetUtils.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
+                so = FileExtension.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
             }
 
             return so;
@@ -89,7 +89,18 @@ namespace VirtueSky.UtilsEditor
 
         public static T GetScriptableAsset<T>() where T : ScriptableObject
         {
-            return AssetUtils.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
+            return FileExtension.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
+        }
+
+        public static T GetScriptableAssetByName<T>(string name) where T : ScriptableObject
+        {
+            var arr = FileExtension.FindAssetAtFolder<T>(new string[] { "Assets" });
+            foreach (var asset in arr)
+            {
+                if (asset.name == name) return asset;
+            }
+
+            return null;
         }
 
         // public enum NamingScheme

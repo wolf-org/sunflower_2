@@ -2,7 +2,7 @@
 {
     public class ConstantPackage
     {
-        public const string VersionUnityCommon = "1.4.7";
+        public const string VersionUnityCommon = "1.4.8";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
         public const string MaxVersionInAppPurchase = "4.12.2";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
@@ -76,7 +76,7 @@
         #endregion
 
         public const string PackageNameAdjust = "com.adjust.sdk";
-        public const string MaxVersionAdjust = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.0.4";
+        public const string MaxVersionAdjust = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.0.6";
         public const string PackageNamePlayFab = "com.pancake.playfab";
 
         public const string MaxVersionPlayFab =
@@ -96,7 +96,7 @@
         public const string PackageNameCoffeeUIEffect = "com.coffee.ui-effect";
 
         public const string MaxVersionCoffeeUIEffect =
-            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.0.0";
+            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.0.1";
 
         public const string PackageNameCoffeeUIParticle = "com.coffee.ui-particle";
 
