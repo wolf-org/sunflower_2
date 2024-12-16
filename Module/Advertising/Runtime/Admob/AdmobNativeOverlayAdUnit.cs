@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
 using GoogleMobileAds.Api;
+#endif
 using VirtueSky.Core;
 using VirtueSky.Misc;
-#endif
 using UnityEngine;
 using VirtueSky.Tracking;
 using VirtueSky.Inspector;
