@@ -2,7 +2,9 @@
     "name": "Wolf.UnityComon.Core",
     "rootNamespace": "",
     "references": [
-        "GUID:32dbaa332e571bf429b7de517f75f074"
+        "GUID:32dbaa332e571bf429b7de517f75f074",
+        "GUID:fe25561d224ed4743af4c60938a59d0b",
+        "GUID:70ea675efa2644cef98c7ece24158333"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -91,6 +91,12 @@ namespace VirtueSky.Iap
                     $"\n\t\tpublic static UnityEngine.Purchasing.Product GetProduct{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}() => IapManager.GetProduct(IapSettings.IapDataProducts[{i}]);";
 
                 str += $"\n\t\tpublic static float PriceConfig{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}() => IapSettings.IapDataProducts[{i}].price;";
+                if (iapDataProducts[i].iapProductType == IapProductType.Subscription)
+                {
+                    str +=
+                        $"\n\t\tpublic static UnityEngine.Purchasing.SubscriptionInfo GetSubscriptionInfo{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(itemName)}() => IapManager.GetSubscriptionInfo(IapSettings.IapDataProducts[{i}]);";
+                }
+
                 str += "\n";
             }
 
