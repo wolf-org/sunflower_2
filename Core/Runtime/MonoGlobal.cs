@@ -127,7 +127,7 @@ namespace VirtueSky.Core
         private void OnApplicationPause(bool pauseStatus)
         {
             OnGamePause?.Invoke(pauseStatus);
-            if (pauseStatus)
+            if (pauseStatus && GameData.IsAutoSave)
             {
                 GameData.Save();
             }
@@ -136,7 +136,10 @@ namespace VirtueSky.Core
         private void OnApplicationQuit()
         {
             OnGameQuit?.Invoke();
-            GameData.Save();
+            if (GameData.IsAutoSave)
+            {
+                GameData.Save();
+            }
         }
 
         #endregion
