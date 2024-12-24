@@ -1,7 +1,6 @@
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
 using GoogleMobileAds.Api;
 #endif
-using System;
 using VirtueSky.Core;
 
 namespace VirtueSky.Ads
@@ -43,10 +42,55 @@ namespace VirtueSky.Ads
             LoadRewardedInterstitial();
             LoadAppOpen();
             LoadNativeOverlay();
+            LoadBanner();
 #endif
         }
 
-        void LoadNativeOverlay()
+        public override AdUnit InterstitialAdUnit() => AdSettings.AdmobInterstitialAdUnit;
+
+        public override void LoadInterstitial()
+        {
+            if (!AdSettings.AdmobInterstitialAdUnit.IsReady()) AdSettings.AdmobInterstitialAdUnit.Load();
+        }
+
+        public override AdUnit RewardAdUnit() => AdSettings.AdmobRewardAdUnit;
+
+        public override void LoadRewarded()
+        {
+            if (!AdSettings.AdmobRewardAdUnit.IsReady()) AdSettings.AdmobRewardAdUnit.Load();
+        }
+
+        public override AdUnit RewardedInterstitialAdUnit() => AdSettings.AdmobRewardedInterstitialAdUnit;
+
+        public override void LoadRewardedInterstitial()
+        {
+            if (!AdSettings.AdmobRewardedInterstitialAdUnit.IsReady())
+                AdSettings.AdmobRewardedInterstitialAdUnit.Load();
+        }
+
+        public override AdUnit AppOpenAdUnit() => AdSettings.AdmobAppOpenAdUnit;
+
+        public override void LoadAppOpen()
+        {
+            if (!AdSettings.AdmobAppOpenAdUnit.IsReady()) AdSettings.AdmobAppOpenAdUnit.Load();
+        }
+
+        public override void ShowAppOpen()
+        {
+            if (statusAppOpenFirstIgnore) AdSettings.AdmobAppOpenAdUnit.Show();
+            statusAppOpenFirstIgnore = true;
+        }
+
+        public override AdUnit BannerAdUnit() => AdSettings.AdmobBannerAdUnit;
+
+        public override void LoadBanner()
+        {
+            AdSettings.AdmobBannerAdUnit.Load();
+        }
+
+        public override AdUnit NativeOverlayAdUnit() => AdSettings.AdmobNativeOverlayAdUnit;
+
+        public override void LoadNativeOverlay()
         {
             if (!AdSettings.AdmobNativeOverlayAdUnit.IsReady())
             {

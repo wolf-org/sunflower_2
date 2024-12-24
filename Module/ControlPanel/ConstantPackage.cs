@@ -2,7 +2,7 @@
 {
     public class ConstantPackage
     {
-        public const string VersionUnityCommon = "1.4.8";
+        public const string VersionUnityCommon = "1.4.9";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
         public const string MaxVersionInAppPurchase = "4.12.2";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
@@ -30,7 +30,8 @@
         public const string PackageNameGGExternalDependencyManager =
             "com.google.external-dependency-manager";
 
-        public const string MaxVersionGGExternalDependencyManager = "https://github.com/googlesamples/unity-jar-resolver.git?path=upm#v1.2.183";
+        public const string MaxVersionGGExternalDependencyManager =
+            "https://github.com/googlesamples/unity-jar-resolver.git?path=upm#v1.2.183";
 
         public const string PackageNameGGPlayReview = "com.google.play.review";
 
@@ -96,12 +97,12 @@
         public const string PackageNameCoffeeUIEffect = "com.coffee.ui-effect";
 
         public const string MaxVersionCoffeeUIEffect =
-            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.0.1";
+            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.0.2";
 
         public const string PackageNameCoffeeUIParticle = "com.coffee.ui-particle";
 
         public const string MaxVersionCoffeeUIParticle =
-            "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.10.3";
+            "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.10.5";
 
         public const string PackageNameAppleSignIn = "com.lupidan.apple-signin-unity";
 
